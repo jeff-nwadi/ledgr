@@ -1,26 +1,99 @@
+/* Ledgr — design tokens
+ * Source of truth: AGENTS.md §Design System.
+ * Tokens are CSS variables. Tailwind v4 reads them via @theme inline so
+ * component code can use semantic utilities (bg-surface, text-text-muted, etc.)
+ * without hardcoding hex values.
+ *
+ * Dark mode: data-theme="dark" on <html> is the source of truth. The
+ * prefers-color-scheme block is only a fallback for the very first paint
+ * before the inline script in layout.tsx runs.
+ */
+
 @import "tailwindcss";
 
 :root {
+  /* Light mode (default) */
   --background: #ffffff;
-  --foreground: #171717;
+  --surface: #f7f9f8;
+  --text-primary: #12181b;
+  --text-muted: #5b6764;
+  --border: #e4e9e7;
+  --brand: #1f6f5f;
+  --brand-rgb: 31 111 95; /* same as --brand, but space-separated for rgb() use */
+  --brand-end: #2e9c82;
+  --brand-gradient: linear-gradient(135deg, #1f6f5f 0%, #2e9c82 100%);
+  --danger: #b3423a;
+  --success: #2e9c82;
+
+  color-scheme: light;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root[data-theme="dark"] {
+  --background: #10201c;
+  --surface: #16261f;
+  --text-primary: #f5f7f6;
+  --text-muted: #9aaaa5;
+  --border: #25352e;
+  --brand: #1f6f5f;
+  --brand-rgb: 31 111 95;
+  --brand-end: #2e9c82;
+  --brand-gradient: linear-gradient(135deg, #1f6f5f 0%, #2e9c82 100%);
+  --danger: #e0665d;
+  --success: #3fb89a;
+
+  color-scheme: dark;
 }
 
+/* First-paint fallback: respect OS preference before the inline theme script runs. */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme]) {
+    --background: #10201c;
+    --surface: #16261f;
+    --text-primary: #f5f7f6;
+    --text-muted: #9aaaa5;
+    --border: #25352e;
+    --danger: #e0665d;
+    --success: #3fb89a;
+
+    color-scheme: dark;
   }
 }
 
+/* Tailwind v4 theme mapping. Semantic utilities only — no random hex in components. */
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-text-primary: var(--text-primary);
+  --color-text-muted: var(--text-muted);
+  --color-border: var(--border);
+  --color-brand: var(--brand);
+  --color-brand-end: var(--brand-end);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+  --font-heading: var(--font-strichpunkt);
+  --font-sans: var(--font-inter);
+}
+
+html,
 body {
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text-primary);
+}
+
+body {
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-strichpunkt), system-ui, sans-serif;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
 }

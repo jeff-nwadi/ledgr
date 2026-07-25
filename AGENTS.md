@@ -69,21 +69,34 @@ business_id = ?` in app code should not be able to leak cross-tenant data.
 
 Build in this order; don't jump ahead:
 
-1. Auth: owner sign-up (email/password via Better Auth), staff PIN login scoped to business
-2. Product management: add/edit product with selling price, cost price, starting stock
-3. Sale logging: product + quantity form → creates `sale` + `sale_item` + `stock_event`
+1. **Landing page** — public marketing/entry page. Brand name (Ledgr), one-line value
+   prop, short explanation of what it does (replaces the manual opening/added/sold/
+   closing paper ledger, adds cash + stock reconciliation), sign-up CTA for owners.
+   No app data or auth required to view this page. Uses the design system in full
+   (headings/body fonts, gradient CTA button, dark mode toggle) since it's the first
+   impression of the brand.
+2. **Auth pages (UI + flow):** owner sign-up/login screens (email/password via Better
+   Auth), staff PIN login screen scoped to a business. Build the visible flow end to
+   end — screens, form validation, error states, redirect on success — before deep
+   backend hardening (see item 3).
+3. Auth backend/schema: Better Auth setup, `user` table extensions (business_id, role,
+   pin_hash), PIN lockout logic, RLS policies on tenant-scoped tables. (This is the
+   backend counterpart to item 2 — the UI can be built and reviewed first, but this
+   must be in place before auth is considered done, not skipped.)
+4. Product management: add/edit product with selling price, cost price, starting stock
+5. Sale logging: product + quantity form → creates `sale` + `sale_item` + `stock_event`
    (type `sale`) → decrements `product.current_stock`
-4. Waste logging: product + quantity + reason → `stock_event` (type `waste`)
-5. Daily Stock Ledger view: per product, Opening/Added/Sold/Waste/Calculated Closing,
+6. Waste logging: product + quantity + reason → `stock_event` (type `waste`)
+7. Daily Stock Ledger view: per product, Opening/Added/Sold/Waste/Calculated Closing,
    with a "confirm count" action for staff to enter Counted Closing → shows variance
-6. Cash session: opening float entry at shift start, expected cash auto-calculated from
+8. Cash session: opening float entry at shift start, expected cash auto-calculated from
    cash sales, "close shift" flow where staff enters counted cash → shows variance
-7. Customer debt: mark a sale as `credit`, attach to a customer, track running balance
-8. Daily summary dashboard (owner view): revenue, COGS, gross profit, stock value, waste
-   value, cash variance, stock variance — one screen, no digging required
-9. CSV export for a date range (generic format — columns: date, product, qty sold,
-   revenue, cost, profit)
-10. Offline queue for sale/waste logging + background sync
+9. Customer debt: mark a sale as `credit`, attach to a customer, track running balance
+10. Daily summary dashboard (owner view): revenue, COGS, gross profit, stock value, waste
+    value, cash variance, stock variance — one screen, no digging required
+11. CSV export for a date range (generic format — columns: date, product, qty sold,
+    revenue, cost, profit)
+12. Offline queue for sale/waste logging + background sync
 
 **Explicitly out of scope for MVP:** multi-location, staff permission tiers beyond
 owner/staff, barcode scanning, recipe/ingredient-to-menu-item conversion, automated
