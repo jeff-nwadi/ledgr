@@ -18,10 +18,10 @@
   --text-primary: #12181b;
   --text-muted: #5b6764;
   --border: #e4e9e7;
-  --brand: #1f6f5f;
-  --brand-rgb: 31 111 95; /* same as --brand, but space-separated for rgb() use */
-  --brand-end: #2e9c82;
-  --brand-gradient: linear-gradient(135deg, #1f6f5f 0%, #2e9c82 100%);
+  --brand: #7275f2;
+  --brand-rgb: 114 117 242; /* space-separated for rgb() use */
+  --brand-end: #585be0;
+  --brand-gradient: linear-gradient(135deg, #7275f2 0%, #585be0 100%);
   --danger: #b3423a;
   --success: #2e9c82;
 
@@ -29,15 +29,15 @@
 }
 
 :root[data-theme="dark"] {
-  --background: #10201c;
-  --surface: #16261f;
+  --background: #000000;
+  --surface: #0a0a0a;
   --text-primary: #f5f7f6;
   --text-muted: #9aaaa5;
-  --border: #25352e;
-  --brand: #1f6f5f;
-  --brand-rgb: 31 111 95;
-  --brand-end: #2e9c82;
-  --brand-gradient: linear-gradient(135deg, #1f6f5f 0%, #2e9c82 100%);
+  --border: #1a1a1a;
+  --brand: #7275f2;
+  --brand-rgb: 114 117 242;
+  --brand-end: #585be0;
+  --brand-gradient: linear-gradient(135deg, #7275f2 0%, #585be0 100%);
   --danger: #e0665d;
   --success: #3fb89a;
 
@@ -47,11 +47,11 @@
 /* First-paint fallback: respect OS preference before the inline theme script runs. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
-    --background: #10201c;
-    --surface: #16261f;
+    --background: #000000;
+    --surface: #0a0a0a;
     --text-primary: #f5f7f6;
     --text-muted: #9aaaa5;
-    --border: #25352e;
+    --border: #1a1a1a;
     --danger: #e0665d;
     --success: #3fb89a;
 

@@ -6,6 +6,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { loginStaffAction } from "@/app/actions/auth";
+import { authClient } from "@/lib/auth/auth-client";
 
 export default function SignInPage() {
   return (
@@ -30,13 +32,12 @@ function SignInContent() {
 
   // Staff PIN Form State
   const [businessCode, setBusinessCode] = React.useState("");
+  const [staffUsername, setStaffUsername] = React.useState("");
   const [pin, setPin] = React.useState("");
   const [pinErrors, setPinErrors] = React.useState<Record<string, string>>({});
   const [isPinLoading, setIsPinLoading] = React.useState(false);
-  const [failedAttempts, setFailedAttempts] = React.useState(0);
 
-  // Handle Owner Submit
-  const handleOwnerSubmit = (e: React.FormEvent) => {
+  const handleOwnerSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const errs: Record<string, string> = {};
     if (!email.trim()) errs.email = "Email is required.";
@@ -46,19 +47,25 @@ function SignInContent() {
     if (Object.keys(errs).length > 0) return;
 
     setIsOwnerLoading(true);
-    setTimeout(() => {
-      setIsOwnerLoading(false);
-      // Mock redirect to owner dashboard
-      router.push("/");
-    }, 1000);
+    const res = await authClient.signIn.email({ email, password });
+    setIsOwnerLoading(false);
+
+    if (res.error) {
+      setOwnerErrors({ email: res.error.message || "Invalid credentials." });
+    } else {
+      router.push("/dashboard");
+    }
   };
 
   // Handle Staff PIN Submit
-  const handlePinSubmit = (e: React.FormEvent) => {
+  const handlePinSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const errs: Record<string, string> = {};
     if (!businessCode.trim()) {
       errs.businessCode = "Business ID or shop code is required.";
+    }
+    if (!staffUsername.trim()) {
+      errs.staffUsername = "Staff username is required for login.";
     }
     if (!pin) {
       errs.pin = "PIN is required.";
@@ -70,25 +77,16 @@ function SignInContent() {
     if (Object.keys(errs).length > 0) return;
 
     setIsPinLoading(true);
-    setTimeout(() => {
-      setIsPinLoading(false);
-      // Simulate validation check
-      if (pin === "1234" || pin === "1111") {
-        router.push("/");
+    try {
+      const res = await loginStaffAction(businessCode, staffUsername, pin);
+      if (res?.error) {
+        setPinErrors({ pin: res.error });
       } else {
-        const nextAttempts = failedAttempts + 1;
-        setFailedAttempts(nextAttempts);
-        if (nextAttempts >= 3) {
-          setPinErrors({
-            pin: "Too many failed attempts. Account temporarily locked for 15 minutes.",
-          });
-        } else {
-          setPinErrors({
-            pin: `Incorrect PIN (${3 - nextAttempts} attempt${3 - nextAttempts === 1 ? "" : "s"} remaining).`,
-          });
-        }
+        router.push("/dashboard");
       }
-    }, 1000);
+    } finally {
+      setIsPinLoading(false);
+    }
   };
 
   // Numeric pad helper for staff touch devices
@@ -248,6 +246,14 @@ function SignInContent() {
                   helperText="Provided by your store owner."
                 />
 
+                <Input
+                  label="Staff Username"
+                  placeholder="e.g. adaeze"
+                  value={staffUsername}
+                  onChange={(e) => setStaffUsername(e.target.value)}
+                  error={pinErrors.staffUsername}
+                />
+
                 {/* PIN Display */}
                 <div className="space-y-1.5">
                   <label className="block text-sm font-medium text-text-primary">
@@ -285,7 +291,7 @@ function SignInContent() {
                     type="submit"
                     size="lg"
                     className="w-full"
-                    disabled={isPinLoading || failedAttempts >= 3}
+                    disabled={isPinLoading}
                   >
                     {isPinLoading ? "Verifying PIN..." : "Log In to Shift →"}
                   </Button>
