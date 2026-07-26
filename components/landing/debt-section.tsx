@@ -22,7 +22,7 @@ export function DebtSection() {
             <p className="mt-5 text-lg leading-relaxed text-text-muted">
               Mark a sale as credit, attach a customer, watch the running
               balance. Repayments reduce the balance. The history is the
-              audit trail — no separate notebook, no lost records.
+              audit trail, no separate notebook, no lost records.
             </p>
           </div>
 

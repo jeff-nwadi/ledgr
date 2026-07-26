@@ -7,34 +7,34 @@ export function Hero() {
       <div className="mx-auto grid max-w-6xl gap-12 px-6 pt-20 pb-28 sm:px-10 sm:pt-24 sm:pb-36 md:grid-cols-2 md:items-center md:gap-20">
         {/* Left: headline + CTAs */}
         <div>
-          <p className="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-[13px] font-medium text-text-muted">
+          {/* <p className="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-[13px] font-medium text-text-muted">
             <span
               aria-hidden="true"
               className="inline-block size-1.5 rounded-full bg-brand"
             />
             Built for bakeries, restaurants, small shops
-          </p>
+          </p> */}
           <h1 className="font-heading text-[40px] leading-[1.05] tracking-tight font-bold text-text-primary sm:text-6xl">
             The end-of-day ritual,{" "}
             finally automated.
           </h1>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-text-muted sm:text-xl">
-            Ledgr tracks opening + added − sold = closing automatically, adds a
+            Ledgr tracks opening, added, sold and closing automatically, adds a
             waste category, and when the counted closing doesn&apos;t match,
             surfaces the variance instead of hiding it. Same pattern for the cash
             drawer.
           </p>
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="mt-10 flex gap-3 sm:flex-row sm:items-center">
             <ButtonLink href="/signup" size="lg" className="w-full sm:w-auto">
-              Start free
+              Get Started
             </ButtonLink>
             <ButtonLink
-              href="/signin?type=pin"
+              href=""
               variant="secondary"
               size="lg"
               className="w-full sm:w-auto"
             >
-              Staff PIN login
+              How it works
             </ButtonLink>
           </div>
           <p className="mt-5 text-sm text-text-muted">

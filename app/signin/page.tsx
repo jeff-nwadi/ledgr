@@ -280,46 +280,6 @@ function SignInContent() {
                   )}
                 </div>
 
-                {/* Quick Touch Keypad for phone counters */}
-                <div className="pt-1">
-                  <p className="text-[11px] font-semibold uppercase tracking-wider text-text-muted text-center mb-2">
-                    Touch Keypad
-                  </p>
-                  <div className="grid grid-cols-3 gap-2">
-                    {["1", "2", "3", "4", "5", "6", "7", "8", "9"].map((num) => (
-                      <button
-                        key={num}
-                        type="button"
-                        onClick={() => handleNumpadPress(num)}
-                        className="h-11 rounded-xl border border-border bg-background hover:bg-surface text-lg font-mono font-semibold text-text-primary active:scale-95 transition-all"
-                      >
-                        {num}
-                      </button>
-                    ))}
-                    <button
-                      type="button"
-                      onClick={() => setPin("")}
-                      className="h-11 rounded-xl border border-border bg-background hover:bg-surface text-xs font-medium text-text-muted active:scale-95 transition-all"
-                    >
-                      Clear
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleNumpadPress("0")}
-                      className="h-11 rounded-xl border border-border bg-background hover:bg-surface text-lg font-mono font-semibold text-text-primary active:scale-95 transition-all"
-                    >
-                      0
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleNumpadDelete}
-                      className="h-11 rounded-xl border border-border bg-background hover:bg-surface text-sm font-semibold text-text-muted active:scale-95 transition-all"
-                    >
-                      ⌫
-                    </button>
-                  </div>
-                </div>
-
                 <div className="pt-2">
                   <Button
                     type="submit"

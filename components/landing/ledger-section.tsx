@@ -77,7 +77,7 @@ export function LedgerSection() {
               variance is the headline, not the footnote.
             </p>
             <p className="mt-4 text-[15px] leading-relaxed text-text-muted">
-              Mon closing becomes Tue opening automatically — filled from the
+              Mon closing becomes Tue opening automatically filled from the
               previous day&apos;s counted closing, not the calculated one. No
               manual carry-forward.
             </p>

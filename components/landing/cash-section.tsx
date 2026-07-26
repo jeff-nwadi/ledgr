@@ -7,7 +7,7 @@ export function CashSection() {
         <div className="grid gap-12 md:grid-cols-2 md:items-center md:gap-16">
           {/* Card — left */}
           <Card
-            ariaLabel="Cash reconciliation — sample data"
+            ariaLabel="Cash reconciliation sample data"
             className="overflow-hidden"
           >
             <div className="grid grid-cols-2">
@@ -56,7 +56,7 @@ export function CashSection() {
               Open the shift with a float. Ledgr auto-calculates expected
               cash from every cash sale logged during the day. At close, type
               the counted cash. The variance tells you what really
-              happened — you don&apos;t have to remember.
+              happened you don&apos;t have to remember.
             </p>
           </div>
         </div>

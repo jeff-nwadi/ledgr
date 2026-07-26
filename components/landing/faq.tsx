@@ -17,7 +17,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "How much does it cost?",
-    a: "Free for the first shop during the MVP. After that, a flat per-business monthly fee — no per-transaction charges, no surprise tiers. We'll publish pricing before the MVP ends and give you 30 days' notice.",
+    a: "Free for the first shop during the MVP. After that, a flat per-business monthly fee, no per-transaction charges, no surprise tiers. We'll publish pricing before the MVP ends and give you 30 days' notice.",
   },
   {
     q: "Does it integrate with my accountant or Xero?",
