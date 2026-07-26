@@ -14,13 +14,11 @@ export default async function DashboardLayout({ children }: { children: ReactNod
     redirect("/signin");
   }
 
-  const userInitial = session.user.name ? session.user.name[0] : "U";
-
   return (
     <div className="flex h-screen bg-background overflow-hidden text-text-primary">
       <Sidebar />
       <div className="flex-1 flex flex-col min-w-0">
-        <TopBar userInitial={userInitial} />
+        <TopBar user={session.user} />
         <main className="flex-1 overflow-y-auto p-4 md:p-8">
           {children}
         </main>

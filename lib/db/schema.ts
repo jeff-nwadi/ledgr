@@ -67,9 +67,11 @@ export const product = pgTable("product", {
   name: text("name").notNull(),
   unit: text("unit").notNull(), // e.g. "kg", "loaf"
   sellingPrice: integer("selling_price").notNull(), // in minor units
-  costPrice: integer("cost_price").notNull(),
+  costPrice: integer("cost_price"), // nullable
   currentStock: integer("current_stock").notNull().default(0),
   lowStockThreshold: integer("low_stock_threshold"),
+  category: text("category"),
+  status: text("status").notNull().default("active"),
 });
 
 export const sale = pgTable("sale", {

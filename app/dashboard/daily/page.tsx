@@ -14,7 +14,7 @@ export default async function DailyBalancePage() {
   });
 
   if (!session?.user) redirect("/signin");
-  const businessId = (session.session as any).businessId;
+  const businessId = (session.user as any).businessId;
   if (!businessId) redirect("/dashboard");
 
   const today = new Date();
@@ -29,7 +29,7 @@ export default async function DailyBalancePage() {
       gte(cashSession.date, start),
       lt(cashSession.date, end)
     ),
-    orderBy: [desc(cashSession.createdAt)]
+    orderBy: (cashSession, { desc }) => [desc(cashSession.date)]
   });
 
   // Calculate cash sales total if session is open

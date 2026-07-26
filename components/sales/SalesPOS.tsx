@@ -14,13 +14,20 @@ interface Product {
   currentStock: number;
 }
 
-interface SalesPOSProps {
-  products: Product[];
+interface Customer {
+  id: string;
+  name: string;
 }
 
-export function SalesPOS({ products }: SalesPOSProps) {
+interface SalesPOSProps {
+  products: Product[];
+  customers: Customer[];
+}
+
+export function SalesPOS({ products, customers = [] }: SalesPOSProps) {
   const { items, mode, setMode, addItem, removeItem, updateQuantity, clearCart, getTotal } = useCartStore();
   const [paymentType, setPaymentType] = useState<"cash" | "credit" | "other">("cash");
+  const [selectedCustomerId, setSelectedCustomerId] = useState<string>("");
   const [wasteReason, setWasteReason] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -41,7 +48,12 @@ export function SalesPOS({ products }: SalesPOSProps) {
 
     let res;
     if (mode === "sale") {
-      res = await logSaleAction(payload, paymentType);
+      if (paymentType === "credit" && !selectedCustomerId) {
+        setError("Please select a customer for credit sales.");
+        setLoading(false);
+        return;
+      }
+      res = await logSaleAction(payload, paymentType, selectedCustomerId || undefined);
     } else {
       if (!wasteReason) {
         setError("Please provide a reason for the waste.");
@@ -56,6 +68,7 @@ export function SalesPOS({ products }: SalesPOSProps) {
     } else {
       clearCart();
       setWasteReason("");
+      setSelectedCustomerId("");
     }
     setLoading(false);
   };
@@ -177,7 +190,10 @@ export function SalesPOS({ products }: SalesPOSProps) {
                         {['cash', 'credit', 'other'].map(type => (
                           <button
                             key={type}
-                            onClick={() => setPaymentType(type as any)}
+                            onClick={() => {
+                              setPaymentType(type as any);
+                              if (type !== 'credit') setSelectedCustomerId("");
+                            }}
                             className={`py-2 rounded-lg text-[13px] font-medium capitalize border transition-all ${
                               paymentType === type 
                                 ? 'bg-brand/10 border-brand text-brand' 
@@ -189,6 +205,22 @@ export function SalesPOS({ products }: SalesPOSProps) {
                         ))}
                       </div>
                     </div>
+                    
+                    {paymentType === 'credit' && (
+                      <div className="space-y-2 pt-2">
+                        <label className="text-xs font-medium text-text-muted uppercase tracking-wider">Select Customer</label>
+                        <select 
+                          value={selectedCustomerId}
+                          onChange={(e) => setSelectedCustomerId(e.target.value)}
+                          className="w-full px-3 py-2 bg-surface border border-border/50 rounded-lg text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand/50"
+                        >
+                          <option value="">-- Choose a customer --</option>
+                          {customers.map(c => (
+                            <option key={c.id} value={c.id}>{c.name}</option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
 
                     <div className="flex items-center justify-between py-2 text-lg font-bold text-text-primary">
                       <span>Total</span>
@@ -216,7 +248,7 @@ export function SalesPOS({ products }: SalesPOSProps) {
                   onClick={handleCheckout}
                   disabled={loading}
                   className={`w-full py-3.5 rounded-full text-white font-medium shadow-sm transition-opacity flex items-center justify-center gap-2 ${
-                    mode === 'waste' ? 'bg-danger hover:bg-danger/90' : 'bg-[var(--brand-gradient)] hover:opacity-90'
+                    mode === 'waste' ? 'bg-danger hover:bg-danger/90' : '[background:var(--brand-gradient)] hover:opacity-90'
                   } disabled:opacity-50`}
                 >
                   {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : mode === 'sale' ? 'Complete Sale' : 'Log Waste'}

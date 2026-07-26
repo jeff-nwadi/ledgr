@@ -13,12 +13,30 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
-  customSession: async (session, user) => {
-    return {
-      ...session,
-      businessId: user.businessId,
-      role: user.role
-    };
+  user: {
+    additionalFields: {
+      businessId: {
+        type: "string",
+        required: false,
+      },
+      role: {
+        type: "string",
+        required: false,
+        defaultValue: "staff",
+      },
+      pinHash: {
+        type: "string",
+        required: false,
+      },
+      locked: {
+        type: "boolean",
+        required: false,
+      },
+      failedAttempts: {
+        type: "number",
+        required: false,
+      }
+    }
   },
   plugins: [
     // Better Auth plugins if needed

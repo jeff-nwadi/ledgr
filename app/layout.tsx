@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 // Strichpunkt Sans — self-hosted per AGENTS.md §Design System.
@@ -44,16 +45,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      // suppressHydrationWarning is the React 19 escape hatch for theme-injection
-      // scripts that intentionally mutate <html> before React hydrates. The
-      // script below sets data-theme on this element before first paint to
-      // avoid a dark-mode flash; without this flag React 16+ raises a hydration
-      // mismatch warning at every page load.
       suppressHydrationWarning
       className={`${strichpunktSans.variable} ${inter.variable}`}
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script suppressHydrationWarning>{themeScript}</script>
       </head>
       <body className="min-h-dvh flex flex-col bg-background text-text-primary">
         {children}

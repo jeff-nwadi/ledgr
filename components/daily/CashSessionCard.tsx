@@ -89,7 +89,7 @@ export function CashSessionCard({ activeSession, cashSalesTotal }: CashSessionCa
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2.5 bg-[var(--brand-gradient)] text-white text-sm font-medium rounded-full hover:opacity-90 transition-opacity flex justify-center items-center"
+            className="w-full py-2.5 [background:var(--brand-gradient)] text-white text-sm font-medium rounded-full hover:opacity-90 transition-opacity flex justify-center items-center"
           >
             {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Open Shift"}
           </button>

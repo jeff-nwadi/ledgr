@@ -27,7 +27,7 @@ export async function logSaleAction(
     return { error: "Unauthorized" };
   }
 
-  const businessId = (session.session as any).businessId;
+  const businessId = (session.user as any).businessId;
   if (!businessId) {
     return { error: "No business associated with this account." };
   }
@@ -53,6 +53,23 @@ export async function logSaleAction(
       paymentType,
       total,
     });
+
+    // 1b. If credit and customer selected, increase debt
+    if (paymentType === "credit" && customerId) {
+      const { customer, customerDebtEvent } = await import("@/lib/db/schema");
+      
+      await db.insert(customerDebtEvent).values({
+        id: `cde_${crypto.randomUUID()}`,
+        customerId,
+        saleId,
+        amount: total,
+        type: "charge",
+      });
+
+      await db.update(customer)
+        .set({ balanceOwed: sql`${customer.balanceOwed} + ${total}` })
+        .where(eq(customer.id, customerId));
+    }
 
     // 2. Insert Sale Items, Stock Events, and Update Product Stock
     for (const item of items) {
@@ -103,7 +120,7 @@ export async function logWasteAction(
     return { error: "Unauthorized" };
   }
 
-  const businessId = (session.session as any).businessId;
+  const businessId = (session.user as any).businessId;
   if (!businessId) {
     return { error: "No business associated with this account." };
   }

@@ -15,7 +15,7 @@ export async function openCashSessionAction(openingFloat: number) {
 
   if (!session?.user) return { error: "Unauthorized" };
 
-  const businessId = (session.session as any).businessId;
+  const businessId = (session.user as any).businessId;
   if (!businessId) return { error: "No business" };
 
   try {
@@ -111,7 +111,7 @@ export async function confirmStockCountAction(
   });
 
   if (!session?.user) return { error: "Unauthorized" };
-  const businessId = (session.session as any).businessId;
+  const businessId = (session.user as any).businessId;
 
   const varianceQty = countedClosingQty - calculatedClosingQty;
   const closingValue = countedClosingQty * costPrice;

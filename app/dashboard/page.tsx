@@ -14,7 +14,7 @@ export default async function DashboardPage() {
 
   const userName = session?.user?.name?.split(" ")[0] || "there";
   // Assuming businessId is attached to session in customSession
-  const businessId = (session?.session as any)?.businessId;
+  const businessId = (session?.user as any)?.businessId;
 
   // Check if setup is complete (e.g., at least one product exists)
   let hasProducts = false;
