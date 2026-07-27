@@ -6,7 +6,7 @@ import { cashSession, dailyStockLedger, product, stockEvent, sale } from "@/lib/
 import { eq, and, gte, lt, desc } from "drizzle-orm";
 import { startOfDay, endOfDay } from "date-fns";
 import { CashSessionCard } from "@/components/daily/CashSessionCard";
-import { StockLedgerTable } from "@/components/daily/StockLedgerTable";
+import { StockLedgerTable, type LedgerRow } from "@/components/daily/StockLedgerTable";
 
 export default async function DailyBalancePage() {
   const session = await auth.api.getSession({
@@ -68,7 +68,7 @@ export default async function DailyBalancePage() {
     )
   });
 
-  const ledgerData = products.map(p => {
+  const ledgerData: LedgerRow[] = products.map(p => {
     // Check if already reconciled today
     const reconciled = ledgersToday.find(l => l.productId === p.id);
     if (reconciled) {
@@ -76,7 +76,7 @@ export default async function DailyBalancePage() {
         productId: p.id,
         name: p.name,
         unit: p.unit,
-        costPrice: p.costPrice,
+        costPrice: p.costPrice || 0,
         openingQty: reconciled.openingQty,
         addedQty: reconciled.addedQty,
         soldQty: reconciled.soldQty,
@@ -112,7 +112,7 @@ export default async function DailyBalancePage() {
       productId: p.id,
       name: p.name,
       unit: p.unit,
-      costPrice: p.costPrice,
+      costPrice: p.costPrice || 0,
       openingQty,
       addedQty,
       soldQty,

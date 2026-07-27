@@ -18,7 +18,14 @@ export function AddProductForm({ onClose }: AddProductFormProps) {
     setError("");
 
     const formData = new FormData(e.currentTarget);
-    const res = await createProductAction(formData);
+    const data = {
+      name: formData.get("name") as string,
+      unit: formData.get("unit") as string,
+      sellingPrice: parseInt(formData.get("sellingPrice") as string, 10),
+      costPrice: formData.get("costPrice") ? parseInt(formData.get("costPrice") as string, 10) : null,
+      startingStock: parseInt(formData.get("startingStock") as string, 10) || 0,
+    };
+    const res = await createProductAction(data);
 
     if (res.error) {
       setError(res.error);

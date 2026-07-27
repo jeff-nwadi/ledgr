@@ -10,7 +10,7 @@ interface Product {
   name: string;
   unit: string;
   sellingPrice: number;
-  costPrice: number;
+  costPrice: number | null;
   currentStock: number;
 }
 
@@ -105,7 +105,7 @@ export function SalesPOS({ products, customers = [] }: SalesPOSProps) {
                   productId: p.id,
                   name: p.name,
                   price: p.sellingPrice,
-                  cost: p.costPrice,
+                  cost: p.costPrice ?? 0,
                   maxStock: p.currentStock
                 })}
                 className="flex flex-col items-start p-4 bg-background border border-border/50 rounded-2xl hover:border-brand/30 hover:shadow-sm transition-all text-left"

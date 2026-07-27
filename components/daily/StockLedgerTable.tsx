@@ -4,7 +4,7 @@ import { useState } from "react";
 import { confirmStockCountAction } from "@/app/actions/daily";
 import { Check, Loader2 } from "lucide-react";
 
-interface LedgerRow {
+export interface LedgerRow {
   productId: string;
   name: string;
   unit: string;

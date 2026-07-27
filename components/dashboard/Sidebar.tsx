@@ -37,7 +37,7 @@ export function Sidebar() {
         </div>
 
         <div className={`px-4 mb-2 ${isCollapsed ? "flex justify-center px-2" : ""}`}>
-          <Tooltip>
+          <Tooltip side="right">
             <TooltipTrigger asChild>
               <Link 
                 href="/dashboard/pos" 
@@ -47,7 +47,7 @@ export function Sidebar() {
                 {!isCollapsed && "New Sale"}
               </Link>
             </TooltipTrigger>
-            {isCollapsed && <TooltipContent side="right">New Sale</TooltipContent>}
+            {isCollapsed && <TooltipContent>New Sale</TooltipContent>}
           </Tooltip>
         </div>
 
@@ -74,11 +74,11 @@ export function Sidebar() {
             );
 
             return isCollapsed ? (
-              <Tooltip key={link.href}>
+              <Tooltip key={link.href} side="right">
                 <TooltipTrigger asChild>
                   {linkContent}
                 </TooltipTrigger>
-                <TooltipContent side="right">
+                <TooltipContent>
                   {link.label}
                 </TooltipContent>
               </Tooltip>
@@ -90,7 +90,7 @@ export function Sidebar() {
 
       <div className={`p-3 mt-auto space-y-1 ${isCollapsed ? "flex flex-col items-center" : ""}`}>
         {isCollapsed ? (
-          <Tooltip>
+          <Tooltip side="right">
             <TooltipTrigger asChild>
               <Link 
                 href="/dashboard/settings" 
@@ -103,7 +103,7 @@ export function Sidebar() {
                 <Settings className="w-[18px] h-[18px]" strokeWidth={2} />
               </Link>
             </TooltipTrigger>
-            <TooltipContent side="right">Settings</TooltipContent>
+            <TooltipContent>Settings</TooltipContent>
           </Tooltip>
         ) : (
           <Link 

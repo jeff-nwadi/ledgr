@@ -106,7 +106,7 @@ export async function registerOwnerAction(data: any) {
 
     // 2. Create the user using Better Auth server API
     // This ensures password hashing uses Better Auth's internal algorithms
-    const response = await auth.api.signUpEmail({
+    const response: any = await auth.api.signUpEmail({
       body: {
         email: email,
         password: password,

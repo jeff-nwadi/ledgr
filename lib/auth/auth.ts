@@ -41,7 +41,4 @@ export const auth = betterAuth({
   plugins: [
     // Better Auth plugins if needed
   ],
-  advanced: {
-    generateId: false, // let database or better-auth handle it
-  },
 });
