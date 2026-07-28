@@ -99,7 +99,7 @@ export async function getOwnerAnalyticsAction() {
       });
       todayStockVarianceValue = counts.reduce((sum, sc) => {
         const cost = productCostMap.get(sc.productId) || 0;
-        return sum + (sc.closingVarianceQty * cost);
+        return sum + ((sc.closingVarianceQty ?? 0) * cost);
       }, 0);
     }
 
