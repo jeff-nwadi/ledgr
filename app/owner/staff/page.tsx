@@ -2,9 +2,12 @@ import { auth } from "@/lib/auth/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
-import { user, business } from "@/lib/db/schema";
-import { eq, and } from "drizzle-orm";
+import { user, business, cashSession } from "@/lib/db/schema";
+import { eq, and, desc } from "drizzle-orm";
 import { StaffList } from "@/components/staff/StaffList";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function OwnerStaffManagementPage() {
   const session = await auth.api.getSession({
@@ -36,22 +39,50 @@ export default async function OwnerStaffManagementPage() {
     orderBy: (user, { desc }) => [desc(user.createdAt)]
   });
 
+  // Query all cash sessions for this business to determine each staff member's shift status
+  const sessions = await db.query.cashSession.findMany({
+    where: eq(cashSession.businessId, businessId),
+    orderBy: [desc(cashSession.date)]
+  });
+
+  const staffWithShiftInfo = staffList.map(s => {
+    const sSession = sessions.find(cs => cs.staffId === s.id);
+    let shiftStatus: "active" | "ended" | "none" = "none";
+    let shiftStartedAt: string | undefined = undefined;
+    let shiftEndedAt: string | undefined = undefined;
+
+    if (sSession) {
+      shiftStartedAt = sSession.date.toISOString();
+      if (!sSession.closedAt) {
+        shiftStatus = "active";
+      } else {
+        shiftStatus = "ended";
+        shiftEndedAt = sSession.closedAt.toISOString();
+      }
+    }
+
+    return {
+      ...s,
+      createdAt: s.createdAt.toISOString(),
+      shiftStatus,
+      shiftStartedAt,
+      shiftEndedAt
+    };
+  });
+
   return (
     <div className="max-w-5xl mx-auto space-y-8 pb-12">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold font-heading text-text-primary">Staff Management</h1>
           <p className="text-[13px] text-text-muted mt-1">
-            Add staff members, regenerate login PINs, and manage access.
+            Monitor real-time staff shift status, add team members, regenerate login PINs, and manage account access.
           </p>
         </div>
       </div>
 
       <StaffList 
-        staffList={staffList.map(s => ({
-          ...s,
-          createdAt: s.createdAt.toISOString()
-        }))} 
+        staffList={staffWithShiftInfo} 
         businessCode={b?.code || ""}
       />
     </div>

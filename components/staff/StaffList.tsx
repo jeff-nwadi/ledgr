@@ -11,6 +11,9 @@ interface Staff {
   failedAttempts: number;
   status: string;
   createdAt: string;
+  shiftStatus?: "active" | "ended" | "none";
+  shiftStartedAt?: string;
+  shiftEndedAt?: string;
 }
 
 interface StaffListProps {
@@ -144,9 +147,18 @@ export function StaffList({ staffList, businessCode }: StaffListProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map(s => {
             const isDeactivated = s.status === "deactivated";
-            const formatDate = (iso: string) => {
+            const formatDate = (iso?: string) => {
+              if (!iso) return "";
               try {
                 return new Date(iso).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+              } catch {
+                return "";
+              }
+            };
+            const formatTime = (iso?: string) => {
+              if (!iso) return "";
+              try {
+                return new Date(iso).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
               } catch {
                 return "";
               }
@@ -172,19 +184,43 @@ export function StaffList({ staffList, businessCode }: StaffListProps) {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 mb-4">
-                    {isDeactivated ? (
-                      <span className="flex items-center gap-1 text-[11px] font-medium text-text-muted bg-surface px-2.5 py-0.5 rounded-full border border-border/40">
-                        Deactivated
-                      </span>
-                    ) : s.locked ? (
-                      <span className="flex items-center gap-1 text-[11px] font-medium text-danger bg-danger/10 px-2.5 py-0.5 rounded-full border border-danger/20">
-                        <ShieldAlert className="w-3 h-3" /> Account Locked
-                      </span>
-                    ) : (
-                      <span className="flex items-center gap-1 text-[11px] font-medium text-success bg-success/10 px-2.5 py-0.5 rounded-full border border-success/20">
-                        Active
-                      </span>
+                  {/* Account Access & Shift Status Badges */}
+                  <div className="space-y-2 mb-4">
+                    <div className="flex items-center gap-2">
+                      {isDeactivated ? (
+                        <span className="flex items-center gap-1 text-[11px] font-medium text-text-muted bg-surface px-2.5 py-0.5 rounded-full border border-border/40">
+                          Deactivated
+                        </span>
+                      ) : s.locked ? (
+                        <span className="flex items-center gap-1 text-[11px] font-medium text-danger bg-danger/10 px-2.5 py-0.5 rounded-full border border-danger/20">
+                          <ShieldAlert className="w-3 h-3" /> Account Locked
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-1 text-[11px] font-medium text-success bg-success/10 px-2.5 py-0.5 rounded-full border border-success/20">
+                          Active Account
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Shift Status Indicator */}
+                    {!isDeactivated && (
+                      <div className="pt-1">
+                        {s.shiftStatus === "active" ? (
+                          <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-600 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
+                            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                            Shift Active (Started {formatTime(s.shiftStartedAt)})
+                          </span>
+                        ) : s.shiftStatus === "ended" ? (
+                          <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-amber-700 bg-amber-500/10 px-2.5 py-1 rounded-full border border-amber-500/20">
+                            <span className="w-2 h-2 rounded-full bg-amber-500" />
+                            Shift Ended ({formatTime(s.shiftEndedAt)})
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-text-muted bg-surface px-2.5 py-1 rounded-full border border-border/40">
+                            No Active Shift
+                          </span>
+                        )}
+                      </div>
                     )}
                   </div>
                 </div>

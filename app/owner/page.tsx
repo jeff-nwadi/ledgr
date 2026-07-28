@@ -1,11 +1,12 @@
 import { RevenueChart } from "@/components/dashboard/RevenueChart";
-import { ChevronDown, ArrowRight } from "lucide-react";
+import { ChevronDown, ArrowRight, TrendingUp, Package, Coins, Activity, AlertTriangle, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { auth } from "@/lib/auth/auth";
 import { headers } from "next/headers";
 import { db } from "@/lib/db";
 import { product, user } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
+import { getOwnerAnalyticsAction } from "@/app/actions/owner";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -38,13 +39,19 @@ export default async function OwnerDashboardPage() {
 
   const userName = session?.user?.name?.split(" ")[0] || "there";
 
-  let hasProducts = false;
-  if (businessId) {
-    const existingProduct = await db.query.product.findFirst({
-      where: eq(product.businessId, businessId)
-    });
-    hasProducts = !!existingProduct;
-  }
+  const analytics = await getOwnerAnalyticsAction();
+  const currencySymbol = "₦";
+
+  const grossVolume = analytics.grossVolume || 0;
+  const netVolume = analytics.netVolume || 0;
+  const stockValue = analytics.stockValue || 0;
+  const wasteValue = analytics.wasteValue || 0;
+  const totalCustomers = analytics.totalCustomers || 0;
+  const customerDebtTotal = analytics.customerDebtTotal || 0;
+  const todayCashVariance = analytics.todayCashVariance || 0;
+  const todayStockVarianceValue = analytics.todayStockVarianceValue || 0;
+  const chartData = analytics.revenueChartData || [];
+  const activities = analytics.recentActivities || [];
 
   const currentHour = new Date().getHours();
   const greeting = 
@@ -53,139 +60,199 @@ export default async function OwnerDashboardPage() {
 
   return (
     <div className="max-w-6xl mx-auto space-y-8 pb-12">
-      <div>
-        <h1 className="text-3xl font-heading text-text-primary">
-          {greeting}, {userName}
-        </h1>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-heading text-text-primary">
+            {greeting}, {userName}
+          </h1>
+          <p className="text-xs text-text-muted mt-1">Here is your shop's real-time financial and stock ledger overview.</p>
+        </div>
+
+        <Link
+          href="/owner/daily"
+          className="px-4 py-2 bg-brand text-white text-xs font-semibold rounded-xl shadow-sm hover:bg-brand/90 transition-all flex items-center gap-2"
+        >
+          Daily Stock Ledger <ArrowRight className="w-4 h-4" />
+        </Link>
       </div>
 
-      {!hasProducts && (
+      {!analytics.hasProducts && (
         <div 
-          className="rounded-[1.25rem] p-6 md:p-8 text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-sm"
+          className="rounded-[1.25rem] p-6 md:p-8 text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-sm border border-brand/20"
           style={{ backgroundImage: 'var(--brand-gradient)' }}
         >
           <div className="space-y-1.5">
-            <h2 className="text-[22px] font-semibold text-white">Information needed to enable live payments</h2>
+            <h2 className="text-[22px] font-semibold text-white">Setup Your Shop Products</h2>
             <p className="text-white/90 text-[15px] max-w-xl font-medium">
-              We just need a few details about your business before you can start accepting payments.
+              Add your selling products with cost price and selling price to unlock profit tracking and inventory ledger automation.
             </p>
           </div>
           <Link href="/owner/products" className="flex items-center gap-2 bg-white text-text-primary px-5 py-2.5 rounded-full font-medium text-sm hover:bg-white/90 transition-colors whitespace-nowrap shadow-sm">
-            Complete setup <ArrowRight className="w-4 h-4 text-text-muted" />
+            Add Products <ArrowRight className="w-4 h-4 text-text-muted" />
           </Link>
         </div>
       )}
 
+      {/* Main Grid: Revenue Trend Chart & Shift Close-out */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Revenue Line Chart */}
         <div className="lg:col-span-2 rounded-[1rem] border border-border/50 bg-background p-6 flex flex-col shadow-[0_1px_3px_0_rgba(0,0,0,0.02)]">
           <div className="flex justify-between items-start">
             <div className="space-y-1.5">
-              <h3 className="text-text-muted text-[15px] font-medium">Revenue</h3>
-              <p className="text-[32px] font-semibold text-text-primary">₦0.00</p>
+              <h3 className="text-text-muted text-[15px] font-medium">Gross Sales Revenue</h3>
+              <p className="text-[32px] font-semibold text-text-primary tracking-tight">
+                {currencySymbol}{grossVolume.toLocaleString()}
+              </p>
             </div>
+            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-brand/10 text-brand">
+              Last 14 Days
+            </span>
           </div>
-          <div className="mt-2 flex items-center text-[13px] text-text-muted cursor-pointer hover:text-text-primary w-fit gap-1 font-medium">
-            Last 30 days <ChevronDown className="w-4 h-4 opacity-50" />
-          </div>
-          
-          <div className="mt-6 flex-1">
-            <RevenueChart />
+
+          <div className="mt-4 flex-1">
+            <RevenueChart data={chartData} currencySymbol={currencySymbol} />
           </div>
         </div>
 
+        {/* Right Side: Shift Close-out & Recent Activity */}
         <div className="space-y-6">
+          {/* Today's Shift Close-out Status Card */}
           <div className="rounded-[1rem] border border-border/50 bg-background p-6 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] space-y-4">
-            <h3 className="text-[15px] text-text-primary font-semibold">Today's Close-out</h3>
+            <div className="flex items-center justify-between">
+              <h3 className="text-[15px] text-text-primary font-semibold">Today's Close-out Status</h3>
+              <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${
+                analytics.hasClosedShiftToday ? "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20" : "bg-amber-500/10 text-amber-600 border border-amber-500/20"
+              }`}>
+                {analytics.hasClosedShiftToday ? "Shift Closed" : analytics.hasActiveShift ? "Shift Active" : "No Shift Opened"}
+              </span>
+            </div>
             
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-brand"></span>
+                  <span className={`w-2 h-2 rounded-full ${todayCashVariance >= 0 ? "bg-emerald-500" : "bg-rose-500"}`}></span>
                   <span className="text-[13px] font-medium text-text-muted">Cash Variance</span>
                 </div>
-                <span className="text-[13px] font-medium text-text-muted">Pending</span>
+                <span className={`text-[13px] font-bold ${todayCashVariance >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
+                  {analytics.hasClosedShiftToday ? `${currencySymbol}${todayCashVariance.toLocaleString()}` : "Pending Shift Close"}
+                </span>
               </div>
-              <div className="w-full h-1.5 bg-border/40 rounded-full overflow-hidden">
-                <div className="h-full bg-brand w-0"></div>
-              </div>
-              <div className="flex items-center justify-between mt-2">
+              
+              <div className="flex items-center justify-between border-t border-border/40 pt-2">
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-brand/40"></span>
-                  <span className="text-[13px] font-medium text-text-muted">Stock Variance</span>
+                  <span className={`w-2 h-2 rounded-full ${todayStockVarianceValue >= 0 ? "bg-emerald-500" : "bg-rose-500"}`}></span>
+                  <span className="text-[13px] font-medium text-text-muted">Stock Variance Value</span>
                 </div>
-                <span className="text-[13px] font-medium text-text-muted">Pending</span>
+                <span className={`text-[13px] font-bold ${todayStockVarianceValue >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
+                  {analytics.hasClosedShiftToday ? `${currencySymbol}${todayStockVarianceValue.toLocaleString()}` : "Pending Shift Close"}
+                </span>
               </div>
             </div>
 
-            <div className="pt-3">
-              <button className="w-full py-2 bg-surface hover:bg-border/50 text-text-primary text-[13px] font-medium rounded-full transition-colors border border-border/50">
-                Close shift
-              </button>
+            <div className="pt-2">
+              <Link 
+                href="/owner/daily"
+                className="w-full block text-center py-2 bg-surface hover:bg-border/50 text-text-primary text-[13px] font-medium rounded-xl transition-colors border border-border/50"
+              >
+                View Full Daily Stock Ledger →
+              </Link>
             </div>
           </div>
 
-          <div className="rounded-[1rem] border border-border/50 bg-background p-6 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] flex flex-col h-64">
-            <h3 className="text-[15px] text-text-primary font-semibold mb-4">Recent activity</h3>
-            <div className="flex-1 flex flex-col items-center justify-center text-center space-y-3">
-              <div className="w-full space-y-3 mb-2 opacity-40">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-surface shrink-0"></div>
-                  <div className="space-y-1.5 flex-1">
-                    <div className="h-2 bg-surface rounded w-3/4"></div>
-                    <div className="h-2 bg-surface rounded w-1/2"></div>
-                  </div>
-                  <div className="w-8 h-2 bg-surface rounded"></div>
-                </div>
+          {/* Recent Activity Feed */}
+          <div className="rounded-[1rem] border border-border/50 bg-background p-6 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] flex flex-col h-72">
+            <h3 className="text-[15px] text-text-primary font-semibold mb-3">Recent Activity</h3>
+            {activities.length === 0 ? (
+              <div className="flex-1 flex flex-col items-center justify-center text-center space-y-2">
+                <Activity className="w-8 h-8 text-text-muted/40" />
+                <p className="text-[13px] font-semibold text-text-primary">Nothing here yet</p>
+                <p className="text-[12px] text-text-muted">Sales and stock changes will appear here live.</p>
               </div>
-              
-              <p className="text-[13px] font-semibold text-text-primary">Nothing here yet</p>
-              <p className="text-[13px] text-text-muted">Your sales will show up here once logged.</p>
-            </div>
+            ) : (
+              <div className="flex-1 overflow-y-auto space-y-3 pr-1 divide-y divide-border/40">
+                {activities.map((act) => (
+                  <div key={act.id} className="pt-2 first:pt-0 space-y-0.5">
+                    <div className="flex items-center justify-between text-xs">
+                      <p className="font-semibold text-text-primary">{act.title}</p>
+                      <span className="text-[10px] text-text-muted">{act.createdAt}</span>
+                    </div>
+                    <p className="text-[11px] text-text-muted">{act.detail}</p>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
 
-      <div className="space-y-6 pt-4">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <h2 className="text-[18px] font-medium text-text-primary">Overview</h2>
-          
-          <div className="flex items-center gap-3">
-            <button className="flex items-center gap-2 px-3 py-1.5 border border-border/50 rounded-lg bg-background text-[13px] text-text-primary shadow-[0_1px_2px_0_rgba(0,0,0,0.02)] hover:bg-surface">
-              Last 3 months <ChevronDown className="w-3.5 h-3.5 text-text-muted" />
-            </button>
-            <button className="flex items-center gap-2 px-3 py-1.5 border border-border/50 rounded-lg bg-background text-[13px] text-text-primary shadow-[0_1px_2px_0_rgba(0,0,0,0.02)] hover:bg-surface">
-              27th Apr - 26th Jul
-            </button>
+      {/* Financial & Inventory KPI Overview Cards */}
+      <div className="space-y-4 pt-4">
+        <h2 className="text-[18px] font-medium text-text-primary">Key Financial & Inventory Metrics</h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* Gross Sales Volume */}
+          <div className="rounded-[1rem] border border-border/50 bg-background p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] space-y-2">
+            <span className="text-[13px] font-medium text-text-muted block">Gross Sales Volume</span>
+            <p className="text-[24px] font-bold text-text-primary tracking-tight">
+              {currencySymbol}{grossVolume.toLocaleString()}
+            </p>
+            <span className="text-[11px] text-text-muted block">Total customer transactions</span>
+          </div>
+
+          {/* Gross Profit (Net Profit) */}
+          <div className="rounded-[1rem] border border-border/50 bg-background p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] space-y-2">
+            <span className="text-[13px] font-medium text-text-muted block">Gross Profit (Revenue - COGS)</span>
+            <p className="text-[24px] font-bold text-emerald-600 tracking-tight">
+              {currencySymbol}{netVolume.toLocaleString()}
+            </p>
+            <span className="text-[11px] text-text-muted block">Profit after product cost</span>
+          </div>
+
+          {/* Stock Value On Hand */}
+          <div className="rounded-[1rem] border border-border/50 bg-background p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] space-y-2">
+            <span className="text-[13px] font-medium text-text-muted block">Stock Value on Hand</span>
+            <p className="text-[24px] font-bold text-brand tracking-tight">
+              {currencySymbol}{stockValue.toLocaleString()}
+            </p>
+            <span className="text-[11px] text-text-muted block">Sum of stock × cost price</span>
+          </div>
+
+          {/* Waste / Spoilage Value */}
+          <div className="rounded-[1rem] border border-border/50 bg-background p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] space-y-2">
+            <span className="text-[13px] font-medium text-text-muted block">Total Waste / Spoilage</span>
+            <p className="text-[24px] font-bold text-rose-600 tracking-tight">
+              {currencySymbol}{wasteValue.toLocaleString()}
+            </p>
+            <span className="text-[11px] text-text-muted block">Damaged/spoiled inventory cost</span>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="rounded-[1rem] border border-border/50 bg-background p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] space-y-3">
-            <div className="flex items-center gap-2 text-text-muted">
-              <span className="text-[13px] font-medium">Gross Volume</span>
+        {/* Second Row: Customer Debt & Total Customers */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="rounded-[1rem] border border-border/50 bg-background p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] flex items-center justify-between">
+            <div>
+              <span className="text-[13px] font-medium text-text-muted block">Total Customer Debt Owed</span>
+              <p className="text-[24px] font-bold text-amber-600 tracking-tight mt-1">
+                {currencySymbol}{customerDebtTotal.toLocaleString()}
+              </p>
+              <span className="text-[11px] text-text-muted">Uncollected credit sales</span>
             </div>
-            <p className="text-[24px] font-semibold text-text-primary">₦0.00</p>
+            <Link href="/owner/customers" className="text-xs text-brand font-semibold hover:underline">
+              View Debtors →
+            </Link>
           </div>
 
-          <div className="rounded-[1rem] border border-border/50 bg-background p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] space-y-3">
-            <div className="flex items-center gap-2 text-text-muted">
-              <span className="text-[13px] font-medium">Net Volume</span>
+          <div className="rounded-[1rem] border border-border/50 bg-background p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] flex items-center justify-between">
+            <div>
+              <span className="text-[13px] font-medium text-text-muted block">Total Registered Customers</span>
+              <p className="text-[24px] font-bold text-text-primary tracking-tight mt-1">
+                {totalCustomers.toLocaleString()}
+              </p>
+              <span className="text-[11px] text-text-muted">Customer profiles in ledger</span>
             </div>
-            <p className="text-[24px] font-semibold text-text-primary">₦0.00</p>
-          </div>
-
-          <div className="rounded-[1rem] border border-border/50 bg-background p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] space-y-3">
-            <div className="flex items-center gap-2 text-text-muted">
-              <span className="text-[13px] font-medium">New Customers</span>
-            </div>
-            <p className="text-[24px] font-semibold text-text-primary">0</p>
-          </div>
-
-          <div className="rounded-[1rem] border border-border/50 bg-background p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] space-y-3">
-            <div className="flex items-center gap-2 text-text-muted">
-              <span className="text-[13px] font-medium">Stock Variance Value</span>
-            </div>
-            <p className="text-[24px] font-semibold text-text-primary">₦0.00</p>
+            <Link href="/owner/customers" className="text-xs text-brand font-semibold hover:underline">
+              Manage Customers →
+            </Link>
           </div>
         </div>
       </div>
