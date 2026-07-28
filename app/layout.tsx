@@ -37,6 +37,8 @@ const themeScript = `
 })();
 `;
 
+import { ToastContainer } from "@/components/ui/ToastContainer";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -47,12 +49,14 @@ export default function RootLayout({
       lang="en"
       suppressHydrationWarning
       className={`${strichpunktSans.variable} ${inter.variable}`}
+      
     >
       <head>
         <script suppressHydrationWarning>{themeScript}</script>
       </head>
       <body className="min-h-dvh flex flex-col bg-background text-text-primary">
         {children}
+        <ToastContainer />
       </body>
     </html>
   );

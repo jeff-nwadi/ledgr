@@ -7,19 +7,29 @@ import { Home, FileText, Package, DollarSign, Users, UserSquare2, BarChart2, Set
 import { PanelLeftIcon } from "@/components/animate-ui/icons/panel-left";
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/animate-ui/components/animate/tooltip";
 
-const mainLinks = [
-  { href: "/dashboard", label: "Home", icon: Home, exact: true },
-  { href: "/dashboard/daily-summary", label: "Daily Summary", icon: FileText },
-  { href: "/dashboard/products", label: "Products", icon: Package },
-  { href: "/dashboard/sales", label: "Sales", icon: DollarSign },
-  { href: "/dashboard/customers", label: "Customers", icon: Users },
-  { href: "/dashboard/staff", label: "Staff", icon: UserSquare2 },
-  { href: "/dashboard/reports", label: "Reports", icon: BarChart2 },
+interface SidebarProps {
+  userRole?: string;
+}
+
+const ownerLinks = [
+  { href: "/owner", label: "Home", icon: Home, exact: true },
+  { href: "/owner/daily-summary", label: "Daily Summary", icon: FileText },
+  { href: "/owner/products", label: "Products", icon: Package },
+  { href: "/owner/sales", label: "Sales", icon: DollarSign },
+  { href: "/owner/customers", label: "Customers", icon: Users },
+  { href: "/owner/staff", label: "Staff", icon: UserSquare2 },
+  { href: "/owner/reports", label: "Reports", icon: BarChart2 },
 ];
 
-export function Sidebar() {
+const staffLinks = [
+  { href: "/staff", label: "Shift Home", icon: Home, exact: true },
+];
+
+export function Sidebar({ userRole = "owner" }: SidebarProps) {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const mainLinks = userRole === "staff" ? staffLinks : ownerLinks;
 
   return (
     <TooltipProvider>
@@ -36,20 +46,22 @@ export function Sidebar() {
           </button>
         </div>
 
-        <div className={`px-4 mb-2 ${isCollapsed ? "flex justify-center px-2" : ""}`}>
-          <Tooltip side="right">
-            <TooltipTrigger asChild>
-              <Link 
-                href="/dashboard/pos" 
-                className={`flex items-center justify-center gap-2 ${isCollapsed ? "w-10 h-10 p-0" : "w-full py-2.5"} [background:var(--brand-gradient)] text-white text-[13px] font-medium rounded-xl hover:opacity-90 shadow-sm transition-all`}
-              >
-                <DollarSign className="w-4 h-4" />
-                {!isCollapsed && "New Sale"}
-              </Link>
-            </TooltipTrigger>
-            {isCollapsed && <TooltipContent>New Sale</TooltipContent>}
-          </Tooltip>
-        </div>
+        {userRole !== "staff" && (
+          <div className={`px-4 mb-2 ${isCollapsed ? "flex justify-center px-2" : ""}`}>
+            <Tooltip side="right">
+              <TooltipTrigger asChild>
+                <Link 
+                  href="/owner/pos" 
+                  className={`flex items-center justify-center gap-2 ${isCollapsed ? "w-10 h-10 p-0" : "w-full py-2.5"} [background:var(--brand-gradient)] text-white text-[13px] font-medium rounded-xl hover:opacity-90 shadow-sm transition-all`}
+                >
+                  <DollarSign className="w-4 h-4" />
+                  {!isCollapsed && "New Sale"}
+                </Link>
+              </TooltipTrigger>
+              {isCollapsed && <TooltipContent>New Sale</TooltipContent>}
+            </Tooltip>
+          </div>
+        )}
 
         <nav className="flex-1 px-3 space-y-1 overflow-y-auto mt-2">
           {mainLinks.map((link) => {
@@ -88,38 +100,40 @@ export function Sidebar() {
           })}
         </nav>
 
-      <div className={`p-3 mt-auto space-y-1 ${isCollapsed ? "flex flex-col items-center" : ""}`}>
-        {isCollapsed ? (
-          <Tooltip side="right">
-            <TooltipTrigger asChild>
+        {userRole !== "staff" && (
+          <div className={`p-3 mt-auto space-y-1 ${isCollapsed ? "flex flex-col items-center" : ""}`}>
+            {isCollapsed ? (
+              <Tooltip side="right">
+                <TooltipTrigger asChild>
+                  <Link 
+                    href="/owner/settings" 
+                    className={`flex items-center justify-center w-10 h-10 font-medium rounded-lg transition-colors ${
+                      pathname.startsWith("/owner/settings")
+                        ? "bg-surface text-text-primary" 
+                        : "hover:bg-surface/50 text-text-muted hover:text-text-primary"
+                    }`}
+                  >
+                    <Settings className="w-[18px] h-[18px]" strokeWidth={2} />
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent>Settings</TooltipContent>
+              </Tooltip>
+            ) : (
               <Link 
-                href="/dashboard/settings" 
-                className={`flex items-center justify-center w-10 h-10 font-medium rounded-lg transition-colors ${
-                  pathname.startsWith("/dashboard/settings")
+                href="/owner/settings" 
+                className={`flex items-center gap-3 px-3 py-2.5 font-medium rounded-lg transition-colors ${
+                  pathname.startsWith("/owner/settings")
                     ? "bg-surface text-text-primary" 
                     : "hover:bg-surface/50 text-text-muted hover:text-text-primary"
                 }`}
               >
                 <Settings className="w-[18px] h-[18px]" strokeWidth={2} />
+                Settings
               </Link>
-            </TooltipTrigger>
-            <TooltipContent>Settings</TooltipContent>
-          </Tooltip>
-        ) : (
-          <Link 
-            href="/dashboard/settings" 
-            className={`flex items-center gap-3 px-3 py-2.5 font-medium rounded-lg transition-colors ${
-              pathname.startsWith("/dashboard/settings")
-                ? "bg-surface text-text-primary" 
-                : "hover:bg-surface/50 text-text-muted hover:text-text-primary"
-            }`}
-          >
-            <Settings className="w-[18px] h-[18px]" strokeWidth={2} />
-            Settings
-          </Link>
+            )}
+          </div>
         )}
-      </div>
-    </aside>
+      </aside>
     </TooltipProvider>
   );
 }

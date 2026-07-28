@@ -6,7 +6,7 @@ import { auth } from "@/lib/auth/auth";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { eq, and, gte, lt, sql, desc } from "drizzle-orm";
-import { startOfDay, endOfDay } from "date-fns";
+import { startOfDay, endOfDay, format } from "date-fns";
 
 export async function openCashSessionAction(openingFloat: number) {
   const session = await auth.api.getSession({
@@ -44,7 +44,7 @@ export async function openCashSessionAction(openingFloat: number) {
       expectedCash: openingFloat, // Initially just the float. We calculate actual expected dynamically.
     });
 
-    revalidatePath("/dashboard/daily");
+    revalidatePath("/owner/daily");
     return { success: true };
   } catch (error) {
     console.error("Open session error:", error);
@@ -88,7 +88,7 @@ export async function closeCashSessionAction(sessionId: string, countedCash: num
       closedAt: new Date()
     }).where(eq(cashSession.id, sessionId));
 
-    revalidatePath("/dashboard/daily");
+    revalidatePath("/owner/daily");
     return { success: true, variance };
   } catch (error) {
     console.error("Close session error:", error);
@@ -125,7 +125,7 @@ export async function confirmStockCountAction(
       id: `dsl_${crypto.randomUUID()}`,
       productId,
       businessId,
-      date: new Date(),
+      date: format(new Date(), "yyyy-MM-dd"),
       openingQty,
       addedQty,
       soldQty,
@@ -136,7 +136,7 @@ export async function confirmStockCountAction(
       closingValue
     });
 
-    revalidatePath("/dashboard/daily");
+    revalidatePath("/owner/daily");
     return { success: true };
   } catch (error) {
     console.error("Confirm stock error:", error);

@@ -6,8 +6,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { loginStaffAction } from "@/app/actions/auth";
 import { authClient } from "@/lib/auth/auth-client";
+import { toast } from "@/lib/store/toast-store";
 
 export default function SignInPage() {
   return (
@@ -30,9 +30,8 @@ function SignInContent() {
   const [ownerErrors, setOwnerErrors] = React.useState<Record<string, string>>({});
   const [isOwnerLoading, setIsOwnerLoading] = React.useState(false);
 
-  // Staff PIN Form State
+  // Staff PIN Form State (2 fields: Business ID + PIN)
   const [businessCode, setBusinessCode] = React.useState("");
-  const [staffUsername, setStaffUsername] = React.useState("");
   const [pin, setPin] = React.useState("");
   const [pinErrors, setPinErrors] = React.useState<Record<string, string>>({});
   const [isPinLoading, setIsPinLoading] = React.useState(false);
@@ -52,25 +51,24 @@ function SignInContent() {
 
     if (res.error) {
       setOwnerErrors({ email: res.error.message || "Invalid credentials." });
+      toast.error("Sign in failed", res.error.message || "Invalid credentials.");
     } else {
-      router.push("/dashboard");
+      toast.success("Welcome back!", "Redirecting to owner dashboard...");
+      window.location.href = "/owner";
     }
   };
 
-  // Handle Staff PIN Submit
+  // Handle Staff PIN Submit (Business ID + 4-digit PIN)
   const handlePinSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const errs: Record<string, string> = {};
     if (!businessCode.trim()) {
-      errs.businessCode = "Business ID or shop code is required.";
-    }
-    if (!staffUsername.trim()) {
-      errs.staffUsername = "Staff username is required for login.";
+      errs.businessCode = "Business ID code is required.";
     }
     if (!pin) {
       errs.pin = "PIN is required.";
-    } else if (pin.length < 4 || pin.length > 6) {
-      errs.pin = "PIN must be 4–6 digits.";
+    } else if (pin.length !== 4) {
+      errs.pin = "PIN must be 4 digits.";
     }
 
     setPinErrors(errs);
@@ -78,27 +76,27 @@ function SignInContent() {
 
     setIsPinLoading(true);
     try {
-      const res = await loginStaffAction(businessCode, staffUsername, pin);
-      if (res?.error) {
-        setPinErrors({ pin: res.error });
+      const res = await fetch("/api/auth/staff-pin-login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ businessCode: businessCode.trim(), pin: pin.trim() }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.error || data.status === "error") {
+        const errMsg = data.message || data.error || "Invalid Business ID code or PIN.";
+        setPinErrors({ form: errMsg });
+        toast.error("Access Denied", errMsg);
       } else {
-        router.push("/dashboard");
+        toast.success("Shift Authorized!", "Loading staff dashboard...");
+        window.location.href = "/staff";
       }
+    } catch (err: any) {
+      setPinErrors({ form: "Failed to connect to authentication server." });
+      toast.error("Connection Error", "Failed to connect to authentication server.");
     } finally {
       setIsPinLoading(false);
     }
-  };
-
-  // Numeric pad helper for staff touch devices
-  const handleNumpadPress = (num: string) => {
-    if (pin.length < 6) {
-      setPin((prev) => prev + num);
-      if (pinErrors.pin) setPinErrors((prev) => ({ ...prev, pin: "" }));
-    }
-  };
-
-  const handleNumpadDelete = () => {
-    setPin((prev) => prev.slice(0, -1));
   };
 
   return (
@@ -161,7 +159,7 @@ function SignInContent() {
                   : "text-text-muted hover:text-text-primary")
               }
             >
-              <span>Staff PIN Login</span>
+              <span>Staff Login</span>
               <span className="size-2 rounded-full bg-brand" />
             </button>
           </div>
@@ -198,19 +196,6 @@ function SignInContent() {
                   error={ownerErrors.password}
                 />
 
-                <div className="flex items-center justify-between text-xs text-text-muted">
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      className="rounded border-border text-brand focus:ring-brand"
-                    />
-                    <span>Remember this device</span>
-                  </label>
-                  <a href="#" className="hover:text-brand transition-colors">
-                    Forgot password?
-                  </a>
-                </div>
-
                 <div className="pt-2">
                   <Button
                     type="submit"
@@ -223,46 +208,48 @@ function SignInContent() {
                 </div>
               </form>
             ) : (
-              /* Staff PIN Login Form */
+              /* Staff PIN Login Form (2 Fields: Business ID + PIN) */
               <form onSubmit={handlePinSubmit} className="space-y-5">
                 <div className="space-y-1">
                   <h2 className="font-heading text-xl text-text-primary flex items-center justify-between">
-                    <span>Staff Shift Login</span>
+                    <span>Staff PIN Login</span>
                     <span className="text-xs font-normal text-text-muted">
-                      Counter Mode
+                      Shift Access
                     </span>
                   </h2>
                   <p className="text-xs text-text-muted">
-                    Enter your Business ID and your 4–6 digit staff PIN.
+                    Enter your 6-character Business ID and 4-digit PIN.
                   </p>
                 </div>
 
-                <Input
-                  label="Business ID / Shop Code"
-                  placeholder="e.g. HERITAGE-01"
-                  value={businessCode}
-                  onChange={(e) => setBusinessCode(e.target.value.toUpperCase())}
-                  error={pinErrors.businessCode}
-                  helperText="Provided by your store owner."
-                />
+                {pinErrors.form && (
+                  <div className="text-xs font-medium text-danger bg-danger/10 p-3 rounded-xl border border-danger/20">
+                    ⚠ {pinErrors.form}
+                  </div>
+                )}
 
                 <Input
-                  label="Staff Username"
-                  placeholder="e.g. adaeze"
-                  value={staffUsername}
-                  onChange={(e) => setStaffUsername(e.target.value)}
-                  error={pinErrors.staffUsername}
+                  label="Business ID Code"
+                  placeholder="e.g. X9K3M7 or ZARI'S-CAK-972"
+                  value={businessCode}
+                  maxLength={50}
+                  onChange={(e) => {
+                    setBusinessCode(e.target.value.toUpperCase());
+                    if (pinErrors.businessCode) setPinErrors(prev => ({ ...prev, businessCode: "" }));
+                  }}
+                  error={pinErrors.businessCode}
+                  helperText="Provided in Business Settings."
                 />
 
                 {/* PIN Display */}
                 <div className="space-y-1.5">
                   <label className="block text-sm font-medium text-text-primary">
-                    Staff PIN (4–6 Digits)
+                    4-Digit Staff PIN
                   </label>
                   <div className="relative">
                     <input
                       type="password"
-                      maxLength={6}
+                      maxLength={4}
                       pattern="[0-9]*"
                       inputMode="numeric"
                       placeholder="••••"
@@ -271,6 +258,7 @@ function SignInContent() {
                         const val = e.target.value.replace(/\D/g, "");
                         setPin(val);
                         if (pinErrors.pin) setPinErrors((prev) => ({ ...prev, pin: "" }));
+                        if (pinErrors.form) setPinErrors((prev) => ({ ...prev, form: "" }));
                       }}
                       className={
                         "w-full h-14 px-4 rounded-xl border bg-background text-text-primary text-center text-2xl font-mono tracking-[0.4em] " +

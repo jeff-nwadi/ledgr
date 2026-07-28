@@ -2,24 +2,28 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-  // Check for the Better Auth session cookie
+  const allCookies = request.cookies.getAll();
   const sessionCookie = 
     request.cookies.get("better-auth.session_token")?.value || 
-    request.cookies.get("__Secure-better-auth.session_token")?.value;
+    request.cookies.get("__Secure-better-auth.session_token")?.value ||
+    allCookies.find(c => c.name.includes("session_token"))?.value;
     
   const pathname = request.nextUrl.pathname;
+
+  // Legacy /dashboard redirect
+  if (pathname.startsWith('/dashboard')) {
+    const target = pathname.replace('/dashboard', '/owner');
+    return NextResponse.redirect(new URL(target, request.url));
+  }
   
-  const isAuthRoute = pathname.startsWith('/signin') || pathname.startsWith('/signup');
-  const isProtectedRoute = pathname.startsWith('/dashboard') || pathname.startsWith('/owner');
+  const isProtectedRoute = 
+    pathname.startsWith('/staff') ||  
+    pathname.startsWith('/owner');
 
   // If trying to access a protected route without a session cookie, redirect to signin
   if (!sessionCookie && isProtectedRoute) {
-    return NextResponse.redirect(new URL("/signin", request.url));
-  }
-
-  // If trying to access auth routes with an active session cookie, redirect to dashboard
-  if (sessionCookie && isAuthRoute) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    const targetRedirect = pathname.startsWith('/staff') ? "/signin?type=pin" : "/signin";
+    return NextResponse.redirect(new URL(targetRedirect, request.url));
   }
 
   return NextResponse.next();
@@ -27,9 +31,11 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/dashboard/:path*', 
+    '/dashboard',
+    '/dashboard/:path*',
+    '/staff',
+    '/staff/:path*',
+    '/owner',
     '/owner/:path*', 
-    '/signin', 
-    '/signup'
   ]
 };

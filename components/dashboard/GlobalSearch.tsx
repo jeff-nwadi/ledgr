@@ -5,14 +5,14 @@ import { Search, Home, FileText, Package, DollarSign, Users, UserSquare2, BarCha
 import { useRouter } from "next/navigation";
 
 const searchItems = [
-  { label: "Home", href: "/dashboard", icon: Home },
-  { label: "Daily Summary", href: "/dashboard/daily-summary", icon: FileText },
-  { label: "Products", href: "/dashboard/products", icon: Package },
-  { label: "Sales", href: "/dashboard/sales", icon: DollarSign },
-  { label: "Customers", href: "/dashboard/customers", icon: Users },
-  { label: "Staff", href: "/dashboard/staff", icon: UserSquare2 },
-  { label: "Reports", href: "/dashboard/reports", icon: BarChart2 },
-  { label: "Settings", href: "/dashboard/settings", icon: Settings },
+  { label: "Home", href: "/owner", icon: Home },
+  { label: "Daily Summary", href: "/owner/daily-summary", icon: FileText },
+  { label: "Products", href: "/owner/products", icon: Package },
+  { label: "Sales", href: "/owner/sales", icon: DollarSign },
+  { label: "Customers", href: "/owner/customers", icon: Users },
+  { label: "Staff", href: "/owner/staff", icon: UserSquare2 },
+  { label: "Reports", href: "/owner/reports", icon: BarChart2 },
+  { label: "Settings", href: "/owner/settings", icon: Settings },
 ];
 
 const filters = ["All", "Pages", "Customers", "Products", "Sales"];

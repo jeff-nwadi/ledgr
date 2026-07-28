@@ -97,9 +97,9 @@ export async function logSaleAction(
         .where(eq(product.id, item.productId));
     }
 
-    revalidatePath("/dashboard/sales");
-    revalidatePath("/dashboard/products");
-    revalidatePath("/dashboard/daily");
+    revalidatePath("/owner/sales");
+    revalidatePath("/owner/products");
+    revalidatePath("/owner/daily");
     
     return { success: true };
   } catch (error: any) {
@@ -146,9 +146,9 @@ export async function logWasteAction(
         .where(eq(product.id, item.productId));
     }
 
-    revalidatePath("/dashboard/sales");
-    revalidatePath("/dashboard/products");
-    revalidatePath("/dashboard/daily");
+    revalidatePath("/owner/sales");
+    revalidatePath("/owner/products");
+    revalidatePath("/owner/daily");
     
     return { success: true };
   } catch (error: any) {

@@ -52,7 +52,7 @@ export async function createProductAction(data: {
       });
     }
 
-    revalidatePath("/dashboard/products");
+    revalidatePath("/owner/products");
     return { success: true };
   } catch (error: any) {
     console.error("Error creating product:", error);
@@ -104,7 +104,7 @@ export async function bulkImportProductsAction(products: any[]) {
       successCount++;
     }
 
-    revalidatePath("/dashboard/products");
+    revalidatePath("/owner/products");
     return { success: true, count: successCount };
   } catch (error: any) {
     console.error("Bulk import error:", error);
@@ -125,7 +125,7 @@ export async function archiveProductAction(productId: string) {
       .set({ status: "archived" })
       .where(and(eq(product.id, productId), eq(product.businessId, businessId)));
       
-    revalidatePath("/dashboard/products");
+    revalidatePath("/owner/products");
     return { success: true };
   } catch (error) {
     return { error: "Failed to archive product" };

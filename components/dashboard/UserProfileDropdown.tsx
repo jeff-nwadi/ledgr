@@ -60,7 +60,7 @@ export function UserProfileDropdown({ user }: { user: any }) {
           {/* Links */}
           <div className="px-2 py-1 space-y-1">
             <Link 
-              href="/dashboard/profile"
+              href="/owner/profile"
               onClick={() => setIsOpen(false)}
               className="flex items-center gap-3 px-3 py-2 text-sm text-text-primary hover:bg-surface rounded-md transition-colors"
             >
@@ -69,7 +69,7 @@ export function UserProfileDropdown({ user }: { user: any }) {
             </Link>
             
             <Link 
-              href="/dashboard/settings"
+              href="/owner/settings"
               onClick={() => setIsOpen(false)}
               className="flex items-center gap-3 px-3 py-2 text-sm text-text-primary hover:bg-surface rounded-md transition-colors"
             >

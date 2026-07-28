@@ -25,7 +25,7 @@ export async function addCustomerAction(name: string, phone: string) {
       balanceOwed: 0,
     });
 
-    revalidatePath("/dashboard/customers");
+    revalidatePath("/owner/customers");
     return { success: true };
   } catch (error) {
     console.error("Add customer error:", error);
@@ -66,7 +66,7 @@ export async function markPaymentReceivedAction(customerId: string, amount: numb
       .set({ balanceOwed: sql`${customer.balanceOwed} - ${amount}` })
       .where(eq(customer.id, customerId));
 
-    revalidatePath("/dashboard/customers");
+    revalidatePath("/owner/customers");
     return { success: true };
   } catch (error) {
     console.error("Payment received error:", error);

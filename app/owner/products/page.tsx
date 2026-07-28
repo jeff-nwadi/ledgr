@@ -25,13 +25,11 @@ export default async function ProductsPage() {
     );
   }
 
-  // Fetch all products for the business
   const productsList = await db.query.product.findMany({
     where: eq(product.businessId, businessId),
-    orderBy: (product, { desc }) => [desc(product.id)], // Using ID for ordering as proxy for recency
+    orderBy: (product, { desc }) => [desc(product.id)],
   });
 
-  // Extract unique categories directly in memory (faster for small datasets in MVP, or use SQL DISTINCT)
   const categories = Array.from(new Set(
     productsList.filter(p => p.category).map(p => p.category as string)
   )).sort();

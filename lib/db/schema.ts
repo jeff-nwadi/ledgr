@@ -22,7 +22,8 @@ export const user = pgTable("user", {
   role: text("role").notNull().default("staff"), // 'owner' | 'staff'
   pinHash: text("pin_hash"),
   failedAttempts: integer("failed_attempts").notNull().default(0),
-  locked: boolean("locked").notNull().default(false)
+  locked: boolean("locked").notNull().default(false),
+  status: text("status").notNull().default("active") // 'active' | 'deactivated'
 });
 
 export const session = pgTable("session", {
@@ -79,7 +80,7 @@ export const sale = pgTable("sale", {
   businessId: text("business_id").notNull().references(() => business.id),
   staffId: text("staff_id").notNull().references(() => user.id),
   customerId: text("customer_id"), // Will reference customer.id
-  paymentType: text("payment_type").notNull(), // 'cash'|'credit'|'other'
+  paymentType: text("payment_type").notNull(), // 'paid' (cash/transfer) | 'credit' (customer debt)
   total: integer("total").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
@@ -97,7 +98,7 @@ export const stockEvent = pgTable("stock_event", {
   id: text("id").primaryKey(),
   productId: text("product_id").notNull().references(() => product.id),
   businessId: text("business_id").notNull().references(() => business.id),
-  type: text("type").notNull(), // 'sale'|'waste'|'restock'|'adjustment'
+  type: text("type").notNull(), // 'sale'|'waste'|'restock'|'adjustment'|'opening_count'
   quantity: integer("quantity").notNull(),
   reason: text("reason"),
   note: text("note"),
@@ -105,28 +106,55 @@ export const stockEvent = pgTable("stock_event", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
+export const shiftStockCount = pgTable("shift_stock_count", {
+  id: text("id").primaryKey(),
+  cashSessionId: text("cash_session_id").notNull().references(() => cashSession.id),
+  businessId: text("business_id").notNull().references(() => business.id),
+  productId: text("product_id").notNull().references(() => product.id),
+  
+  // Opening Count Reconciliation
+  expectedOpeningQty: integer("expected_opening_qty").notNull().default(0),
+  countedOpeningQty: integer("counted_opening_qty").notNull().default(0),
+  openingVarianceQty: integer("opening_variance_qty").notNull().default(0),
+
+  // In-Shift Movements
+  addedQty: integer("added_qty").notNull().default(0),
+  soldQty: integer("sold_qty").notNull().default(0),
+  wasteQty: integer("waste_qty").notNull().default(0),
+
+  // Closing Count Reconciliation
+  calculatedClosingQty: integer("calculated_closing_qty"),
+  countedClosingQty: integer("counted_closing_qty"),
+  closingVarianceQty: integer("closing_variance_qty"),
+  
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
 export const dailyStockLedger = pgTable("daily_stock_ledger", {
   id: text("id").primaryKey(),
   productId: text("product_id").notNull().references(() => product.id),
   businessId: text("business_id").notNull().references(() => business.id),
-  date: timestamp("date").notNull(), // Just the date part conceptually
+  date: text("date").notNull(), // YYYY-MM-DD
   openingQty: integer("opening_qty").notNull(),
-  addedQty: integer("added_qty").notNull(),
-  soldQty: integer("sold_qty").notNull(),
-  wasteQty: integer("waste_qty").notNull(),
+  addedQty: integer("added_qty").notNull().default(0),
+  soldQty: integer("sold_qty").notNull().default(0),
+  wasteQty: integer("waste_qty").notNull().default(0),
   calculatedClosingQty: integer("calculated_closing_qty").notNull(),
   countedClosingQty: integer("counted_closing_qty"), // Nullable until counted
   varianceQty: integer("variance_qty"),
   closingValue: integer("closing_value"),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
 export const cashSession = pgTable("cash_session", {
   id: text("id").primaryKey(),
   businessId: text("business_id").notNull().references(() => business.id),
   staffId: text("staff_id").notNull().references(() => user.id),
-  date: timestamp("date").notNull(),
-  openingFloat: integer("opening_float").notNull(),
-  expectedCash: integer("expected_cash").notNull(),
+  date: timestamp("date").notNull().defaultNow(),
+  openingFloat: integer("opening_float").notNull().default(0),
+  openingCountCompleted: boolean("opening_count_completed").notNull().default(false),
+  expectedCash: integer("expected_cash"),
   countedCash: integer("counted_cash"),
   variance: integer("variance"),
   closedAt: timestamp("closed_at"),

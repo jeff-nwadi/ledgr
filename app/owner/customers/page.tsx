@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { Users, Construction } from "lucide-react";
+import { Construction } from "lucide-react";
 
 export default async function CustomersPage() {
   const session = await auth.api.getSession({
@@ -11,7 +11,7 @@ export default async function CustomersPage() {
   if (!session?.user) redirect("/signin");
   
   const businessId = (session.user as any).businessId;
-  if (!businessId) redirect("/dashboard");
+  if (!businessId) redirect("/owner");
 
   return (
     <div className="max-w-5xl mx-auto space-y-8 pb-12 h-full flex flex-col">

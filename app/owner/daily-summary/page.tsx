@@ -38,13 +38,12 @@ export default async function DailySummaryPage({
     targetDate = parseISO(dateStr);
     if (isNaN(targetDate.getTime())) throw new Error();
   } catch (e) {
-    targetDate = new Date(); // Fallback to today if invalid
+    targetDate = new Date();
   }
 
   const dayStart = startOfDay(targetDate);
   const dayEnd = endOfDay(targetDate);
 
-  // 1. Fetch Sales and calculate Revenue / COGS
   const daySales = await db.select().from(sale).where(
     and(
       eq(sale.businessId, businessId),
@@ -65,8 +64,6 @@ export default async function DailySummaryPage({
     }
   }
 
-  // 2. Fetch Cash Sessions for the day
-  // Since multiple shifts can exist per day, we fetch them all and aggregate.
   const rawSessions = await db.select({
     session: cashSession,
     staffName: user.name
@@ -88,14 +85,13 @@ export default async function DailySummaryPage({
   
   let totalCashVariance: number | null = 0;
   if (hasOpenShift) {
-    totalCashVariance = null; // Unresolved
+    totalCashVariance = null;
   } else {
     for (const s of sessions) {
       totalCashVariance! += (s.variance || 0);
     }
   }
 
-  // 3. Fetch Daily Stock Ledger for the day
   const rawLedger = await db.select({
     ledger: dailyStockLedger,
     productName: product.name,
@@ -106,7 +102,7 @@ export default async function DailySummaryPage({
     .where(
       and(
         eq(dailyStockLedger.businessId, businessId),
-        between(dailyStockLedger.date, dayStart, dayEnd) // dailyStockLedger.date is timestamp
+        eq(dailyStockLedger.date, dateStr)
       )
     );
 
@@ -136,7 +132,6 @@ export default async function DailySummaryPage({
     totalWasteValue += (entry.wasteQty * (entry.costPrice || 0));
   }
 
-  // Check if zero data
   const isEmptyState = daySales.length === 0 && sessions.length === 0 && ledgerEntries.length === 0;
 
   return (

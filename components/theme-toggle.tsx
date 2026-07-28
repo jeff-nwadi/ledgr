@@ -25,7 +25,14 @@ function readInitialTheme(): Theme | null {
  * user interaction and stays in sync if data-theme was changed elsewhere.
  */
 export function ThemeToggle() {
-  const [theme, setTheme] = React.useState<Theme | null>(readInitialTheme);
+  const [mounted, setMounted] = React.useState(false);
+  const [theme, setTheme] = React.useState<Theme>("light");
+
+  React.useEffect(() => {
+    setMounted(true);
+    const attr = typeof document !== "undefined" ? document.documentElement.getAttribute("data-theme") : null;
+    setTheme(attr === "dark" ? "dark" : "light");
+  }, []);
 
   const toggle = React.useCallback(() => {
     setTheme((prev) => {
@@ -44,18 +51,16 @@ export function ThemeToggle() {
     });
   }, []);
 
-  // Render a stable button on the server; fill in the label after mount so
-  // SSR HTML doesn't claim a theme the user's OS doesn't actually use.
-  const isDark = theme === "dark";
+  const isDark = mounted && theme === "dark";
   const label = isDark ? "Switch to light mode" : "Switch to dark mode";
 
   return (
     <button
       type="button"
       onClick={toggle}
-      aria-label={theme ? label : "Toggle color theme"}
+      suppressHydrationWarning
+      aria-label={mounted ? label : "Toggle color theme"}
       className={
-        // Inline, not fixed — lives inside the navbar now.
         "size-10 inline-flex items-center justify-center " +
         "rounded-xl border border-border bg-surface text-text-primary " +
         "transition-[transform,opacity,box-shadow] duration-150 ease-out " +
@@ -64,7 +69,6 @@ export function ThemeToggle() {
         "focus-visible:ring-offset-background hover:bg-[color-mix(in_srgb,var(--surface)_85%,var(--text-primary)_15%)]"
       }
     >
-      {/* Sun = currently light, click to go dark. Moon = currently dark, click to go light. */}
       {isDark ? <MoonIcon /> : <SunIcon />}
     </button>
   );

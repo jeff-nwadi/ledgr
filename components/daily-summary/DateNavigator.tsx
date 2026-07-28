@@ -8,7 +8,7 @@ export function DateNavigator({ currentDate }: { currentDate: string }) {
   const router = useRouter();
 
   const handleDateChange = (dateStr: string) => {
-    router.push(`/dashboard/daily-summary?date=${dateStr}`);
+    router.push(`/owner/daily-summary?date=${dateStr}`);
   };
 
   const current = parseISO(currentDate);

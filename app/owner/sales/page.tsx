@@ -14,9 +14,8 @@ export default async function SalesPage() {
   if (!session?.user) redirect("/signin");
 
   const businessId = (session.user as any).businessId;
-  if (!businessId) redirect("/dashboard");
+  if (!businessId) redirect("/owner");
 
-  // Fetch historical sales
   const salesRaw = await db.select({
     id: sale.id,
     createdAt: sale.createdAt,
@@ -31,7 +30,6 @@ export default async function SalesPage() {
   .where(eq(sale.businessId, businessId))
   .orderBy(desc(sale.createdAt));
 
-  // Map to the format SalesLog expects (resolving nulls from left join)
   const salesData = salesRaw.map(s => ({
     id: s.id,
     createdAt: s.createdAt,
