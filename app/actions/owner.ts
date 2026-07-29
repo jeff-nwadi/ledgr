@@ -195,3 +195,83 @@ export async function getOwnerAnalyticsAction() {
     return { error: error.message || "Failed to load owner analytics." };
   }
 }
+
+export async function exportReportsCsvAction(startDateStr: string, endDateStr: string) {
+  const session = await auth.api.getSession({
+    headers: await headers()
+  });
+
+  if (!session?.user) return { error: "Unauthorized" };
+  const businessId = (session.user as any).businessId;
+  if (!businessId) return { error: "No business linked to account." };
+
+  try {
+    const { parseISO } = await import("date-fns");
+    const { lte } = await import("drizzle-orm");
+
+    const start = startOfDay(parseISO(startDateStr));
+    const end = endOfDay(parseISO(endDateStr));
+
+    const salesList = await db.query.sale.findMany({
+      where: and(
+        eq(sale.businessId, businessId),
+        gte(sale.createdAt, start),
+        lte(sale.createdAt, end)
+      )
+    });
+
+    const saleIds = salesList.map(s => s.id);
+    let items: any[] = [];
+    if (saleIds.length > 0) {
+      items = await db.query.saleItem.findMany({
+        where: sql`${saleItem.saleId} IN ${saleIds}`
+      });
+    }
+
+    const products = await db.query.product.findMany({
+      where: eq(product.businessId, businessId)
+    });
+    const prodMap = new Map(products.map(p => [p.id, p.name]));
+    const saleDateMap = new Map(salesList.map(s => [s.id, format(new Date(s.createdAt), "yyyy-MM-dd")]));
+
+    const summaryMap = new Map<string, { date: string; product: string; qty: number; revenue: number; cost: number; profit: number }>();
+
+    items.forEach(i => {
+      const dateStr = saleDateMap.get(i.saleId) || format(new Date(), "yyyy-MM-dd");
+      const prodName = prodMap.get(i.productId) || "Unknown Item";
+      const key = `${dateStr}_${i.productId}`;
+      const rev = i.quantity * i.priceAtSale;
+      const cost = i.quantity * i.costAtSale;
+      const profit = rev - cost;
+
+      if (summaryMap.has(key)) {
+        const existing = summaryMap.get(key)!;
+        existing.qty += i.quantity;
+        existing.revenue += rev;
+        existing.cost += cost;
+        existing.profit += profit;
+      } else {
+        summaryMap.set(key, {
+          date: dateStr,
+          product: prodName,
+          qty: i.quantity,
+          revenue: rev,
+          cost,
+          profit
+        });
+      }
+    });
+
+    const header = "Date,Product,Qty Sold,Revenue (NGN),Cost (NGN),Profit (NGN)";
+    const rows = Array.from(summaryMap.values()).map(
+      r => `"${r.date}","${r.product.replace(/"/g, '""')}",${r.qty},${r.revenue},${r.cost},${r.profit}`
+    );
+
+    const csvContent = [header, ...rows].join("\r\n");
+    return { csvContent };
+  } catch (error: any) {
+    console.error("Error generating reports CSV:", error);
+    return { error: error.message || "Failed to generate CSV export." };
+  }
+}
+

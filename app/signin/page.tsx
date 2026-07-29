@@ -20,9 +20,19 @@ export default function SignInPage() {
 function SignInContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { data: sessionData } = authClient.useSession();
+
   const initialType = searchParams.get("type") === "pin" ? "pin" : "owner";
 
   const [loginType, setLoginType] = React.useState<"owner" | "pin">(initialType);
+
+  // If already logged in client-side (e.g. via bfcache or direct navigation), redirect immediately
+  React.useEffect(() => {
+    if (sessionData?.user) {
+      const userRole = (sessionData.user as any).role || "owner";
+      window.location.replace(userRole === "staff" ? "/staff" : "/owner");
+    }
+  }, [sessionData]);
 
   // Owner Form State
   const [email, setEmail] = React.useState("");
@@ -54,7 +64,7 @@ function SignInContent() {
       toast.error("Sign in failed", res.error.message || "Invalid credentials.");
     } else {
       toast.success("Welcome back!", "Redirecting to owner dashboard...");
-      window.location.href = "/owner";
+      window.location.replace("/owner");
     }
   };
 
@@ -89,7 +99,7 @@ function SignInContent() {
         toast.error("Access Denied", errMsg);
       } else {
         toast.success("Shift Authorized!", "Loading staff dashboard...");
-        window.location.href = "/staff";
+        window.location.replace("/staff");
       }
     } catch (err: any) {
       setPinErrors({ form: "Failed to connect to authentication server." });

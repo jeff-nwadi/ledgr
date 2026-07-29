@@ -23,28 +23,28 @@ const WHY_ITEMS = [
 
 export function WhyItWorks() {
   return (
-    <section className="border-y border-border bg-surface">
-      <div className="mx-auto max-w-6xl px-6 py-20 sm:px-10 sm:py-24">
-        <h2 className="max-w-xl font-heading text-3xl leading-tight tracking-tight text-text-primary sm:text-4xl">
+    <section className="border-y border-border bg-surface overflow-hidden">
+      <div className="mx-auto max-w-6xl px-5 py-14 sm:px-10 sm:py-24">
+        <h2 className="max-w-xl font-heading text-2xl font-bold leading-tight tracking-tight text-text-primary sm:text-4xl">
           Built for how small businesses actually work.
         </h2>
-        <p className="mt-3 max-w-xl text-text-muted">
+        <p className="mt-2.5 max-w-xl text-sm sm:text-base text-text-muted">
           Four things that separate Ledgr from paper, a spreadsheet, or a
           full POS system.
         </p>
-        <ul className="mt-12 grid grid-cols-1 divide-y divide-border border-y border-border sm:grid-cols-2 md:grid-cols-4 md:divide-x md:divide-y-0">
+        <ul className="mt-8 grid grid-cols-1 divide-y divide-border border-y border-border sm:grid-cols-2 sm:mt-12 md:grid-cols-4 md:divide-x md:divide-y-0">
           {WHY_ITEMS.map((item) => (
-            <li key={item.title} className="px-0 py-8 sm:px-6 md:px-8 md:py-10">
+            <li key={item.title} className="px-1 py-6 sm:px-6 md:px-8 md:py-10">
               <span
                 aria-hidden="true"
-                className="inline-flex size-9 items-center justify-center rounded-xl border border-border bg-background text-base leading-none text-text-muted"
+                className="inline-flex size-9 items-center justify-center rounded-xl border border-border bg-background text-base leading-none text-brand shadow-xs"
               >
                 {item.icon}
               </span>
-              <h3 className="mt-4 font-heading text-xl text-text-primary">
+              <h3 className="mt-3.5 font-heading text-lg sm:text-xl font-bold text-text-primary">
                 {item.title}
               </h3>
-              <p className="mt-2.5 text-[15px] leading-relaxed text-text-muted">
+              <p className="mt-2 text-xs sm:text-[15px] leading-relaxed text-text-muted">
                 {item.body}
               </p>
             </li>

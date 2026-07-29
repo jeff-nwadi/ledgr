@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Search, UserSquare2, ShieldAlert, KeyRound, Loader2, LockOpen, UserX, Copy, Check, Info } from "lucide-react";
+import { Plus, Search, UserSquare2, ShieldAlert, KeyRound, Loader2, LockOpen, UserX, Copy, Check, Info, MoreHorizontal } from "lucide-react";
 import { addStaffAction, unlockStaffAction, regeneratePinAction, deactivateOrDeleteStaffAction } from "@/app/actions/staff";
 
 interface Staff {
@@ -32,6 +32,7 @@ export function StaffList({ staffList, businessCode }: StaffListProps) {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [pinRevealData, setPinRevealData] = useState<PinRevealData | null>(null);
   const [deactivateConfirmId, setDeactivateConfirmId] = useState<string | null>(null);
+  const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
   const [loading, setLoading] = useState(false);
   const [actionLoadingId, setActionLoadingId] = useState<string | null>(null);
@@ -121,13 +122,13 @@ export function StaffList({ staffList, businessCode }: StaffListProps) {
             placeholder="Search staff..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2.5 bg-background border border-border/50 rounded-full text-[13px] text-text-primary focus:ring-1 focus:ring-brand/50 outline-none transition-all"
+            className="w-full pl-9 pr-4 py-2.5 bg-background border border-border/50 rounded-xl text-sm text-text-primary focus:ring-1 focus:ring-brand/50 outline-none transition-all min-h-[44px]"
           />
         </div>
         
         <button 
           onClick={() => { setIsAddModalOpen(true); setError(""); setNewName(""); }}
-          className="w-full sm:w-auto px-5 py-2.5 [background:var(--brand-gradient)] text-white text-[13px] font-medium rounded-full hover:opacity-90 transition-opacity flex items-center justify-center gap-2 shadow-sm"
+          className="w-full sm:w-auto px-5 py-2.5 [background:var(--brand-gradient)] text-white text-sm font-medium rounded-full hover:opacity-90 transition-opacity flex items-center justify-center gap-2 shadow-sm min-h-[44px]"
         >
           <Plus className="w-4 h-4" />
           Add Staff Member
@@ -140,8 +141,8 @@ export function StaffList({ staffList, businessCode }: StaffListProps) {
           <div className="w-12 h-12 bg-background rounded-full flex items-center justify-center text-text-muted/50 mx-auto mb-3">
             <UserSquare2 className="w-6 h-6" />
           </div>
-          <h3 className="text-[14px] font-medium text-text-primary">No staff members found</h3>
-          <p className="text-[13px] text-text-muted mt-1">Add staff to allow them to log in using a 4-digit PIN.</p>
+          <h3 className="text-sm font-semibold text-text-primary">No staff members found</h3>
+          <p className="text-xs text-text-muted mt-1">Add staff to allow them to log in using a 4-digit PIN.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -164,39 +165,80 @@ export function StaffList({ staffList, businessCode }: StaffListProps) {
               }
             };
 
+            const isMenuOpen = activeMenuId === s.id;
+
             return (
               <div 
                 key={s.id} 
-                className={`bg-background border rounded-2xl p-5 transition-all shadow-sm flex flex-col justify-between ${
+                className={`bg-background border rounded-2xl p-5 transition-all shadow-sm flex flex-col justify-between relative ${
                   isDeactivated ? "border-border/30 opacity-70" : "border-border/50 hover:border-brand/30"
                 }`}
               >
                 <div>
                   <div className="flex justify-between items-start mb-3">
                     <div>
-                      <h3 className="font-semibold text-text-primary text-[15px]">{s.name}</h3>
-                      <p className="text-[11px] text-text-muted mt-0.5">
+                      <h3 className="font-bold text-text-primary text-base sm:text-[17px]">{s.name}</h3>
+                      <p className="text-xs text-text-muted mt-0.5">
                         Added {formatDate(s.createdAt)}
                       </p>
                     </div>
-                    <div className="w-10 h-10 bg-surface rounded-full flex items-center justify-center text-brand">
-                      <UserSquare2 className="w-5 h-5" />
-                    </div>
+
+                    {/* Overflow "..." Action Menu Button */}
+                    {!isDeactivated && (
+                      <div className="relative">
+                        <button
+                          onClick={() => setActiveMenuId(isMenuOpen ? null : s.id)}
+                          className="p-2 text-text-muted hover:text-text-primary rounded-full hover:bg-surface transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+                          aria-label="Staff member options"
+                        >
+                          <MoreHorizontal className="w-5 h-5" />
+                        </button>
+
+                        {/* Dropdown Menu */}
+                        {isMenuOpen && (
+                          <div className="absolute right-0 top-12 z-30 w-48 bg-background border border-border rounded-xl shadow-xl p-1.5 space-y-1 animate-in fade-in zoom-in-95">
+                            {s.locked && (
+                              <button
+                                onClick={() => { setActiveMenuId(null); handleUnlock(s.id); }}
+                                className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-text-primary hover:bg-surface rounded-lg text-left transition-colors min-h-[40px]"
+                              >
+                                <LockOpen className="w-4 h-4 text-success" />
+                                Unlock Account
+                              </button>
+                            )}
+                            <button
+                              onClick={() => { setActiveMenuId(null); handleRegeneratePin(s); }}
+                              className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-brand hover:bg-brand/10 rounded-lg text-left transition-colors min-h-[40px]"
+                            >
+                              <KeyRound className="w-4 h-4" />
+                              Regenerate PIN
+                            </button>
+                            <button
+                              onClick={() => { setActiveMenuId(null); setDeactivateConfirmId(s.id); }}
+                              className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-danger hover:bg-danger/10 rounded-lg text-left transition-colors min-h-[40px]"
+                            >
+                              <UserX className="w-4 h-4" />
+                              Deactivate Staff
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
 
                   {/* Account Access & Shift Status Badges */}
                   <div className="space-y-2 mb-4">
                     <div className="flex items-center gap-2">
                       {isDeactivated ? (
-                        <span className="flex items-center gap-1 text-[11px] font-medium text-text-muted bg-surface px-2.5 py-0.5 rounded-full border border-border/40">
+                        <span className="flex items-center gap-1 text-xs font-semibold text-text-muted bg-surface px-2.5 py-0.5 rounded-full border border-border/40">
                           Deactivated
                         </span>
                       ) : s.locked ? (
-                        <span className="flex items-center gap-1 text-[11px] font-medium text-danger bg-danger/10 px-2.5 py-0.5 rounded-full border border-danger/20">
-                          <ShieldAlert className="w-3 h-3" /> Account Locked
+                        <span className="flex items-center gap-1 text-xs font-semibold text-danger bg-danger/10 px-2.5 py-0.5 rounded-full border border-danger/20">
+                          <ShieldAlert className="w-3.5 h-3.5" /> Account Locked
                         </span>
                       ) : (
-                        <span className="flex items-center gap-1 text-[11px] font-medium text-success bg-success/10 px-2.5 py-0.5 rounded-full border border-success/20">
+                        <span className="flex items-center gap-1 text-xs font-semibold text-success bg-success/10 px-2.5 py-0.5 rounded-full border border-success/20">
                           Active Account
                         </span>
                       )}
@@ -206,75 +248,23 @@ export function StaffList({ staffList, businessCode }: StaffListProps) {
                     {!isDeactivated && (
                       <div className="pt-1">
                         {s.shiftStatus === "active" ? (
-                          <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-600 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
+                          <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
                             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                             Shift Active (Started {formatTime(s.shiftStartedAt)})
                           </span>
                         ) : s.shiftStatus === "ended" ? (
-                          <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-amber-700 bg-amber-500/10 px-2.5 py-1 rounded-full border border-amber-500/20">
+                          <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-700 bg-amber-500/10 px-2.5 py-1 rounded-full border border-amber-500/20">
                             <span className="w-2 h-2 rounded-full bg-amber-500" />
                             Shift Ended ({formatTime(s.shiftEndedAt)})
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-text-muted bg-surface px-2.5 py-1 rounded-full border border-border/40">
+                          <span className="inline-flex items-center gap-1.5 text-xs font-medium text-text-muted bg-surface px-2.5 py-1 rounded-full border border-border/40">
                             No Active Shift
                           </span>
                         )}
                       </div>
                     )}
                   </div>
-                </div>
-
-                {/* Actions Footer */}
-                <div className="pt-4 border-t border-border/40 flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-1.5">
-                    {s.locked && !isDeactivated && (
-                      <button 
-                        onClick={() => handleUnlock(s.id)}
-                        disabled={actionLoadingId === s.id}
-                        className="flex items-center gap-1 px-3 py-1.5 bg-surface text-text-primary text-[12px] font-medium rounded-full hover:bg-surface/80 transition-colors border border-border/50 disabled:opacity-50"
-                        title="Unlock account after failed PIN attempts"
-                      >
-                        {actionLoadingId === s.id ? (
-                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                        ) : (
-                          <>
-                            <LockOpen className="w-3.5 h-3.5 text-success" />
-                            Unlock
-                          </>
-                        )}
-                      </button>
-                    )}
-
-                    {!isDeactivated && (
-                      <button 
-                        onClick={() => handleRegeneratePin(s)}
-                        disabled={actionLoadingId === s.id}
-                        className="flex items-center gap-1 px-3 py-1.5 bg-brand/10 text-brand text-[12px] font-medium rounded-full hover:bg-brand/20 transition-colors disabled:opacity-50"
-                        title="Generate a new 4-digit login PIN"
-                      >
-                        {actionLoadingId === s.id ? (
-                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                        ) : (
-                          <>
-                            <KeyRound className="w-3.5 h-3.5" />
-                            Regenerate PIN
-                          </>
-                        )}
-                      </button>
-                    )}
-                  </div>
-
-                  {!isDeactivated && (
-                    <button 
-                      onClick={() => setDeactivateConfirmId(s.id)}
-                      disabled={actionLoadingId === s.id}
-                      className="p-1.5 text-text-muted hover:text-danger hover:bg-danger/10 rounded-full transition-colors"
-                      title="Deactivate staff member"
-                    >
-                      <UserX className="w-4 h-4" />
-                    </button>
-                  )}
                 </div>
               </div>
             );
@@ -284,11 +274,11 @@ export function StaffList({ staffList, businessCode }: StaffListProps) {
 
       {/* 1. Add Staff Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
           <div className="bg-background w-full max-w-md rounded-[1.25rem] shadow-xl overflow-hidden border border-border/50">
             <div className="px-6 py-4 border-b border-border/40 flex items-center justify-between">
               <h2 className="font-semibold text-text-primary text-[16px]">Add New Staff Member</h2>
-              <button onClick={() => setIsAddModalOpen(false)} className="text-text-muted hover:text-text-primary p-1">
+              <button onClick={() => setIsAddModalOpen(false)} className="text-text-muted hover:text-text-primary p-2 min-h-[44px] min-w-[44px] flex items-center justify-center">
                 <Plus className="w-5 h-5 rotate-45" />
               </button>
             </div>
@@ -309,10 +299,10 @@ export function StaffList({ staffList, businessCode }: StaffListProps) {
                   placeholder="e.g. Chidimma Okoro"
                   value={newName} 
                   onChange={e => setNewName(e.target.value)}
-                  className="w-full px-3.5 py-2.5 bg-surface border border-border/50 rounded-xl text-sm text-text-primary focus:ring-2 focus:ring-brand/30 outline-none"
+                  className="w-full px-3.5 py-3 bg-surface border border-border/50 rounded-xl text-sm text-text-primary focus:ring-2 focus:ring-brand/30 outline-none min-h-[44px]"
                   autoFocus
                 />
-                <p className="text-[12px] text-text-muted mt-1.5 flex items-center gap-1">
+                <p className="text-xs text-text-muted mt-1.5 flex items-center gap-1">
                   <Info className="w-3.5 h-3.5 shrink-0 text-brand" />
                   A random 4-digit PIN will be generated automatically.
                 </p>
@@ -322,14 +312,14 @@ export function StaffList({ staffList, businessCode }: StaffListProps) {
                 <button 
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="w-1/2 py-2.5 bg-surface border border-border/50 text-text-primary text-[13px] font-medium rounded-full hover:bg-surface/80 transition-colors"
+                  className="w-1/2 py-3 bg-surface border border-border/50 text-text-primary text-xs font-semibold rounded-full hover:bg-surface/80 transition-colors min-h-[44px]"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit" 
                   disabled={loading} 
-                  className="w-1/2 py-2.5 [background:var(--brand-gradient)] text-white text-[13px] font-medium rounded-full hover:opacity-90 transition-opacity flex justify-center items-center"
+                  className="w-1/2 py-3 [background:var(--brand-gradient)] text-white text-xs font-semibold rounded-full hover:opacity-90 transition-opacity flex justify-center items-center min-h-[44px]"
                 >
                   {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Generate Staff PIN"}
                 </button>
@@ -339,66 +329,61 @@ export function StaffList({ staffList, businessCode }: StaffListProps) {
         </div>
       )}
 
-      {/* 2. PIN Reveal Screen / Modal */}
+      {/* 2. PIN Reveal Modal (Full-Screen Takeover on Mobile for Handing Phone to Staff) */}
       {pinRevealData && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-md p-4">
-          <div className="bg-background w-full max-w-md rounded-[1.5rem] shadow-2xl overflow-hidden border border-border/60 animate-in fade-in zoom-in-95 duration-200">
-            <div className="bg-brand/5 border-b border-brand/10 p-6 text-center">
-              <div className="w-12 h-12 bg-brand/10 rounded-full flex items-center justify-center text-brand mx-auto mb-3">
-                <KeyRound className="w-6 h-6" />
+        <div className="fixed inset-0 z-50 flex flex-col justify-between md:justify-center items-center bg-background md:bg-black/60 backdrop-blur-md p-6 sm:p-4 overflow-y-auto">
+          <div className="bg-background w-full max-w-md rounded-3xl md:rounded-[1.5rem] shadow-2xl overflow-hidden border border-border/60 my-auto animate-in fade-in zoom-in-95 duration-200">
+            <div className="bg-brand/10 border-b border-brand/20 p-6 text-center">
+              <div className="w-16 h-16 bg-brand text-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-md">
+                <KeyRound className="w-8 h-8" />
               </div>
-              <h2 className="font-heading font-bold text-text-primary text-xl">
+              <h2 className="font-heading font-extrabold text-text-primary text-2xl">
                 Staff Credentials
               </h2>
               <p className="text-sm text-text-muted mt-1">
-                Login setup for <span className="font-semibold text-text-primary">{pinRevealData.staffName}</span>
+                Hand phone to <strong className="text-brand font-bold">{pinRevealData.staffName}</strong>
               </p>
             </div>
 
-            <div className="p-6 space-y-5">
-              {/* Credentials Box */}
-              <div className="bg-surface border border-border/60 rounded-2xl p-5 space-y-4">
+            <div className="p-6 space-y-6">
+              {/* Massive Credentials Display */}
+              <div className="bg-surface border-2 border-brand/30 rounded-2xl p-6 space-y-5 shadow-inner">
                 {/* Business ID Code */}
-                <div className="flex items-center justify-between border-b border-border/40 pb-3">
-                  <div>
-                    <span className="text-[11px] font-semibold text-text-muted uppercase tracking-wider block">
-                      Business ID Code
-                    </span>
-                    <span className="font-mono text-lg font-bold text-text-primary tracking-wider">
-                      {pinRevealData.businessCode}
-                    </span>
-                  </div>
-                  <span className="text-[11px] bg-background px-2.5 py-1 rounded-full border border-border/50 text-text-muted">
-                    Shop ID
+                <div className="text-center pb-4 border-b border-border/50">
+                  <span className="text-xs font-extrabold text-text-muted uppercase tracking-widest block mb-1">
+                    Business ID Code
+                  </span>
+                  <span className="font-mono text-3xl font-black text-text-primary tracking-widest block">
+                    {pinRevealData.businessCode}
                   </span>
                 </div>
 
-                {/* Plaintext PIN */}
-                <div>
-                  <span className="text-[11px] font-semibold text-text-muted uppercase tracking-wider block mb-1">
-                    4-Digit Staff PIN
+                {/* Massive 4-Digit PIN */}
+                <div className="text-center">
+                  <span className="text-xs font-extrabold text-text-muted uppercase tracking-widest block mb-2">
+                    Staff Login PIN
                   </span>
-                  <div className="bg-background border border-brand/30 rounded-xl p-3 text-center">
-                    <span className="font-mono text-3xl font-extrabold tracking-[0.35em] text-brand">
+                  <div className="bg-background border-2 border-brand rounded-2xl p-4 shadow-sm">
+                    <span className="font-mono text-5xl font-black tracking-[0.3em] text-brand block">
                       {pinRevealData.pin}
                     </span>
                   </div>
                 </div>
               </div>
 
-              {/* Explicit Copy Notice */}
-              <div className="text-[12.5px] text-text-muted leading-relaxed bg-surface/50 border border-border/40 rounded-xl p-3.5 flex items-start gap-2.5">
+              {/* Copy Notice */}
+              <div className="text-xs text-text-muted leading-relaxed bg-surface/50 border border-border/40 rounded-xl p-3.5 flex items-start gap-2.5">
                 <Info className="w-4 h-4 text-brand shrink-0 mt-0.5" />
                 <span>
-                  Give <strong>{pinRevealData.staffName}</strong> both of these — they&apos;ll need the Business ID and this PIN to log in. You won&apos;t see this PIN again after this screen, but you can find the Business ID anytime in Settings.
+                  Provide both the Business ID and PIN to <strong>{pinRevealData.staffName}</strong> for shift login.
                 </span>
               </div>
 
-              {/* Modal Buttons */}
-              <div className="space-y-2 pt-1">
+              {/* Action Buttons */}
+              <div className="space-y-3 pt-1">
                 <button 
                   onClick={copyCredentials}
-                  className="w-full py-2.5 bg-surface border border-border/60 text-text-primary text-[13px] font-medium rounded-full hover:bg-surface/80 transition-colors flex items-center justify-center gap-2"
+                  className="w-full py-3.5 bg-surface border border-border/60 text-text-primary text-xs font-bold rounded-xl hover:bg-surface/80 transition-colors flex items-center justify-center gap-2 min-h-[44px]"
                 >
                   {copied ? (
                     <>
@@ -408,16 +393,16 @@ export function StaffList({ staffList, businessCode }: StaffListProps) {
                   ) : (
                     <>
                       <Copy className="w-4 h-4 text-text-muted" />
-                      <span>Copy Business ID & PIN</span>
+                      <span>Copy Credentials</span>
                     </>
                   )}
                 </button>
 
                 <button 
                   onClick={() => setPinRevealData(null)}
-                  className="w-full py-3 [background:var(--brand-gradient)] text-white text-[13px] font-semibold rounded-full hover:opacity-90 transition-opacity shadow-sm"
+                  className="w-full py-3.5 [background:var(--brand-gradient)] text-white text-sm font-bold rounded-xl hover:opacity-90 transition-opacity shadow-md min-h-[48px]"
                 >
-                  I&apos;ve Noted This Down
+                  Done / Handed to Staff
                 </button>
               </div>
             </div>

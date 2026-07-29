@@ -27,14 +27,14 @@ const FAQ_ITEMS = [
 
 export function FAQ() {
   return (
-    <section id="faq" className="bg-background">
-      <div className="mx-auto max-w-6xl px-6 py-20 sm:px-10 sm:py-28">
-        <div className="grid gap-12 md:grid-cols-[5fr_8fr] md:gap-20">
+    <section id="faq" className="bg-background overflow-hidden">
+      <div className="mx-auto max-w-6xl px-5 py-14 sm:px-10 sm:py-28">
+        <div className="grid gap-8 md:grid-cols-[5fr_8fr] md:gap-20">
           <div>
-            <h2 className="font-heading text-5xl leading-none tracking-tight text-text-primary sm:text-6xl">
+            <h2 className="font-heading text-3xl font-bold leading-none tracking-tight text-text-primary sm:text-6xl">
               FAQs
             </h2>
-            <p className="mt-4 text-text-muted">Six answers, no fine print.</p>
+            <p className="mt-2.5 text-xs sm:text-base text-text-muted">Six answers, no fine print.</p>
           </div>
 
           <div className="divide-y divide-border border-y border-border">
@@ -42,18 +42,18 @@ export function FAQ() {
               <details key={item.q} name="ledgr-faq" className="group">
                 <summary
                   className={
-                    "flex cursor-pointer list-none items-start justify-between gap-6 " +
-                    "py-5 font-medium text-text-primary " +
+                    "flex cursor-pointer list-none items-center justify-between gap-4 " +
+                    "py-4 sm:py-5 min-h-[48px] font-semibold text-xs sm:text-base text-text-primary " +
                     "marker:hidden [&::-webkit-details-marker]:hidden " +
                     "transition-colors hover:text-brand " +
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand " +
-                    "focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    "focus-visible:ring-offset-2 focus-visible:ring-offset-background active:bg-surface/50"
                   }
                 >
-                  <span className="leading-snug">{item.q}</span>
+                  <span className="leading-snug pr-2">{item.q}</span>
                   <svg
                     aria-hidden="true"
-                    className="mt-0.5 size-4 shrink-0 text-text-muted transition-transform duration-200 ease-out group-open:rotate-180 group-hover:text-brand"
+                    className="size-4 shrink-0 text-text-muted transition-transform duration-200 ease-out group-open:rotate-180 group-hover:text-brand"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
@@ -68,7 +68,7 @@ export function FAQ() {
                 </summary>
                 <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out group-open:grid-rows-[1fr]">
                   <div className="overflow-hidden">
-                    <p className="pb-5 pr-8 text-[15px] leading-relaxed text-text-muted opacity-0 translate-y-1 transition-[opacity,transform] duration-200 ease-out group-open:opacity-100 group-open:translate-y-0">
+                    <p className="pb-4 sm:pb-5 pr-4 text-xs sm:text-[15px] leading-relaxed text-text-muted opacity-0 translate-y-1 transition-[opacity,transform] duration-200 ease-out group-open:opacity-100 group-open:translate-y-0">
                       {item.a}
                     </p>
                   </div>

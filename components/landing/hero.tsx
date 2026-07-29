@@ -1,123 +1,76 @@
+import Image from "next/image";
 import { ButtonLink } from "@/components/button";
 import { SampleDataTag } from "@/components/card";
 
 export function Hero() {
   return (
-    <section className="bg-background">
-      <div className="mx-auto grid max-w-6xl gap-12 px-6 pt-20 pb-28 sm:px-10 sm:pt-24 sm:pb-36 md:grid-cols-2 md:items-center md:gap-20">
-        {/* Left: headline + CTAs */}
-        <div>
-          {/* <p className="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-[13px] font-medium text-text-muted">
-            <span
-              aria-hidden="true"
-              className="inline-block size-1.5 rounded-full bg-brand"
-            />
-            Built for bakeries, restaurants, small shops
-          </p> */}
-          <h1 className="font-heading text-[40px] leading-[1.05] tracking-tight font-bold text-text-primary sm:text-6xl">
-            The end-of-day ritual,{" "}
-            finally automated.
+    <section className="bg-background overflow-hidden relative">
+      <div className="mx-auto flex max-w-6xl flex-col items-center text-center px-4 pt-12 pb-16 sm:px-8 sm:pt-20 sm:pb-24">
+        {/* Centered headline + subhead + CTAs */}
+        <div className="flex flex-col items-center max-w-3xl">
+          <h1 className="font-heading text-[36px] leading-[1.1] tracking-tight font-bold text-text-primary sm:text-5xl md:text-6xl">
+            Stop guessing where the money went
           </h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-text-muted sm:text-xl">
-            Ledgr tracks opening, added, sold and closing automatically, adds a
-            waste category, and when the counted closing doesn&apos;t match,
-            surfaces the variance instead of hiding it. Same pattern for the cash
-            drawer.
+          <p className="mt-4 max-w-md text-base leading-relaxed text-text-muted sm:mt-6">
+            Ledgr tracks your stock automatically: opening, added, sold, closing, waste.
+            When the count doesn&apos;t match, it shows you where. Same for cash.
           </p>
-          <div className="mt-10 flex gap-3 sm:flex-row sm:items-center">
-            <ButtonLink href="/signup" size="lg" className="w-full sm:w-auto">
-              Get Started
+          <div className="mt-8 flex gap-3 sm:items-center sm:justify-center w-full sm:w-auto">
+            <ButtonLink 
+              href="/signup" 
+              size="md" 
+              className="w-full sm:w-auto justify-center active:scale-98 transition-transform font-bold px-6"
+            >
+              Get started 
             </ButtonLink>
             <ButtonLink
-              href=""
+              href="/signin?type=pin"
               variant="secondary"
-              size="lg"
-              className="w-full sm:w-auto"
+              size="md"
+              className="w-full sm:w-auto justify-center active:scale-98 transition-transform font-medium px-6"
             >
-              How it works
+              Staff Login
             </ButtonLink>
           </div>
-          <p className="mt-5 text-sm text-text-muted">
-            Free during the MVP. No card required.
+          <p className="mt-4 text-xs text-text-muted sm:text-sm">
+            Free during the MVP. No credit card required.
           </p>
         </div>
 
-        {/* Right: end-of-day teaser card — elevated floating treatment */}
-        <div className="flex justify-center md:justify-end">
-          <div
-            aria-label="End-of-day summary — sample data"
-            className={
-              "w-full max-w-sm rounded-2xl border border-border bg-surface p-5 " +
-              "shadow-[0_0_0_1px_rgba(0,0,0,0.04),0_4px_8px_rgba(0,0,0,0.06),0_20px_48px_rgba(0,0,0,0.14)] " +
-              "dark:shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_20px_48px_rgba(0,0,0,0.5)]"
-            }
-          >
-            {/* Card header */}
-            <div className="mb-4 flex items-center justify-between">
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-wider text-text-muted">
-                  End of day
-                </p>
-                <p className="mt-0.5 font-heading text-base text-text-primary">
-                  Tue 24 Jun
-                </p>
+        {/* Dashboard Preview Showcase */}
+        <div className="mt-12 sm:mt-16 w-full max-w-5xl relative group">
+          {/* Ambient Glow behind mockup */}
+          <div 
+            className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-brand/30 via-emerald-500/20 to-brand/30 opacity-40 blur-2xl transition duration-500 group-hover:opacity-60" 
+            aria-hidden="true" 
+          />
+
+          {/* App Window Frame */}
+          <div className="relative rounded-2xl sm:rounded-3xl border border-border/80 bg-surface/90 p-2 sm:p-3 shadow-2xl backdrop-blur-md">
+            {/* App Header Bar */}
+            <div className="flex items-center justify-between px-3 py-2 border-b border-border/50 mb-2">
+              <div className="flex items-center gap-1.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-danger/80" />
+                <div className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
+                <div className="w-2.5 h-2.5 rounded-full bg-success/80" />
               </div>
-              <span className="rounded-full border border-border bg-background px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-text-muted">
-                Closed
+              <span className="text-[11px] sm:text-xs font-semibold text-text-muted tracking-tight">
+                Owner Dashboard Overview
               </span>
+              <SampleDataTag />
             </div>
 
-            {/* Line items */}
-            <ul className="space-y-2 border-t border-border pt-4">
-              {[
-                { name: "Sourdough loaves", qty: "18 sold" },
-                { name: "Baguettes", qty: "32 sold" },
-                { name: "Chocolate croissant", qty: "22 sold" },
-              ].map((item) => (
-                <li
-                  key={item.name}
-                  className="flex items-center justify-between gap-4"
-                >
-                  <span className="text-[14px] text-text-muted">
-                    {item.name}
-                  </span>
-                  <span className="text-[14px] tabular-nums text-text-primary">
-                    {item.qty}
-                  </span>
-                </li>
-              ))}
-            </ul>
-
-            {/* Total */}
-            <div className="mt-4 flex items-center justify-between border-t border-border pt-4">
-              <span className="text-[12px] font-semibold uppercase tracking-wider text-text-muted">
-                Total revenue
-              </span>
-              <span className="font-heading text-2xl tabular-nums text-text-primary">
-                ₦68,400
-              </span>
+            {/* Dashboard Screenshot */}
+            <div className="relative overflow-hidden rounded-xl sm:rounded-2xl border border-border/50 bg-background">
+              <Image
+                src="/images/Dashbaord.png"
+                alt="Ledgr Owner Dashboard — Daily stock, revenue, and cash variance overview"
+                width={1280}
+                height={800}
+                className="w-full h-auto object-cover object-top transition-transform duration-300 group-hover:scale-[1.005]"
+                priority
+              />
             </div>
-
-            {/* Status stamps */}
-            <div className="mt-4 grid grid-cols-2 gap-2">
-              <div className="rounded-xl border border-[color-mix(in_srgb,var(--success)_30%,transparent)] bg-[color-mix(in_srgb,var(--success)_10%,transparent)] p-3">
-                <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-success">
-                  <span aria-hidden="true">✓</span> Matched
-                </p>
-                <p className="mt-0.5 text-[11px] text-text-muted">
-                  Stock confirmed
-                </p>
-              </div>
-              <div className="rounded-xl border border-[color-mix(in_srgb,var(--danger)_30%,transparent)] bg-[color-mix(in_srgb,var(--danger)_10%,transparent)] p-3">
-                <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-danger">
-                  <span aria-hidden="true">⚠</span> Variance
-                </p>
-                <p className="mt-0.5 text-[11px] tabular-nums text-text-muted">
-                  −₦1,200 · Cash short
-                </p>
-              </div>
-            </div>
-            <SampleDataTag className="mt-3" />
           </div>
         </div>
       </div>

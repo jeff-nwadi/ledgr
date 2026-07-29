@@ -17,21 +17,23 @@ export function ReconciliationSection({
   const isStockMatched = stockVariance === 0;
 
   return (
-    <div className="grid md:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       {/* Cash Variance */}
-      <div className="p-5 rounded-[1rem] bg-background border border-border/50 shadow-sm">
-        <div className="text-[13px] font-medium text-text-muted mb-4">Cash Variance</div>
+      <div className={`p-5 rounded-[1rem] bg-background border shadow-sm transition-all ${
+        cashVariance !== null && !isCashMatched ? "border-danger/40 bg-danger/5" : "border-border/50"
+      }`}>
+        <div className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-2">Cash Variance</div>
         {cashVariance === null ? (
-          <div className="text-xl font-bold font-heading text-text-primary">—</div>
+          <div className="text-2xl font-bold font-heading text-text-muted">—</div>
         ) : isCashMatched ? (
-          <div className="flex items-center gap-2 text-success">
-            <CheckCircle2 className="w-5 h-5" />
-            <span className="text-xl font-bold font-heading">Matched</span>
+          <div className="flex items-center gap-2.5 text-success">
+            <CheckCircle2 className="w-6 h-6 flex-shrink-0" />
+            <span className="text-2xl font-bold font-heading">Balanced (₦0)</span>
           </div>
         ) : (
-          <div className="flex items-center gap-2 text-danger">
-            <AlertCircle className="w-5 h-5" />
-            <span className="text-xl font-bold font-heading">
+          <div className="flex items-center gap-2.5 text-danger">
+            <AlertCircle className="w-6 h-6 flex-shrink-0 animate-pulse" />
+            <span className="text-2xl sm:text-3xl font-extrabold font-heading tracking-tight">
               {cashVariance > 0 ? "+" : "-"}{formatMoney(cashVariance)}
             </span>
           </div>
@@ -39,19 +41,21 @@ export function ReconciliationSection({
       </div>
 
       {/* Stock Variance */}
-      <div className="p-5 rounded-[1rem] bg-background border border-border/50 shadow-sm">
-        <div className="text-[13px] font-medium text-text-muted mb-4">Stock Variance</div>
+      <div className={`p-5 rounded-[1rem] bg-background border shadow-sm transition-all ${
+        stockVariance !== null && !isStockMatched ? "border-danger/40 bg-danger/5" : "border-border/50"
+      }`}>
+        <div className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-2">Stock Variance</div>
         {stockVariance === null ? (
-          <div className="text-xl font-bold font-heading text-text-primary">—</div>
+          <div className="text-2xl font-bold font-heading text-text-muted">—</div>
         ) : isStockMatched ? (
-          <div className="flex items-center gap-2 text-success">
-            <CheckCircle2 className="w-5 h-5" />
-            <span className="text-xl font-bold font-heading">Matched</span>
+          <div className="flex items-center gap-2.5 text-success">
+            <CheckCircle2 className="w-6 h-6 flex-shrink-0" />
+            <span className="text-2xl font-bold font-heading">Balanced (₦0)</span>
           </div>
         ) : (
-          <div className="flex items-center gap-2 text-danger">
-            <AlertCircle className="w-5 h-5" />
-            <span className="text-xl font-bold font-heading">
+          <div className="flex items-center gap-2.5 text-danger">
+            <AlertCircle className="w-6 h-6 flex-shrink-0 animate-pulse" />
+            <span className="text-2xl sm:text-3xl font-extrabold font-heading tracking-tight">
               {stockVariance > 0 ? "+" : "-"}{formatMoney(stockVariance)}
             </span>
           </div>
@@ -60,11 +64,11 @@ export function ReconciliationSection({
 
       {/* Waste Value */}
       <div className="p-5 rounded-[1rem] bg-background border border-border/50 shadow-sm">
-        <div className="flex items-center gap-2 mb-4 text-text-muted">
+        <div className="flex items-center gap-2 mb-2 text-text-muted">
           <Trash2 className="w-4 h-4" />
-          <span className="text-[13px] font-medium">Waste Value</span>
+          <span className="text-xs font-semibold uppercase tracking-wider">Waste Value</span>
         </div>
-        <div className="text-xl font-bold font-heading text-text-primary">
+        <div className="text-2xl sm:text-3xl font-bold font-heading text-text-primary">
           {wasteValue > 0 ? formatMoney(wasteValue) : "₦0"}
         </div>
       </div>

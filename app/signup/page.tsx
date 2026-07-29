@@ -7,6 +7,7 @@ import { Button } from "@/components/button";
 import { Input, Select } from "@/components/input";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { registerOwnerAction } from "@/app/actions/auth";
+import { authClient } from "@/lib/auth/auth-client";
 
 const CURRENCY_OPTIONS = [
   { value: "NGN", label: "₦ NGN — Nigerian Naira" },
@@ -19,6 +20,15 @@ const CURRENCY_OPTIONS = [
 
 export default function SignUpPage() {
   const router = useRouter();
+  const { data: sessionData } = authClient.useSession();
+
+  // If already logged in, redirect immediately
+  React.useEffect(() => {
+    if (sessionData?.user) {
+      const userRole = (sessionData.user as any).role || "owner";
+      window.location.replace(userRole === "staff" ? "/staff" : "/owner");
+    }
+  }, [sessionData]);
 
   // Form fields
   const [businessName, setBusinessName] = React.useState("");
@@ -73,7 +83,7 @@ export default function SignUpPage() {
     try {
       const res = await registerOwnerAction({ businessName, currency, ownerName, email, password });
       if (res?.error) {
-        setErrors({ email: res.error }); // General error shown on email or we can add a general error field
+        setErrors({ email: res.error });
       } else {
         setIsSuccess(true);
       }

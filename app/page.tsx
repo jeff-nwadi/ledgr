@@ -11,8 +11,22 @@ import { FeatureGrid } from "@/components/landing/feature-grid";
 import { FAQ } from "@/components/landing/faq";
 import { ClosingCTA } from "@/components/landing/closing-cta";
 import { Footer } from "@/components/landing/footer";
+import { auth } from "@/lib/auth/auth";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (session?.user) {
+    const userRole = (session.user as any).role || "owner";
+    redirect(userRole === "staff" ? "/staff" : "/owner");
+  }
+
   return (
     <>
       <Navbar />

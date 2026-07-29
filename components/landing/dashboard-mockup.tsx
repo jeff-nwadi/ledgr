@@ -1,203 +1,233 @@
+"use client";
+
+import { useState } from "react";
 import { SampleDataTag } from "@/components/card";
+import { ShieldCheck, Zap, WifiOff, CheckCircle2 } from "lucide-react";
 
 export function DashboardMockup() {
+  const [activeTab, setActiveTab] = useState<"sale" | "waste" | "pin">("sale");
+
   return (
-    <section className="bg-surface">
-      <div className="mx-auto max-w-6xl px-6 py-20 sm:px-10 sm:py-28">
-        {/* Centered heading */}
+    <section className="bg-surface overflow-hidden border-y border-border">
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-10 sm:py-24">
+        {/* Section Header */}
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="font-heading text-3xl leading-tight tracking-tight text-text-primary sm:text-5xl">
-            See the whole day. On one screen.
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-brand/20 bg-brand/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-brand">
+            <Zap className="w-3.5 h-3.5" /> Staff & Counter Experience
+          </span>
+          <h2 className="mt-4 font-heading text-2xl leading-tight font-bold tracking-tight text-text-primary sm:text-4xl md:text-5xl">
+            Built for the counter. Fast for staff.
           </h2>
-          <p className="mt-4 text-lg text-text-muted">
-            Owner dashboard — revenue, profit, variances, and recent activity
-            at a glance.
+          <p className="mt-3 text-sm leading-relaxed text-text-muted sm:mt-4 sm:text-lg">
+            No complex email logins or passwords. Staff log sales, waste, and shift counts in seconds on any smartphone.
           </p>
         </div>
 
-        {/* Coded UI mockup */}
-        <div
-          aria-label="Owner dashboard — sample data"
-          className={
-            "mx-auto mt-12 max-w-5xl overflow-hidden rounded-2xl border border-border bg-background " +
-            "shadow-[0_0_0_1px_rgba(0,0,0,0.04),0_4px_8px_rgba(0,0,0,0.04),0_24px_64px_rgba(0,0,0,0.10)] " +
-            "dark:shadow-[0_0_0_1px_rgba(255,255,255,0.07),0_24px_64px_rgba(0,0,0,0.5)]"
-          }
-        >
-          {/* Window chrome */}
-          <div className="flex items-center gap-2 border-b border-border bg-surface px-4 py-3">
-            <span
-              aria-hidden="true"
-              className="size-2.5 rounded-full bg-danger/50"
-            />
-            <span
-              aria-hidden="true"
-              className="size-2.5 rounded-full bg-[color-mix(in_srgb,var(--brand)_40%,#f5a623)] opacity-70"
-            />
-            <span
-              aria-hidden="true"
-              className="size-2.5 rounded-full bg-success/50"
-            />
-            <span className="ml-3 text-[12px] font-medium text-text-muted">
-              Ledgr — Owner Dashboard
-            </span>
-          </div>
-
-          <div className="flex">
-            {/* Sidebar */}
-            <nav
-              aria-label="Dashboard sidebar"
-              className="hidden w-44 shrink-0 border-r border-border bg-surface sm:block"
-            >
-              <div className="p-4 pb-2">
-                <p className="font-heading text-sm font-semibold text-text-primary">
-                  Ledgr
-                </p>
+        {/* Feature Grid & Phone Showcase */}
+        <div className="mt-12 sm:mt-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* Left / Phone Mockup (5 cols) */}
+          <div className="lg:col-span-6 flex justify-center">
+            <div className="w-full max-w-[340px] sm:max-w-[360px] rounded-[40px] border-[6px] border-text-primary/90 bg-background p-3 shadow-2xl relative overflow-hidden">
+              {/* Phone Notch */}
+              <div className="w-32 h-4 bg-text-primary/90 rounded-b-xl mx-auto mb-3 flex justify-center items-center">
+                <div className="w-12 h-1 bg-surface/30 rounded-full" />
               </div>
-              <ul className="space-y-0.5 px-2 pb-4">
-                {[
-                  { icon: "⌂", label: "Home", active: true },
-                  { icon: "⊡", label: "Products", active: false },
-                  { icon: "◉", label: "Staff", active: false },
-                  { icon: "▤", label: "Reports", active: false },
-                ].map((item) => (
-                  <li key={item.label}>
-                    <div
-                      className={
-                        "flex items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] font-medium " +
-                        (item.active
-                          ? "bg-[color-mix(in_srgb,var(--brand)_12%,transparent)] text-brand"
-                          : "text-text-muted")
-                      }
-                    >
-                      <span aria-hidden="true" className="text-[15px] leading-none">
-                        {item.icon}
-                      </span>
-                      {item.label}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </nav>
 
-            {/* Main panel */}
-            <div className="flex-1 overflow-hidden p-5 sm:p-6">
-              {/* Header */}
-              <div className="mb-5 flex items-center justify-between">
+              {/* Phone Content Area */}
+              <div className="rounded-[28px] border border-border bg-background p-4 min-h-[460px] flex flex-col justify-between">
+                {/* Header inside phone */}
                 <div>
-                  <h3 className="font-heading text-base text-text-primary">
-                    Daily Summary
-                  </h3>
-                  <p className="text-[12px] text-text-muted">Tue 24 Jun 2026</p>
-                </div>
-                <span className="rounded-full border border-border bg-surface px-3 py-1 text-[12px] font-medium text-text-muted">
-                  Closed ✓
-                </span>
-              </div>
-
-              {/* Stat cards */}
-              <dl className="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
-                {[
-                  {
-                    label: "Revenue",
-                    value: "₦68,400",
-                    sub: "from 47 sales",
-                    danger: false,
-                  },
-                  {
-                    label: "Gross Profit",
-                    value: "₦19,200",
-                    sub: "28% margin",
-                    danger: false,
-                  },
-                  {
-                    label: "Cash Variance",
-                    value: "−₦1,200",
-                    sub: "short · ₦47k counted",
-                    danger: true,
-                  },
-                  {
-                    label: "Stock Variance",
-                    value: "−₦800",
-                    sub: "coffee beans 0.3 kg",
-                    danger: true,
-                  },
-                ].map((stat) => (
-                  <div
-                    key={stat.label}
-                    className="rounded-xl border border-border bg-surface p-3.5"
-                  >
-                    <dt className="text-[11px] font-semibold uppercase tracking-wider text-text-muted">
-                      {stat.label}
-                    </dt>
-                    <dd
-                      className={
-                        "mt-1.5 font-heading text-xl tabular-nums leading-none " +
-                        (stat.danger ? "text-danger" : "text-text-primary")
-                      }
-                    >
-                      {stat.value}
-                    </dd>
-                    <p className="mt-1 text-[11px] text-text-muted">
-                      {stat.sub}
-                    </p>
+                  <div className="flex items-center justify-between pb-3 border-b border-border">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-full bg-brand/10 flex items-center justify-center font-bold text-xs text-brand">
+                        A
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-text-primary leading-tight">Adaeze</p>
+                        <p className="text-[10px] text-text-muted">Bakery Counter</p>
+                      </div>
+                    </div>
+                    <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      Active
+                    </span>
                   </div>
-                ))}
-              </dl>
 
-              {/* Recent activity */}
-              <div>
-                <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-text-muted">
-                  Recent activity
-                </p>
-                <ul className="divide-y divide-border overflow-hidden rounded-xl border border-border">
-                  {[
-                    {
-                      dot: "bg-success",
-                      text: "Adaeze closed shift",
-                      detail: "Cash counted: ₦47,000",
-                      time: "7:42 pm",
-                    },
-                    {
-                      dot: "bg-brand",
-                      text: "3 sales logged",
-                      detail: "₦8,200 · cash + card",
-                      time: "4:15 pm",
-                    },
-                    {
-                      dot: "bg-danger",
-                      text: "Coffee beans: variance flagged",
-                      detail: "3.7 kg counted vs 4.0 kg",
-                      time: "7:42 pm",
-                    },
-                  ].map((a) => (
-                    <li
-                      key={a.text}
-                      className="flex items-center gap-3 px-4 py-2.5"
+                  {/* Mode Tabs on Phone */}
+                  <div className="grid grid-cols-3 gap-1 my-3 bg-surface p-1 rounded-xl border border-border">
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab("sale")}
+                      className={`py-1.5 text-[11px] font-bold rounded-lg transition-colors ${
+                        activeTab === "sale"
+                          ? "bg-background text-text-primary shadow-xs"
+                          : "text-text-muted hover:text-text-primary"
+                      }`}
                     >
-                      <span
-                        aria-hidden="true"
-                        className={`size-1.5 shrink-0 rounded-full ${a.dot}`}
-                      />
-                      <span className="min-w-0 flex-1 text-[13px] text-text-primary">
-                        {a.text}
-                      </span>
-                      <span className="hidden shrink-0 text-[12px] text-text-muted sm:block">
-                        {a.detail}
-                      </span>
-                      <span className="shrink-0 text-[11px] tabular-nums text-text-muted">
-                        {a.time}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
+                      + Sale
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab("waste")}
+                      className={`py-1.5 text-[11px] font-bold rounded-lg transition-colors ${
+                        activeTab === "waste"
+                          ? "bg-background text-text-primary shadow-xs"
+                          : "text-text-muted hover:text-text-primary"
+                      }`}
+                    >
+                      + Waste
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab("pin")}
+                      className={`py-1.5 text-[11px] font-bold rounded-lg transition-colors ${
+                        activeTab === "pin"
+                          ? "bg-background text-text-primary shadow-xs"
+                          : "text-text-muted hover:text-text-primary"
+                      }`}
+                    >
+                      PIN Screen
+                    </button>
+                  </div>
+
+                  {/* Dynamic Mockup View */}
+                  {activeTab === "sale" && (
+                    <div className="space-y-3 animate-in fade-in duration-200">
+                      <div className="space-y-2">
+                        {[
+                          { name: "Sourdough Loaf", price: "₦2,400", qty: 2 },
+                          { name: "Baguette", price: "₦1,200", qty: 1 },
+                        ].map((p) => (
+                          <div key={p.name} className="flex items-center justify-between p-2.5 rounded-xl border border-border bg-surface">
+                            <div>
+                              <p className="text-xs font-bold text-text-primary">{p.name}</p>
+                              <p className="text-[10px] text-text-muted">{p.price}</p>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-xs font-semibold text-text-muted">×{p.qty}</span>
+                              <span className="text-xs font-bold text-text-primary tabular-nums">
+                                ₦{(parseInt(p.price.replace(/[^0-9]/g, "")) * p.qty).toLocaleString()}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="pt-2 border-t border-border flex items-center justify-between">
+                        <span className="text-xs text-text-muted">Total Sale</span>
+                        <span className="font-heading text-lg font-bold text-text-primary tabular-nums">₦6,000</span>
+                      </div>
+
+                      <button
+                        type="button"
+                        className="w-full py-3 rounded-xl text-xs font-bold text-white shadow-md active:scale-98 transition-transform bg-[background:var(--brand-gradient)]"
+                      >
+                        ✓ Confirm & Log Sale
+                      </button>
+                    </div>
+                  )}
+
+                  {activeTab === "waste" && (
+                    <div className="space-y-3 animate-in fade-in duration-200">
+                      <div className="p-3 rounded-xl border border-amber-500/20 bg-amber-500/10">
+                        <p className="text-xs font-bold text-amber-700 dark:text-amber-300">Log Spoilage / Waste</p>
+                        <p className="text-[10px] text-text-muted mt-0.5">Reduces calculated closing stock automatically</p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <div className="p-2.5 rounded-xl border border-border bg-surface">
+                          <p className="text-[10px] text-text-muted uppercase font-bold">Item</p>
+                          <p className="text-xs font-bold text-text-primary">Croissant (Stale / Damaged)</p>
+                        </div>
+                        <div className="p-2.5 rounded-xl border border-border bg-surface flex justify-between items-center">
+                          <p className="text-xs font-bold text-text-primary">Quantity: 4 units</p>
+                          <span className="text-xs font-bold text-danger">−₦3,200</span>
+                        </div>
+                      </div>
+
+                      <button
+                        type="button"
+                        className="w-full py-3 rounded-xl text-xs font-bold text-white bg-danger shadow-md active:scale-98 transition-transform"
+                      >
+                        Record Waste Item
+                      </button>
+                    </div>
+                  )}
+
+                  {activeTab === "pin" && (
+                    <div className="space-y-3 text-center py-2 animate-in fade-in duration-200">
+                      <div className="w-10 h-10 rounded-full bg-brand/10 text-brand flex items-center justify-center mx-auto">
+                        <ShieldCheck className="w-5 h-5" />
+                      </div>
+                      <p className="text-xs font-bold text-text-primary">Enter Staff PIN (4–6 Digits)</p>
+                      <div className="flex justify-center gap-1.5 my-1">
+                        {[1, 2, 3, 4].map((dot) => (
+                          <div key={dot} className="w-2.5 h-2.5 rounded-full bg-brand" />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Footer status inside phone */}
+                <div className="pt-3 border-t border-border flex items-center justify-between text-[10px] text-text-muted">
+                  <span className="flex items-center gap-1">
+                    <WifiOff className="w-3 h-3 text-brand" /> Offline queue ready
+                  </span>
+                  <SampleDataTag />
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Footer strip */}
-          <div className="border-t border-border bg-surface px-6 py-2.5">
-            <SampleDataTag />
+          {/* Right / Benefits List (6 cols) */}
+          <div className="lg:col-span-6 space-y-6">
+            <div className="flex items-start gap-4 p-4 rounded-2xl border border-border bg-background transition-all hover:border-brand/30 hover:shadow-sm">
+              <div className="w-10 h-10 shrink-0 rounded-xl bg-brand/10 text-brand flex items-center justify-center font-bold">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-heading text-lg font-bold text-text-primary">
+                  Fast 4–6 Digit Staff PIN Access
+                </h3>
+                <p className="mt-1 text-sm text-text-muted leading-relaxed">
+                  No passwords, emails, or personal accounts required for shop staff. Simply assign a 4–6 digit PIN to each staff member scoped directly to your business.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4 p-4 rounded-2xl border border-border bg-background transition-all hover:border-brand/30 hover:shadow-sm">
+              <div className="w-10 h-10 shrink-0 rounded-xl bg-brand/10 text-brand flex items-center justify-center font-bold">
+                <Zap className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-heading text-lg font-bold text-text-primary">
+                  3 Taps to Record Sales & Waste
+                </h3>
+                <p className="mt-1 text-sm text-text-muted leading-relaxed">
+                  Designed for mobile phones used with one hand during busy rush hours. Staff tap product tiles to instantly record sales or log spoilage.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4 p-4 rounded-2xl border border-border bg-background transition-all hover:border-brand/30 hover:shadow-sm">
+              <div className="w-10 h-10 shrink-0 rounded-xl bg-brand/10 text-brand flex items-center justify-center font-bold">
+                <WifiOff className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-heading text-lg font-bold text-text-primary">
+                  Offline-First Queue & Sync
+                </h3>
+                <p className="mt-1 text-sm text-text-muted leading-relaxed">
+                  Internet connection dropped in the shop? Sales and waste entries are saved locally on the device and sync automatically to Neon as soon as connection restores.
+                </p>
+              </div>
+            </div>
+
+            <div className="pt-2 flex items-center gap-2 text-xs font-semibold text-text-muted">
+              <CheckCircle2 className="w-4 h-4 text-success" />
+              Works on Android, iPhone, and tablets without installing any app.
+            </div>
           </div>
         </div>
       </div>

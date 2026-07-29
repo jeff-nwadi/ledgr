@@ -43,30 +43,32 @@ const FEATURE_GRID_ITEMS = [
 
 export function FeatureGrid() {
   return (
-    <section id="features" className="border-y border-border bg-surface">
-      <div className="mx-auto max-w-6xl px-6 py-20 sm:px-10 sm:py-28">
-        <h2 className="font-heading text-3xl leading-tight tracking-tight text-text-primary sm:text-4xl">
+    <section id="features" className="border-y border-border bg-surface overflow-hidden">
+      <div className="mx-auto max-w-6xl px-5 py-14 sm:px-10 sm:py-28">
+        <h2 className="font-heading text-2xl font-bold leading-tight tracking-tight text-text-primary sm:text-4xl">
           Everything in one platform.
         </h2>
-        <p className="mt-3 max-w-xl text-text-muted">
+        <p className="mt-2 max-w-xl text-xs sm:text-base text-text-muted">
           Eight features. No middleware. No bolt-ons. No per-transaction fees.
         </p>
-        <ul className="mt-10 grid grid-cols-1 border-l border-t border-border sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-8 grid grid-cols-1 border-l border-t border-border sm:grid-cols-2 lg:grid-cols-3 sm:mt-10">
           {FEATURE_GRID_ITEMS.map((item) => (
             <li
               key={item.title}
-              className="border-b border-r border-border p-6 sm:p-7"
+              className="border-b border-r border-border p-4 sm:p-7"
             >
-              <span
-                aria-hidden="true"
-                className="inline-flex size-9 items-center justify-center rounded-lg border border-border bg-background text-base leading-none text-text-muted"
-              >
-                {item.icon}
-              </span>
-              <h3 className="mt-4 font-heading text-lg text-text-primary">
-                {item.title}
-              </h3>
-              <p className="mt-1.5 text-[15px] leading-relaxed text-text-muted">
+              <div className="flex items-center gap-3">
+                <span
+                  aria-hidden="true"
+                  className="inline-flex size-8 shrink-0 items-center justify-center rounded-lg border border-border bg-background text-sm leading-none text-brand shadow-xs"
+                >
+                  {item.icon}
+                </span>
+                <h3 className="font-heading text-base sm:text-lg font-bold text-text-primary">
+                  {item.title}
+                </h3>
+              </div>
+              <p className="mt-2 text-xs sm:text-[15px] leading-relaxed text-text-muted">
                 {item.body}
               </p>
             </li>

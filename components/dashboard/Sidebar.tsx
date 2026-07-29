@@ -2,8 +2,21 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Home, FileText, Package, DollarSign, Users, UserSquare2, BarChart2, Settings } from "lucide-react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { 
+  Home, 
+  FileText, 
+  Package, 
+  DollarSign, 
+  Users, 
+  UserSquare2, 
+  BarChart2, 
+  Settings,
+  ShoppingBag,
+  Trash2,
+  ClipboardList,
+  Clock
+} from "lucide-react";
 import { PanelLeftIcon } from "@/components/animate-ui/icons/panel-left";
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/animate-ui/components/animate/tooltip";
 
@@ -11,7 +24,15 @@ interface SidebarProps {
   userRole?: string;
 }
 
-const ownerLinks = [
+interface SidebarLink {
+  href: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  exact?: boolean;
+  tab?: string;
+}
+
+const ownerLinks: SidebarLink[] = [
   { href: "/owner", label: "Home", icon: Home, exact: true },
   { href: "/owner/daily-summary", label: "Daily Summary", icon: FileText },
   { href: "/owner/products", label: "Products", icon: Package },
@@ -21,14 +42,20 @@ const ownerLinks = [
   { href: "/owner/reports", label: "Reports", icon: BarChart2 },
 ];
 
-const staffLinks = [
-  { href: "/staff", label: "Shift Home", icon: Home, exact: true },
+const staffLinks: SidebarLink[] = [
+  { href: "/staff", tab: "home", label: "Overview", icon: Home },
+  { href: "/staff?tab=sale", tab: "sale", label: "Log Sale", icon: ShoppingBag },
+  { href: "/staff?tab=waste", tab: "waste", label: "Log Waste", icon: Trash2 },
+  { href: "/staff?tab=stock", tab: "stock", label: "Stock Count", icon: ClipboardList },
+  { href: "/staff?tab=activity", tab: "activity", label: "Activity Log", icon: Clock },
 ];
 
 export function Sidebar({ userRole = "owner" }: SidebarProps) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [isCollapsed, setIsCollapsed] = useState(false);
 
+  const currentTab = searchParams.get("tab") || "home";
   const mainLinks = userRole === "staff" ? staffLinks : ownerLinks;
 
   return (
@@ -46,28 +73,27 @@ export function Sidebar({ userRole = "owner" }: SidebarProps) {
           </button>
         </div>
 
-        {userRole !== "staff" && (
-          <div className={`px-4 mb-2 ${isCollapsed ? "flex justify-center px-2" : ""}`}>
-            <Tooltip side="right">
-              <TooltipTrigger asChild>
-                <Link 
-                  href="/owner/pos" 
-                  className={`flex items-center justify-center gap-2 ${isCollapsed ? "w-10 h-10 p-0" : "w-full py-2.5"} [background:var(--brand-gradient)] text-white text-[13px] font-medium rounded-xl hover:opacity-90 shadow-sm transition-all`}
-                >
-                  <DollarSign className="w-4 h-4" />
-                  {!isCollapsed && "New Sale"}
-                </Link>
-              </TooltipTrigger>
-              {isCollapsed && <TooltipContent>New Sale</TooltipContent>}
-            </Tooltip>
-          </div>
-        )}
+        {/* Primary Action Button */}
+        <div className={`px-4 mb-2 ${isCollapsed ? "flex justify-center px-2" : ""}`}>
+          <Tooltip side="right">
+            <TooltipTrigger asChild>
+              <Link 
+                href={userRole === "staff" ? "/staff?tab=sale" : "/owner/pos"} 
+                className={`flex items-center justify-center gap-2 ${isCollapsed ? "w-10 h-10 p-0" : "w-full py-2.5"} [background:var(--brand-gradient)] text-white text-[13px] font-medium rounded-xl hover:opacity-90 shadow-sm transition-all`}
+              >
+                {userRole === "staff" ? <ShoppingBag className="w-4 h-4" /> : <DollarSign className="w-4 h-4" />}
+                {!isCollapsed && (userRole === "staff" ? "Log Sale" : "New Sale")}
+              </Link>
+            </TooltipTrigger>
+            {isCollapsed && <TooltipContent>{userRole === "staff" ? "Log Sale" : "New Sale"}</TooltipContent>}
+          </Tooltip>
+        </div>
 
         <nav className="flex-1 px-3 space-y-1 overflow-y-auto mt-2">
           {mainLinks.map((link) => {
-            const isActive = link.exact 
-              ? pathname === link.href 
-              : pathname.startsWith(link.href);
+            const isActive = userRole === "staff"
+              ? (link.tab ? currentTab === link.tab : (pathname === "/staff" && currentTab === "home"))
+              : (link.exact ? pathname === link.href : pathname.startsWith(link.href));
 
             const Icon = link.icon;
 
@@ -76,11 +102,11 @@ export function Sidebar({ userRole = "owner" }: SidebarProps) {
                 href={link.href} 
                 className={`flex items-center ${isCollapsed ? "justify-center px-0 w-10 h-10 mx-auto" : "gap-3 px-3 py-2.5"} font-medium rounded-lg transition-colors ${
                   isActive 
-                    ? "bg-surface text-text-primary" 
+                    ? "bg-surface text-text-primary font-bold" 
                     : "hover:bg-surface/50 text-text-muted hover:text-text-primary"
                 }`}
               >
-                <Icon className="w-[18px] h-[18px]" strokeWidth={2} />
+                <Icon className="w-[18px] h-[18px]" strokeWidth={isActive ? 2.5 : 2} />
                 {!isCollapsed && link.label}
               </Link>
             );

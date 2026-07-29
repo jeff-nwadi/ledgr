@@ -64,8 +64,9 @@ export function ProductList({ products, categories }: { products: any[], categor
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-col sm:flex-row gap-3">
+    <div className="space-y-4 relative">
+      {/* Sticky Search & Filter Bar */}
+      <div className="sticky top-14 md:top-0 z-20 bg-background/95 backdrop-blur-xs py-2 flex flex-col sm:flex-row gap-3 border-b border-border/30">
         <div className="relative flex-1">
           <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
           <input 
@@ -73,7 +74,7 @@ export function ProductList({ products, categories }: { products: any[], categor
             placeholder="Search products..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-surface border border-border/50 rounded-lg text-[13px] text-text-primary placeholder:text-text-muted/60 focus:outline-none focus:ring-1 focus:ring-brand/50 transition-shadow"
+            className="w-full pl-9 pr-4 py-2.5 bg-surface border border-border/50 rounded-xl text-sm text-text-primary placeholder:text-text-muted/60 focus:outline-none focus:ring-1 focus:ring-brand/50 transition-shadow min-h-[44px]"
           />
         </div>
         
@@ -81,7 +82,7 @@ export function ProductList({ products, categories }: { products: any[], categor
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="w-full sm:w-48 px-3 py-2 bg-surface border border-border/50 rounded-lg text-[13px] text-text-primary focus:outline-none focus:ring-1 focus:ring-brand/50 transition-shadow"
+            className="w-full sm:w-48 px-3 py-2.5 bg-surface border border-border/50 rounded-xl text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand/50 transition-shadow min-h-[44px]"
           >
             <option value="all">All Categories</option>
             {categories.map(cat => (
@@ -91,7 +92,98 @@ export function ProductList({ products, categories }: { products: any[], categor
         )}
       </div>
 
-      <div className="rounded-[1rem] border border-border/50 bg-background shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] overflow-hidden">
+      {/* Floating Action Button (FAB) for Add Product on Mobile */}
+      <button
+        onClick={() => { setActiveProduct(null); setModalMode("edit"); }}
+        className="fixed bottom-20 right-4 z-30 md:hidden p-4 rounded-full text-white shadow-xl [background:var(--brand-gradient)] active:scale-95 transition-transform flex items-center justify-center min-h-[56px] min-w-[56px]"
+        aria-label="Add Product"
+      >
+        <Package className="w-6 h-6" />
+      </button>
+
+      {/* Mobile Product Cards View */}
+      <div className="block md:hidden space-y-3">
+        {filteredProducts.map((p) => {
+          const isLowStock = p.lowStockThreshold !== null && p.currentStock <= p.lowStockThreshold;
+
+          return (
+            <div 
+              key={p.id} 
+              className={`p-4 rounded-xl border bg-background shadow-xs space-y-3 transition-colors ${
+                archivingProduct?.id === p.id ? 'opacity-50' : 'border-border/50'
+              }`}
+            >
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <h3 className="font-bold text-text-primary text-base">{p.name}</h3>
+                  <div className="text-xs text-text-muted flex items-center gap-2 mt-0.5">
+                    <span>Unit: {p.unit}</span>
+                    {p.category && (
+                      <>
+                        <span>•</span>
+                        <span>{p.category}</span>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                <span className={`inline-flex items-center px-2.5 py-1 rounded-full font-bold text-xs ${
+                  isLowStock
+                    ? 'bg-danger/10 text-danger border border-danger/20'
+                    : 'bg-success/10 text-success border border-success/20'
+                }`}>
+                  {isLowStock && <AlertCircle className="w-3.5 h-3.5 mr-1" />}
+                  {p.currentStock.toLocaleString()} in stock
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between pt-2 border-t border-border/30 text-xs">
+                <div>
+                  <span className="text-text-muted block text-[11px]">Selling Price</span>
+                  <span className="font-bold text-text-primary text-sm">{formatMoney(p.sellingPrice)}</span>
+                </div>
+                {p.costPrice !== null && (
+                  <div className="text-right">
+                    <span className="text-text-muted block text-[11px]">Cost Price</span>
+                    <span className="font-medium text-text-muted">{formatMoney(p.costPrice)}</span>
+                  </div>
+                )}
+              </div>
+
+              <div className="flex items-center justify-end gap-2 pt-2 border-t border-border/20">
+                <button 
+                  onClick={() => { setActiveProduct(p); setModalMode("edit"); }}
+                  className="px-3 py-1.5 text-xs font-medium text-text-primary bg-surface hover:bg-border/50 rounded-lg transition-colors min-h-[44px] flex items-center gap-1.5"
+                >
+                  <Edit className="w-3.5 h-3.5" /> Edit
+                </button>
+                <button 
+                  onClick={() => { setActiveProduct(p); setModalMode("duplicate"); }}
+                  className="px-3 py-1.5 text-xs font-medium text-text-primary bg-surface hover:bg-border/50 rounded-lg transition-colors min-h-[44px] flex items-center gap-1.5"
+                >
+                  <Copy className="w-3.5 h-3.5" /> Duplicate
+                </button>
+                <button 
+                  onClick={() => setArchivingProduct({ id: p.id, name: p.name })}
+                  disabled={archivingProduct?.id === p.id || isArchiving}
+                  className="px-3 py-1.5 text-xs font-medium text-danger bg-danger/10 hover:bg-danger/20 rounded-lg transition-colors min-h-[44px] flex items-center gap-1.5"
+                >
+                  <Archive className="w-3.5 h-3.5" /> Archive
+                </button>
+              </div>
+            </div>
+          );
+        })}
+
+        {filteredProducts.length === 0 && (
+          <div className="p-8 text-center text-text-muted text-sm bg-background border border-border/40 rounded-xl">
+            No products match your search.
+          </div>
+        )}
+      </div>
+
+      {/* Desktop Table View */}
+      <div className="hidden md:block rounded-[1rem] border border-border/50 bg-background shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-[13px]">
             <thead className="bg-surface/50 border-b border-border/40 text-text-muted">

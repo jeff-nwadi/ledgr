@@ -1,4 +1,8 @@
 import { ReactNode } from "react";
+import { Sidebar } from "@/components/dashboard/Sidebar";
+import { TopBar } from "@/components/dashboard/TopBar";
+import { MobileBottomNav } from "@/components/dashboard/MobileBottomNav";
+import { AuthNavigationGuard } from "@/components/auth/AuthNavigationGuard";
 import { auth } from "@/lib/auth/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -32,8 +36,16 @@ export default async function StaffLayout({ children }: { children: ReactNode })
   }
 
   return (
-    <div className="min-h-screen bg-background text-text-primary">
-      {children}
+    <div className="flex h-screen bg-background overflow-hidden text-text-primary">
+      <AuthNavigationGuard userRole="staff" />
+      <Sidebar userRole="staff" />
+      <div className="flex-1 flex flex-col min-w-0 h-full relative">
+        <TopBar user={session.user} />
+        <main className="flex-1 overflow-y-auto p-4 md:p-8 pb-20 md:pb-8">
+          {children}
+        </main>
+        <MobileBottomNav userRole="staff" />
+      </div>
     </div>
   );
 }

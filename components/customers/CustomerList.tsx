@@ -98,38 +98,62 @@ export function CustomerList({ customers }: CustomerListProps) {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filtered.map(c => (
-            <div key={c.id} className="bg-background border border-border/50 rounded-2xl p-5 hover:border-brand/30 transition-colors shadow-sm">
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h3 className="font-semibold text-text-primary text-[15px]">{c.name}</h3>
-                  {c.phone && <p className="text-[12px] text-text-muted mt-0.5">{c.phone}</p>}
-                </div>
-                <div className="w-10 h-10 bg-surface rounded-full flex items-center justify-center text-brand">
-                  <User className="w-5 h-5" />
-                </div>
-              </div>
-              
-              <div className="pt-4 border-t border-border/40 flex items-center justify-between">
-                <div>
-                  <p className="text-[11px] uppercase tracking-wide font-medium text-text-muted mb-0.5">Owed Balance</p>
-                  <p className={`font-semibold text-[15px] ${c.balanceOwed > 0 ? 'text-danger' : 'text-text-primary'}`}>
-                    {formatMoney(c.balanceOwed)}
-                  </p>
+          {filtered.map(c => {
+            const isOwing = c.balanceOwed > 0;
+
+            return (
+              <div 
+                key={c.id} 
+                className={`bg-background border rounded-2xl p-5 transition-all shadow-xs space-y-4 ${
+                  isOwing ? "border-danger/40 bg-danger/5" : "border-border/50 hover:border-brand/30"
+                }`}
+              >
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="font-bold text-text-primary text-base sm:text-[17px]">{c.name}</h3>
+                    {c.phone && <p className="text-xs text-text-muted mt-0.5">{c.phone}</p>}
+                  </div>
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                    isOwing ? "bg-danger/10 text-danger" : "bg-emerald-500/10 text-emerald-600"
+                  }`}>
+                    <User className="w-5 h-5" />
+                  </div>
                 </div>
                 
-                {c.balanceOwed > 0 && (
+                {/* Visual Anchor: Owed Balance Big & Color-coded */}
+                <div className="p-3 rounded-xl bg-background/90 border border-border/40 flex items-center justify-between">
+                  <div>
+                    <p className="text-[11px] uppercase tracking-wider font-semibold text-text-muted">Balance Status</p>
+                    <p className={`font-extrabold text-xl sm:text-2xl mt-0.5 tracking-tight ${
+                      isOwing ? 'text-danger' : 'text-emerald-600'
+                    }`}>
+                      {formatMoney(c.balanceOwed)}
+                    </p>
+                  </div>
+                  <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${
+                    isOwing ? 'bg-danger/10 text-danger border border-danger/20' : 'bg-emerald-500/10 text-emerald-600 border border-emerald-500/20'
+                  }`}>
+                    {isOwing ? "Owing Debt" : "Paid Up"}
+                  </span>
+                </div>
+
+                {/* Mark Payment Action Button (≥44px touch target) */}
+                {isOwing ? (
                   <button 
                     onClick={() => setPaymentModalData(c)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-brand/10 text-brand text-[12px] font-medium rounded-full hover:bg-brand/20 transition-colors"
+                    className="w-full flex items-center justify-center gap-2 py-3 px-4 [background:var(--brand-gradient)] text-white text-xs font-bold rounded-xl shadow-xs hover:opacity-90 transition-opacity min-h-[44px]"
                   >
-                    <CreditCard className="w-3.5 h-3.5" />
-                    Receive Pay
+                    <CreditCard className="w-4 h-4" />
+                    Mark Payment Received
                   </button>
+                ) : (
+                  <div className="text-center py-2 text-xs font-medium text-text-muted/60">
+                    No outstanding balance
+                  </div>
                 )}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 

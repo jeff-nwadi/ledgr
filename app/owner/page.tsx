@@ -62,10 +62,10 @@ export default async function OwnerDashboardPage() {
     <div className="max-w-6xl mx-auto space-y-8 pb-12">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-heading text-text-primary">
+          <h1 className="text-xl md:text-2xl lg:text-3xl font-heading text-text-primary">
             {greeting}, {userName}
           </h1>
-          <p className="text-xs text-text-muted mt-1">Here is your shop's real-time financial and stock ledger overview.</p>
+          <p className="text-xs  text-text-muted mt-1">Here is your shop's real-time financial and stock ledger overview.</p>
         </div>
 
         <Link
@@ -96,20 +96,20 @@ export default async function OwnerDashboardPage() {
       {/* Main Grid: Revenue Trend Chart & Shift Close-out */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Revenue Line Chart */}
-        <div className="lg:col-span-2 rounded-[1rem] border border-border/50 bg-background p-6 flex flex-col shadow-[0_1px_3px_0_rgba(0,0,0,0.02)]">
-          <div className="flex justify-between items-start">
-            <div className="space-y-1.5">
-              <h3 className="text-text-muted text-[15px] font-medium">Gross Sales Revenue</h3>
-              <p className="text-[32px] font-semibold text-text-primary tracking-tight">
+        <div className="lg:col-span-2 rounded-[1rem] border border-border/50 bg-background p-4 sm:p-6 flex flex-col shadow-[0_1px_3px_0_rgba(0,0,0,0.02)]">
+          <div className="flex flex-row justify-between items-start gap-2">
+            <div className="space-y-1">
+              <h3 className="text-text-muted text-xs sm:text-[15px] font-medium">Gross Sales Revenue</h3>
+              <p className="text-2xl sm:text-[32px] font-semibold text-text-primary tracking-tight">
                 {currencySymbol}{grossVolume.toLocaleString()}
               </p>
             </div>
-            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-brand/10 text-brand">
+            <span className="text-[11px] sm:text-xs font-semibold px-2.5 py-1 rounded-full bg-brand/10 text-brand whitespace-nowrap">
               Last 14 Days
             </span>
           </div>
 
-          <div className="mt-4 flex-1">
+          <div className="mt-4 flex-1 min-h-[180px] sm:min-h-[260px]">
             <RevenueChart data={chartData} currencySymbol={currencySymbol} />
           </div>
         </div>
@@ -117,9 +117,9 @@ export default async function OwnerDashboardPage() {
         {/* Right Side: Shift Close-out & Recent Activity */}
         <div className="space-y-6">
           {/* Today's Shift Close-out Status Card */}
-          <div className="rounded-[1rem] border border-border/50 bg-background p-6 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] space-y-4">
+          <div className="rounded-[1rem] border border-border/50 bg-background p-5 sm:p-6 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-[15px] text-text-primary font-semibold">Today's Close-out Status</h3>
+              <h3 className="text-sm sm:text-[15px] text-text-primary font-semibold">Today's Close-out Status</h3>
               <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${
                 analytics.hasClosedShiftToday ? "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20" : "bg-amber-500/10 text-amber-600 border border-amber-500/20"
               }`}>
@@ -131,9 +131,9 @@ export default async function OwnerDashboardPage() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className={`w-2 h-2 rounded-full ${todayCashVariance >= 0 ? "bg-emerald-500" : "bg-rose-500"}`}></span>
-                  <span className="text-[13px] font-medium text-text-muted">Cash Variance</span>
+                  <span className="text-xs sm:text-[13px] font-medium text-text-muted">Cash Variance</span>
                 </div>
-                <span className={`text-[13px] font-bold ${todayCashVariance >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
+                <span className={`text-xs sm:text-[13px] font-bold ${todayCashVariance >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
                   {analytics.hasClosedShiftToday ? `${currencySymbol}${todayCashVariance.toLocaleString()}` : "Pending Shift Close"}
                 </span>
               </div>
@@ -141,9 +141,9 @@ export default async function OwnerDashboardPage() {
               <div className="flex items-center justify-between border-t border-border/40 pt-2">
                 <div className="flex items-center gap-2">
                   <span className={`w-2 h-2 rounded-full ${todayStockVarianceValue >= 0 ? "bg-emerald-500" : "bg-rose-500"}`}></span>
-                  <span className="text-[13px] font-medium text-text-muted">Stock Variance Value</span>
+                  <span className="text-xs sm:text-[13px] font-medium text-text-muted">Stock Variance Value</span>
                 </div>
-                <span className={`text-[13px] font-bold ${todayStockVarianceValue >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
+                <span className={`text-xs sm:text-[13px] font-bold ${todayStockVarianceValue >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
                   {analytics.hasClosedShiftToday ? `${currencySymbol}${todayStockVarianceValue.toLocaleString()}` : "Pending Shift Close"}
                 </span>
               </div>
@@ -151,8 +151,8 @@ export default async function OwnerDashboardPage() {
 
             <div className="pt-2">
               <Link 
-                href="/owner/daily"
-                className="w-full block text-center py-2 bg-surface hover:bg-border/50 text-text-primary text-[13px] font-medium rounded-xl transition-colors border border-border/50"
+                href="/owner/daily-summary"
+                className="w-full block text-center py-2.5 bg-surface hover:bg-border/50 text-text-primary text-xs sm:text-[13px] font-medium rounded-xl transition-colors border border-border/50 min-h-[44px] flex items-center justify-center"
               >
                 View Full Daily Stock Ledger →
               </Link>
@@ -160,13 +160,13 @@ export default async function OwnerDashboardPage() {
           </div>
 
           {/* Recent Activity Feed */}
-          <div className="rounded-[1rem] border border-border/50 bg-background p-6 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] flex flex-col h-72">
-            <h3 className="text-[15px] text-text-primary font-semibold mb-3">Recent Activity</h3>
+          <div className="rounded-[1rem] border border-border/50 bg-background p-5 sm:p-6 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] flex flex-col h-64 sm:h-72">
+            <h3 className="text-sm sm:text-[15px] text-text-primary font-semibold mb-3">Recent Activity</h3>
             {activities.length === 0 ? (
               <div className="flex-1 flex flex-col items-center justify-center text-center space-y-2">
                 <Activity className="w-8 h-8 text-text-muted/40" />
-                <p className="text-[13px] font-semibold text-text-primary">Nothing here yet</p>
-                <p className="text-[12px] text-text-muted">Sales and stock changes will appear here live.</p>
+                <p className="text-xs sm:text-[13px] font-semibold text-text-primary">Nothing here yet</p>
+                <p className="text-[11px] text-text-muted">Sales and stock changes will appear here live.</p>
               </div>
             ) : (
               <div className="flex-1 overflow-y-auto space-y-3 pr-1 divide-y divide-border/40">
@@ -185,72 +185,72 @@ export default async function OwnerDashboardPage() {
         </div>
       </div>
 
-      {/* Financial & Inventory KPI Overview Cards */}
+      {/* Financial & Inventory KPI Overview Cards (2x2 grid on mobile) */}
       <div className="space-y-4 pt-4">
-        <h2 className="text-[18px] font-medium text-text-primary">Key Financial & Inventory Metrics</h2>
+        <h2 className="text-base sm:text-[18px] font-medium text-text-primary">Key Financial & Inventory Metrics</h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {/* Gross Sales Volume */}
-          <div className="rounded-[1rem] border border-border/50 bg-background p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] space-y-2">
-            <span className="text-[13px] font-medium text-text-muted block">Gross Sales Volume</span>
-            <p className="text-[24px] font-bold text-text-primary tracking-tight">
+          <div className="rounded-[1rem] border border-border/50 bg-background p-3.5 sm:p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] space-y-1.5">
+            <span className="text-xs sm:text-[13px] font-medium text-text-muted block truncate">Gross Sales Volume</span>
+            <p className="text-lg sm:text-[24px] font-bold text-text-primary tracking-tight truncate">
               {currencySymbol}{grossVolume.toLocaleString()}
             </p>
-            <span className="text-[11px] text-text-muted block">Total customer transactions</span>
+            <span className="text-[10px] sm:text-[11px] text-text-muted block truncate">Total customer transactions</span>
           </div>
 
           {/* Gross Profit (Net Profit) */}
-          <div className="rounded-[1rem] border border-border/50 bg-background p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] space-y-2">
-            <span className="text-[13px] font-medium text-text-muted block">Gross Profit (Revenue - COGS)</span>
-            <p className="text-[24px] font-bold text-emerald-600 tracking-tight">
+          <div className="rounded-[1rem] border border-border/50 bg-background p-3.5 sm:p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] space-y-1.5">
+            <span className="text-xs sm:text-[13px] font-medium text-text-muted block truncate">Gross Profit</span>
+            <p className="text-lg sm:text-[24px] font-bold text-emerald-600 tracking-tight truncate">
               {currencySymbol}{netVolume.toLocaleString()}
             </p>
-            <span className="text-[11px] text-text-muted block">Profit after product cost</span>
+            <span className="text-[10px] sm:text-[11px] text-text-muted block truncate">Revenue minus COGS</span>
           </div>
 
           {/* Stock Value On Hand */}
-          <div className="rounded-[1rem] border border-border/50 bg-background p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] space-y-2">
-            <span className="text-[13px] font-medium text-text-muted block">Stock Value on Hand</span>
-            <p className="text-[24px] font-bold text-brand tracking-tight">
+          <div className="rounded-[1rem] border border-border/50 bg-background p-3.5 sm:p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] space-y-1.5">
+            <span className="text-xs sm:text-[13px] font-medium text-text-muted block truncate">Stock Value On Hand</span>
+            <p className="text-lg sm:text-[24px] font-bold text-brand tracking-tight truncate">
               {currencySymbol}{stockValue.toLocaleString()}
             </p>
-            <span className="text-[11px] text-text-muted block">Sum of stock × cost price</span>
+            <span className="text-[10px] sm:text-[11px] text-text-muted block truncate">Stock × cost price</span>
           </div>
 
           {/* Waste / Spoilage Value */}
-          <div className="rounded-[1rem] border border-border/50 bg-background p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] space-y-2">
-            <span className="text-[13px] font-medium text-text-muted block">Total Waste / Spoilage</span>
-            <p className="text-[24px] font-bold text-rose-600 tracking-tight">
+          <div className="rounded-[1rem] border border-border/50 bg-background p-3.5 sm:p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] space-y-1.5">
+            <span className="text-xs sm:text-[13px] font-medium text-text-muted block truncate">Total Waste Value</span>
+            <p className="text-lg sm:text-[24px] font-bold text-rose-600 tracking-tight truncate">
               {currencySymbol}{wasteValue.toLocaleString()}
             </p>
-            <span className="text-[11px] text-text-muted block">Damaged/spoiled inventory cost</span>
+            <span className="text-[10px] sm:text-[11px] text-text-muted block truncate">Spoiled inventory cost</span>
           </div>
         </div>
 
-        {/* Second Row: Customer Debt & Total Customers */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="rounded-[1rem] border border-border/50 bg-background p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] flex items-center justify-between">
+        {/* Second Row: Customer Debt & Total Customers (Stacked or 2 columns) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+          <div className="rounded-[1rem] border border-border/50 bg-background p-4 sm:p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] flex items-center justify-between">
             <div>
-              <span className="text-[13px] font-medium text-text-muted block">Total Customer Debt Owed</span>
-              <p className="text-[24px] font-bold text-amber-600 tracking-tight mt-1">
+              <span className="text-xs sm:text-[13px] font-medium text-text-muted block">Total Customer Debt</span>
+              <p className="text-xl sm:text-[24px] font-bold text-amber-600 tracking-tight mt-1">
                 {currencySymbol}{customerDebtTotal.toLocaleString()}
               </p>
-              <span className="text-[11px] text-text-muted">Uncollected credit sales</span>
+              <span className="text-[10px] sm:text-[11px] text-text-muted">Uncollected credit sales</span>
             </div>
-            <Link href="/owner/customers" className="text-xs text-brand font-semibold hover:underline">
+            <Link href="/owner/customers" className="text-xs text-brand font-semibold hover:underline min-h-[44px] flex items-center">
               View Debtors →
             </Link>
           </div>
 
-          <div className="rounded-[1rem] border border-border/50 bg-background p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] flex items-center justify-between">
+          <div className="rounded-[1rem] border border-border/50 bg-background p-4 sm:p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] flex items-center justify-between">
             <div>
-              <span className="text-[13px] font-medium text-text-muted block">Total Registered Customers</span>
-              <p className="text-[24px] font-bold text-text-primary tracking-tight mt-1">
+              <span className="text-xs sm:text-[13px] font-medium text-text-muted block">Registered Customers</span>
+              <p className="text-xl sm:text-[24px] font-bold text-text-primary tracking-tight mt-1">
                 {totalCustomers.toLocaleString()}
               </p>
-              <span className="text-[11px] text-text-muted">Customer profiles in ledger</span>
+              <span className="text-[10px] sm:text-[11px] text-text-muted">Profiles in shop ledger</span>
             </div>
-            <Link href="/owner/customers" className="text-xs text-brand font-semibold hover:underline">
+            <Link href="/owner/customers" className="text-xs text-brand font-semibold hover:underline min-h-[44px] flex items-center">
               Manage Customers →
             </Link>
           </div>

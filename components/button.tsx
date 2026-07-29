@@ -1,4 +1,5 @@
 import * as React from "react";
+import { cn } from "@/lib/utils";
 
 type ButtonVariant = "primary" | "secondary" | "ghost";
 type ButtonSize = "md" | "lg";
@@ -34,7 +35,7 @@ export function buttonStyles(
   size: ButtonSize = "md",
   className = "",
 ): string {
-  return `${BASE} ${SIZES[size]} ${VARIANTS[variant]} ${className}`.trim();
+  return cn(BASE, SIZES[size], VARIANTS[variant], className);
 }
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {

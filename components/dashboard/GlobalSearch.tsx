@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { Search, Home, FileText, Package, DollarSign, Users, UserSquare2, BarChart2, Settings, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-const searchItems = [
+const ownerSearchItems = [
   { label: "Home", href: "/owner", icon: Home },
   { label: "Daily Summary", href: "/owner/daily-summary", icon: FileText },
   { label: "Products", href: "/owner/products", icon: Package },
@@ -15,14 +15,27 @@ const searchItems = [
   { label: "Settings", href: "/owner/settings", icon: Settings },
 ];
 
-const filters = ["All", "Pages", "Customers", "Products", "Sales"];
+const staffSearchItems = [
+  { label: "Shift Overview", href: "/staff", icon: Home },
+  { label: "Log Sale", href: "/staff?tab=sale", icon: DollarSign },
+  { label: "Log Waste", href: "/staff?tab=waste", icon: FileText },
+  { label: "Stock Count", href: "/staff?tab=stock", icon: Package },
+  { label: "Shift Activity", href: "/staff?tab=activity", icon: BarChart2 },
+];
 
-export function GlobalSearch() {
+const ownerFilters = ["All", "Pages", "Customers", "Products", "Sales"];
+const staffFilters = ["All", "Shift Actions", "Products", "Customers"];
+
+export function GlobalSearch({ iconOnly = false, userRole = "owner" }: { iconOnly?: boolean; userRole?: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+
+  const isStaff = userRole === "staff";
+  const searchItems = isStaff ? staffSearchItems : ownerSearchItems;
+  const filters = isStaff ? staffFilters : ownerFilters;
 
   // Handle Ctrl+K shortcut
   useEffect(() => {
@@ -53,17 +66,27 @@ export function GlobalSearch() {
   return (
     <>
       {/* Search Bar Trigger */}
-      <button 
-        onClick={() => setIsOpen(true)}
-        className="hidden md:flex items-center gap-2 px-4 py-2 bg-surface rounded-full text-sm text-text-muted w-80 hover:ring-1 hover:ring-brand/30 transition-all text-left"
-      >
-        <Search className="w-4 h-4 text-text-muted/70" />
-        <span className="flex-1 text-text-muted/70">Search...</span>
-        <div className="flex items-center gap-1 text-[11px] font-medium text-text-muted">
-          <span>Ctrl</span>
-          <span>K</span>
-        </div>
-      </button>
+      {iconOnly ? (
+        <button 
+          onClick={() => setIsOpen(true)}
+          className="p-2 text-text-muted hover:text-text-primary rounded-full hover:bg-surface transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+          aria-label="Search"
+        >
+          <Search className="w-5 h-5" />
+        </button>
+      ) : (
+        <button 
+          onClick={() => setIsOpen(true)}
+          className="hidden md:flex items-center gap-2 px-4 py-2 bg-surface rounded-full text-sm text-text-muted w-80 hover:ring-1 hover:ring-brand/30 transition-all text-left min-h-[36px]"
+        >
+          <Search className="w-4 h-4 text-text-muted/70" />
+          <span className="flex-1 text-text-muted/70">Search...</span>
+          <div className="flex items-center gap-1 text-[11px] font-medium text-text-muted">
+            <span>Ctrl</span>
+            <span>K</span>
+          </div>
+        </button>
+      )}
 
       {/* Modal Overlay */}
       {isOpen && (
@@ -83,7 +106,7 @@ export function GlobalSearch() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   type="text" 
-                  placeholder="Search documents, transactions, accounts..." 
+                  placeholder={isStaff ? "Search shift catalog, quick sales & actions..." : "Search documents, transactions, accounts..."} 
                   className="w-full pl-10 pr-4 py-3 bg-transparent outline-none text-text-primary placeholder:text-text-muted text-base"
                 />
               </div>

@@ -47,16 +47,16 @@ export function TopLineCards({
   ];
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
       {cards.map((card, i) => (
-        <div key={i} className="p-5 rounded-[1rem] bg-background border border-border/50 shadow-sm flex flex-col">
-          <div className="flex items-center gap-2 mb-3">
+        <div key={i} className="p-3.5 sm:p-5 rounded-[1rem] bg-background border border-border/50 shadow-sm flex flex-col justify-between">
+          <div className="flex items-center gap-2 mb-2">
             <div className={`p-1.5 rounded-md ${card.bg}`}>
               <card.icon className={`w-4 h-4 ${card.color}`} />
             </div>
-            <span className="text-[13px] font-medium text-text-muted">{card.title}</span>
+            <span className="text-xs sm:text-[13px] font-medium text-text-muted truncate">{card.title}</span>
           </div>
-          <div className="text-2xl font-bold font-heading text-text-primary mt-auto">
+          <div className="text-lg sm:text-2xl font-bold font-heading text-text-primary mt-1 tracking-tight truncate">
             {card.value}
           </div>
         </div>
