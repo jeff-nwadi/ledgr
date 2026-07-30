@@ -29,11 +29,11 @@
 }
 
 :root[data-theme="dark"] {
-  --background: #090d16;
-  --surface: #111827;
+  --background: #000000;
+  --surface: #0a0a0a;
   --text-primary: #f5f7f6;
   --text-muted: #9ca3af;
-  --border: #1f2937;
+  --border: #1f1f1f;
   --brand: #6366f1;
   --brand-rgb: 99 102 241;
   --brand-end: #4f46e5;
@@ -47,11 +47,11 @@
 /* First-paint fallback: respect OS preference before the inline theme script runs. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
-    --background: #090d16;
-    --surface: #111827;
+    --background: #000000;
+    --surface: #0a0a0a;
     --text-primary: #f5f7f6;
     --text-muted: #9ca3af;
-    --border: #1f2937;
+    --border: #1f1f1f;
     --danger: #e0665d;
     --success: #3fb89a;
 

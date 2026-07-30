@@ -109,7 +109,7 @@ export default async function DailyBalancePage() {
     <div className="max-w-5xl mx-auto space-y-8 pb-12">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold font-heading text-text-primary">Daily Stock & Cash Balance</h1>
+          <h1 className="text-2xl font-heading text-text-primary">Daily Stock & Cash Balance</h1>
           <p className="text-[13px] text-text-muted mt-1">
             Real-time calculation of today's expected stock and cash drawer float.
           </p>

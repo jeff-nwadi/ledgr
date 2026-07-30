@@ -537,6 +537,7 @@ export function StaffDashboard({
 
             {shift && (
               <button
+                data-tour="cash-session"
                 onClick={handleOpenCloseShift}
                 className="px-4 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 text-xs font-bold rounded-xl border border-rose-500/20 transition-all min-h-[40px] flex items-center gap-1.5"
               >
@@ -565,7 +566,7 @@ export function StaffDashboard({
             <span className="text-[10px] sm:text-[11px] text-text-muted block truncate">Across catalog</span>
           </div>
 
-          <div className="rounded-[1rem] border border-border/50 bg-background p-3.5 sm:p-5 shadow-xs space-y-1">
+          <div data-tour="stock-ledger" className="rounded-[1rem] border border-border/50 bg-background p-3.5 sm:p-5 shadow-xs space-y-1">
             <span className="text-xs font-medium text-text-muted block truncate">Expected Cash Drawer</span>
             <p className="text-lg sm:text-[24px] font-bold text-text-primary tracking-tight tabular-nums">
               {currencySymbol}{(shift?.expectedCash || 0).toLocaleString()}

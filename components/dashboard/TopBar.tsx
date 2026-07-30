@@ -5,6 +5,7 @@ import { UserProfileDropdown } from "./UserProfileDropdown";
 import { GlobalSearch } from "./GlobalSearch";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useTourStore } from "@/lib/store/tour-store";
 
 const pageTitles: Record<string, string> = {
   "/owner": "Dashboard",
@@ -50,9 +51,16 @@ export function TopBar({ user }: { user?: any }) {
         </div>
 
         {/* Desktop Help Button */}
-        <button className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-surface text-text-primary rounded-full hover:bg-border/50 transition-colors min-h-[36px]">
+        <button
+          data-tour="help-trigger"
+          onClick={() => {
+            const tourId = userRole === "staff" ? "staff-tour" : "owner-tour";
+            useTourStore.getState().resetTour(tourId);
+          }}
+          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-surface text-text-primary rounded-full hover:bg-border/50 transition-colors min-h-[36px]"
+        >
           <HelpCircle className="w-3.5 h-3.5" />
-          Need help? <span className="text-text-muted ml-1">Ctrl H</span>
+          Need help? <span className="text-text-muted ml-1">Take Tour</span>
         </button>
 
         {/* Notification Bell */}

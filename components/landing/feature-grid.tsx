@@ -4,42 +4,42 @@ const FEATURE_GRID_ITEMS = [
   {
     icon: "⊡",
     title: "Product catalog",
-    body: "Selling price, cost price, starting stock. Cost drives profit; selling drives revenue.",
+    body: "Set selling price, cost price, and starting stock. Ledgr calculates your revenue and profit.",
   },
   {
     icon: "⊞",
     title: "Sale logging",
-    body: "Product + quantity, payment type, customer optional. Three taps on a phone.",
+    body: "Pick a product, quantity, and payment type. Log a sale in seconds.",
   },
   {
     icon: "⊗",
     title: "Waste & spoilage",
-    body: "Same form as a sale, with a reason. Routed through the audit trail, not a side channel.",
+    body: "Log damaged or spoiled items with a reason to keep your stock counts accurate.",
   },
   {
     icon: "◎",
     title: "Shift & cash sessions",
-    body: "Opening float in, expected cash auto-calculated, counted cash in, variance at close.",
+    body: "Enter your opening float. Ledgr tracks expected cash and shows any difference at close.",
   },
   {
     icon: "◉",
     title: "Customer balances",
-    body: "Mark a sale as credit, attach to a customer, watch the running balance. Repayments too.",
+    body: "Record credit sales for customers and track their payments over time.",
   },
   {
     icon: "▤",
     title: "End-of-day summary",
-    body: "Revenue, COGS, gross profit, stock value, waste, cash variance — one screen.",
+    body: "View your daily revenue, costs, profit, waste, and cash count on one screen.",
   },
   {
     icon: "⊞",
     title: "CSV export",
-    body: "A plain, generic date-range export. No Xero, no special format, no lock-in.",
+    body: "Download a simple spreadsheet of your sales and stock for any date range.",
   },
   {
     icon: "↯",
     title: "Offline queue",
-    body: "Sales and waste go into a local queue. They sync to your account when the connection is back.",
+    body: "Log sales offline without internet. Ledgr saves your data and uploads it when connected.",
   },
 ];
 
@@ -49,10 +49,10 @@ export function FeatureGrid() {
       <div className="mx-auto max-w-6xl px-5 py-14 sm:px-10 sm:py-28">
         <ScrollReveal>
           <h2 className="font-heading text-2xl font-bold leading-tight tracking-tight text-text-primary sm:text-4xl">
-            Everything in one platform.
+            Everything you need in one place.
           </h2>
           <p className="mt-2 max-w-xl text-xs sm:text-base text-text-muted font-normal">
-            Eight features. No middleware. No bolt-ons. No per-transaction fees.
+            Simple tools to run your shop. No extra fees per sale.
           </p>
         </ScrollReveal>
         <ul className="mt-8 grid grid-cols-1 border-l border-t border-border sm:grid-cols-2 lg:grid-cols-3 sm:mt-10">

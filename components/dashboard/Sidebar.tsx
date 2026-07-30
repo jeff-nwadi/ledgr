@@ -74,7 +74,7 @@ export function Sidebar({ userRole = "owner" }: SidebarProps) {
         </div>
 
         {/* Primary Action Button */}
-        <div className={`px-4 mb-2 ${isCollapsed ? "flex justify-center px-2" : ""}`}>
+        <div data-tour="pos-action" className={`px-4 mb-2 ${isCollapsed ? "flex justify-center px-2" : ""}`}>
           <Tooltip side="right">
             <TooltipTrigger asChild>
               <Link 
@@ -89,7 +89,7 @@ export function Sidebar({ userRole = "owner" }: SidebarProps) {
           </Tooltip>
         </div>
 
-        <nav className="flex-1 px-3 space-y-1 overflow-y-auto mt-2">
+        <nav data-tour="nav-menu" className="flex-1 px-3 space-y-1 overflow-y-auto mt-2">
           {mainLinks.map((link) => {
             const isActive = userRole === "staff"
               ? (link.tab ? currentTab === link.tab : (pathname === "/staff" && currentTab === "home"))

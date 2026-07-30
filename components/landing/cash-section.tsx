@@ -9,16 +9,13 @@ export function CashSection() {
           {/* Text — Always First on Mobile */}
           <ScrollReveal className="order-1">
             <p className="text-[11px] sm:text-[12px] font-semibold uppercase tracking-wider text-brand">
-              Cash reconciliation
+              Cash checking
             </p>
             <h2 className="mt-2 font-heading text-2xl font-bold leading-tight tracking-tight text-text-primary sm:text-4xl">
-              Cash that closes without an argument.
+              Count your cash without confusion.
             </h2>
             <p className="mt-4 text-base leading-relaxed text-text-muted sm:text-lg sm:mt-5 font-normal">
-              Open the shift with a float. Ledgr auto-calculates expected
-              cash from every cash sale logged during the day. At close, type
-              the counted cash. The variance tells you what really
-              happened — you don&apos;t have to remember.
+              Start your shift with your starting cash float. Ledgr calculates your expected cash from every cash sale logged today. At shift close, type your counted cash. Ledgr shows if money is missing or extra.
             </p>
           </ScrollReveal>
 

@@ -10,11 +10,11 @@ export function Hero() {
         {/* Centered headline + subhead + CTAs */}
         <ScrollReveal className="flex flex-col items-center max-w-3xl">
           <h1 className="font-heading text-[36px] leading-[1.1] tracking-tight font-bold text-text-primary sm:text-5xl md:text-6xl">
-            Stop guessing where the money went
+            Stop guessing where your money went
           </h1>
           <p className="mt-4 max-w-md text-base leading-relaxed text-text-muted sm:mt-6">
-            Ledgr tracks your stock automatically: opening, added, sold, closing, waste.
-            When the count doesn&apos;t match, it shows you where. Same for cash.
+            Ledgr tracks your stock automatically: Opening, Added, Sold, Waste, and Closing.
+            If your physical count does not match the math, Ledgr shows you the difference. It does the same for your cash drawer.
           </p>
           <div className="mt-8 flex gap-3 sm:items-center sm:justify-center w-full sm:w-auto">
             <ButtonLink 
@@ -34,7 +34,7 @@ export function Hero() {
             </ButtonLink>
           </div>
           <p className="mt-4 text-xs text-text-muted sm:text-sm">
-            Free during the MVP. No credit card required.
+            Free to use. No credit card needed.
           </p>
         </ScrollReveal>
 
@@ -62,7 +62,7 @@ export function Hero() {
               {/* Variance / Proof Stamp Reveal */}
               <div className="flex items-center gap-2 animate-in fade-in zoom-in-90 duration-250 ease-out motion-reduce:animate-none" style={{ animationDelay: "200ms" }}>
                 <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-success/10 text-success border border-success/20 flex items-center gap-1">
-                  ✓ VARIANCE RECONCILED
+                  ✓ NUMBERS MATCHED
                 </span>
                 <SampleDataTag />
               </div>

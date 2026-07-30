@@ -50,7 +50,7 @@ export default function SignUpPage() {
   const validateStep1 = () => {
     const newErrors: Record<string, string> = {};
     if (!businessName.trim()) {
-      newErrors.businessName = "Business name is required.";
+      newErrors.businessName = "Enter your business or shop name.";
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -60,27 +60,27 @@ export default function SignUpPage() {
     const newErrors: Record<string, string> = {};
 
     if (!businessName.trim()) {
-      newErrors.businessName = "Business name is required.";
+      newErrors.businessName = "Enter your business or shop name.";
     }
 
     if (!ownerName.trim()) {
-      newErrors.ownerName = "Your full name is required.";
+      newErrors.ownerName = "Enter your full name.";
     }
 
     if (!email.trim()) {
-      newErrors.email = "Email address is required.";
+      newErrors.email = "Enter your email address.";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      newErrors.email = "Please enter a valid email address.";
+      newErrors.email = "Enter a valid email address.";
     }
 
     if (!password) {
-      newErrors.password = "Password is required.";
+      newErrors.password = "Enter a password.";
     } else if (password.length < 8) {
-      newErrors.password = "Password must be at least 8 characters.";
+      newErrors.password = "Password must be at least 8 characters long.";
     }
 
     if (password !== confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match.";
+      newErrors.confirmPassword = "Passwords do not match. Try again.";
     }
 
     setErrors(newErrors);
@@ -145,7 +145,7 @@ export default function SignUpPage() {
                 Set up your business
               </h1>
               <p className="text-sm text-text-muted font-normal">
-                Start your free account in 2 steps. No card required.
+                Set up your free account in 2 short steps. No credit card needed.
               </p>
             </div>
           )}
@@ -159,10 +159,10 @@ export default function SignUpPage() {
                 </svg>
               </div>
               <h2 className="font-heading text-2xl text-text-primary font-bold">
-                Account Created Successfully!
+                Account Created!
               </h2>
               <p className="text-text-muted text-sm font-normal">
-                Your business account has been set up. Please login to continue.
+                Your shop account is ready. Sign in to start using Ledgr.
               </p>
               <div className="pt-4">
                 <Link href="/signin">
@@ -177,7 +177,7 @@ export default function SignUpPage() {
               {/* Sleek 2-Step Progress Indicator */}
               <div className="flex items-center justify-between text-xs font-semibold text-text-muted pb-2 border-b border-border/40">
                 <span className="text-text-primary">
-                  {step === 1 ? "Step 1 of 2: Shop Details" : "Step 2 of 2: Owner Credentials"}
+                  {step === 1 ? "Step 1 of 2: Shop Details" : "Step 2 of 2: Owner Details"}
                 </span>
                 <div className="flex items-center gap-1.5">
                   <span className={`w-7 h-1.5 rounded-full transition-all duration-200 ${step === 1 ? "bg-brand" : "bg-brand/40"}`} />
@@ -205,7 +205,7 @@ export default function SignUpPage() {
                     value={currency}
                     onChange={(e) => setCurrency(e.target.value)}
                     options={CURRENCY_OPTIONS}
-                    helperText="Used for daily sales totals and debt tracking."
+                    helperText="Currency for your daily sales and customer debt."
                   />
 
                   <div className="pt-2">
@@ -262,7 +262,7 @@ export default function SignUpPage() {
                   <div className="flex items-start gap-2.5 text-xs text-text-muted pt-1">
                     <Info className="w-4 h-4 text-brand shrink-0 mt-0.5" />
                     <p className="leading-relaxed">
-                      <strong className="font-semibold text-text-primary">Staff PIN Setup:</strong> Staff members log in with a 4–6 digit PIN (no email needed). You can generate PINs inside owner settings after sign up.
+                      <strong className="font-semibold text-text-primary">Staff Login:</strong> Staff members log in using a 4–6 digit PIN without an email address. You can create PINs in your owner settings after signing up.
                     </p>
                   </div>
 

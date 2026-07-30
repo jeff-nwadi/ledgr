@@ -72,6 +72,7 @@ export default async function OwnerDashboardPage() {
 
         <Link
           href="/owner/daily"
+          data-tour="stock-ledger"
           className="px-4 py-2 bg-brand text-white text-xs font-semibold rounded-xl hover:bg-brand/90 transition-all flex items-center gap-2"
         >
           Daily Stock Ledger <ArrowRight className="w-4 h-4" />
@@ -96,7 +97,7 @@ export default async function OwnerDashboardPage() {
       )}
 
       {/* Main Grid: Revenue Trend Chart & Shift Close-out */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div data-tour="dashboard-summary" className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Revenue Line Chart */}
         <div className="lg:col-span-2 rounded-[1rem] border border-border/50 bg-background p-4 sm:p-6 flex flex-col">
           <div className="flex flex-row justify-between items-start gap-2">
@@ -119,7 +120,7 @@ export default async function OwnerDashboardPage() {
         {/* Right Side: Shift Close-out & Recent Activity */}
         <div className="space-y-6">
           {/* Today's Shift Close-out Status Card */}
-          <div className="rounded-[1rem] border border-border/50 bg-background p-5 sm:p-6 space-y-4">
+          <div data-tour="cash-session" className="rounded-[1rem] border border-border/50 bg-background p-5 sm:p-6 space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-sm sm:text-[15px] text-text-primary">Today's Close-out Status</h3>
               <span className={`text-[11px] px-2 py-0.5 rounded-full ${

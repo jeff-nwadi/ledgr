@@ -18,12 +18,10 @@ export function DebtSection() {
               Customer debt
             </p>
             <h2 className="mt-2 font-heading text-2xl font-bold leading-tight tracking-tight text-text-primary sm:text-4xl">
-              Credit sales, tracked without a paper notebook.
+              Track credit sales without a paper notebook.
             </h2>
             <p className="mt-4 text-base leading-relaxed text-text-muted sm:text-lg sm:mt-5 font-normal">
-              Mark a sale as credit, attach a customer, watch the running
-              balance. Repayments reduce the balance. The history is the
-              audit trail — no separate notebook, no lost records.
+              Mark a sale as credit and select a customer to update their balance. When customers pay, their balance goes down. You keep a clear record without losing papers.
             </p>
           </ScrollReveal>
 

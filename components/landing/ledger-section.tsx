@@ -70,17 +70,13 @@ export function LedgerSection() {
               Daily stock ledger
             </p>
             <h2 className="mt-2 font-heading text-2xl font-bold leading-tight tracking-tight text-text-primary sm:text-4xl">
-              A daily ledger that actually closes.
+              A daily ledger that shows you matching numbers.
             </h2>
             <p className="mt-4 text-base leading-relaxed text-text-muted sm:text-lg sm:mt-5 font-normal">
-              Every product gets a row: opening, added, sold, waste,
-              calculated closing. The counted number sits next to it. The
-              variance is the headline, not the footnote.
+              Every product gets its own row: Opening, Added, Sold, Waste, and Calculated Closing. You enter the Counted Closing next to it. Ledgr highlights any difference right away.
             </p>
             <p className="mt-3 text-xs leading-relaxed text-text-muted sm:text-[15px] font-normal">
-              Mon closing becomes Tue opening automatically filled from the
-              previous day&apos;s counted closing, not the calculated one. No
-              manual carry-forward.
+              Yesterday&apos;s counted closing automatically becomes today&apos;s Opening stock. You do not need to copy numbers by hand.
             </p>
           </ScrollReveal>
 

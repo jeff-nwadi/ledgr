@@ -145,14 +145,14 @@ export default async function DailySummaryPage({
       </div>
 
       {isEmptyState ? (
-        <div className="rounded-[1rem] border border-border/50 bg-background shadow-sm overflow-hidden">
+        <div className="rounded-[1rem] border border-border/50 bg-background overflow-hidden">
           <div className="flex flex-col items-center justify-center py-24 text-center space-y-3">
             <div className="w-12 h-12 bg-surface rounded-full flex items-center justify-center text-text-muted/60 mb-2">
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
-            <p className="text-[14px] font-semibold text-text-primary">No activity recorded</p>
+            <p className="text-[14px] text-text-primary">No activity recorded</p>
             <p className="text-[13px] text-text-muted max-w-sm">
               There are no sales, shifts, or stock records for this date.
             </p>
@@ -168,7 +168,7 @@ export default async function DailySummaryPage({
                 </svg>
               </div>
               <div className="flex-1">
-                <p className="text-sm font-medium text-text-primary">Day not fully closed</p>
+                <p className="text-sm text-text-primary">Day not fully closed</p>
                 <p className="text-[13px] text-text-muted">
                   {hasOpenShift && isStockIncomplete 
                     ? "Some shifts are still open and stock counts are unconfirmed. Showing partial data." 

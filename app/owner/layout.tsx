@@ -9,6 +9,8 @@ import { redirect } from "next/navigation";
 export const dynamic = "force-dynamic";
 export const revalidate = 0; 
 
+import { OnboardingTour } from "@/components/ui/onboarding-tour";
+
 export default async function OwnerLayout({ children }: { children: ReactNode }) {
   const session = await auth.api.getSession({
     headers: await headers()
@@ -44,6 +46,7 @@ export default async function OwnerLayout({ children }: { children: ReactNode })
   return (
     <div className="flex h-screen bg-background overflow-hidden text-text-primary">
       <AuthNavigationGuard userRole="owner" />
+      <OnboardingTour tourId="owner-tour" />
       <Sidebar userRole={userRole} />
       <div className="flex-1 flex flex-col min-w-0 h-full relative">
         <TopBar user={session.user} />

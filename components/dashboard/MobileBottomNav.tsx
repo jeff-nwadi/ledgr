@@ -85,6 +85,7 @@ export function MobileBottomNav({ userRole = "owner" }: { userRole?: string }) {
     <>
       {/* Fixed Mobile Bottom Tab Bar */}
       <nav 
+        data-tour="nav-menu"
         aria-label="Mobile bottom navigation"
         className="fixed bottom-0 left-0 right-0 z-40 bg-background/95 backdrop-blur-md border-t border-border/60 md:hidden h-16 px-2 flex items-center justify-around shadow-lg select-none"
       >

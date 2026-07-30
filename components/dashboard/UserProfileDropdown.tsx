@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { User, Settings, Users, LogOut } from "lucide-react";
+import { User, Settings, Users, LogOut, Sparkles } from "lucide-react";
 import { authClient } from "@/lib/auth/auth-client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useTourStore } from "@/lib/store/tour-store";
 
 export function UserProfileDropdown({ user }: { user: any }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -76,6 +77,17 @@ export function UserProfileDropdown({ user }: { user: any }) {
               <Settings className="w-4 h-4 text-text-muted" />
               All Settings
             </Link>
+
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                useTourStore.getState().resetTour("owner-tour");
+              }}
+              className="flex items-center gap-3 w-full px-3 py-2 text-sm text-brand font-medium hover:bg-brand/10 rounded-md transition-colors text-left"
+            >
+              <Sparkles className="w-4 h-4" />
+              Take Product Tour
+            </button>
 
             <div className="flex items-center justify-between px-3 py-2 text-sm text-text-primary hover:bg-surface rounded-md transition-colors cursor-not-allowed opacity-80">
               <div className="flex items-center gap-3">

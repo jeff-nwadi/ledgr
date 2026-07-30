@@ -4,22 +4,22 @@ const WHY_ITEMS = [
   {
     icon: "⊕",
     title: "Automated",
-    body: "Opening + added − sold = closing, carried forward automatically every day. No manual entry, no formula to break.",
+    body: "Opening stock + Added − Sold = Closing stock. Ledgr carries the math forward every day. You do not need formulas.",
   },
   {
     icon: "△",
     title: "Transparent",
-    body: "Calculated closing sits next to counted closing. The variance is the headline, not a footnote buried in a spreadsheet.",
+    body: "Calculated closing sits next to counted closing. Ledgr shows the difference clearly at the top, not hidden at the bottom.",
   },
   {
     icon: "↯",
     title: "Offline-ready",
-    body: "Sales and waste log on a phone without a signal. The queue syncs to your account when the connection is back.",
+    body: "You can log sales and waste without internet. Ledgr saves your entries and uploads them when you connect again.",
   },
   {
     icon: "⊡",
     title: "Built for the counter",
-    body: "Staff log in with a 4–6 digit PIN. Large tap targets. Three taps to record a sale. No email account required.",
+    body: "Staff log in with a simple 4–6 digit PIN. Big buttons make it fast to record a sale. Staff do not need email accounts.",
   },
 ];
 
@@ -29,11 +29,10 @@ export function WhyItWorks() {
       <div className="mx-auto max-w-6xl px-5 py-14 sm:px-10 sm:py-24">
         <ScrollReveal>
           <h2 className="max-w-xl font-heading text-2xl font-bold leading-tight tracking-tight text-text-primary sm:text-4xl">
-            Built for how small businesses actually work.
+            Built for how small shops actually work.
           </h2>
           <p className="mt-2.5 max-w-xl text-sm sm:text-base text-text-muted font-normal">
-            Four things that separate Ledgr from paper, a spreadsheet, or a
-            full POS system.
+            Four reasons to use Ledgr instead of paper, spreadsheets, or complex systems.
           </p>
         </ScrollReveal>
         <ul className="mt-8 grid grid-cols-1 divide-y divide-border border-y border-border sm:grid-cols-2 sm:mt-12 md:grid-cols-4 md:divide-x md:divide-y-0">

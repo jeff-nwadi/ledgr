@@ -329,82 +329,86 @@ export function StaffList({ staffList, businessCode }: StaffListProps) {
         </div>
       )}
 
-      {/* 2. PIN Reveal Modal (Full-Screen Takeover on Mobile for Handing Phone to Staff) */}
+      {/* 2. PIN Reveal Modal (Clean & Premium Design) */}
       {pinRevealData && (
-        <div className="fixed inset-0 z-50 flex flex-col justify-between md:justify-center items-center bg-background md:bg-black/60 backdrop-blur-md p-6 sm:p-4 overflow-y-auto">
-          <div className="bg-background w-full max-w-md rounded-3xl md:rounded-[1.5rem] shadow-2xl overflow-hidden border border-border/60 my-auto animate-in fade-in zoom-in-95 duration-200">
-            <div className="bg-brand/10 border-b border-brand/20 p-6 text-center">
-              <div className="w-16 h-16 bg-brand text-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-md">
-                <KeyRound className="w-8 h-8" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4 overflow-y-auto">
+          <div className="bg-background w-full max-w-sm rounded-[1.5rem] shadow-2xl overflow-hidden border border-border/80 p-6 space-y-6 animate-in fade-in zoom-in-95 duration-200">
+            {/* Header */}
+            <div className="text-center space-y-1.5">
+              <div className="w-12 h-12 bg-brand/10 text-brand rounded-2xl flex items-center justify-center mx-auto mb-3">
+                <KeyRound className="w-6 h-6" />
               </div>
-              <h2 className="font-heading font-extrabold text-text-primary text-2xl">
+              <h2 className="font-heading font-bold text-text-primary text-xl">
                 Staff Credentials
               </h2>
-              <p className="text-sm text-text-muted mt-1">
-                Hand phone to <strong className="text-brand font-bold">{pinRevealData.staffName}</strong>
+              <p className="text-xs text-text-muted">
+                Created for <strong className="text-text-primary font-semibold">{pinRevealData.staffName}</strong>
               </p>
             </div>
 
-            <div className="p-6 space-y-6">
-              {/* Massive Credentials Display */}
-              <div className="bg-surface border-2 border-brand/30 rounded-2xl p-6 space-y-5 shadow-inner">
-                {/* Business ID Code */}
-                <div className="text-center pb-4 border-b border-border/50">
-                  <span className="text-xs font-extrabold text-text-muted uppercase tracking-widest block mb-1">
+            {/* Credentials Card */}
+            <div className="bg-surface border border-border/60 rounded-2xl p-4 space-y-4">
+              {/* Business ID Code */}
+              <div className="flex items-center justify-between pb-3 border-b border-border/40">
+                <div>
+                  <span className="text-[11px] font-semibold text-text-muted uppercase tracking-wider block">
                     Business ID Code
                   </span>
-                  <span className="font-mono text-3xl font-black text-text-primary tracking-widest block">
+                  <span className="font-mono text-base font-bold text-text-primary tracking-wider">
                     {pinRevealData.businessCode}
                   </span>
                 </div>
-
-                {/* Massive 4-Digit PIN */}
-                <div className="text-center">
-                  <span className="text-xs font-extrabold text-text-muted uppercase tracking-widest block mb-2">
-                    Staff Login PIN
-                  </span>
-                  <div className="bg-background border-2 border-brand rounded-2xl p-4 shadow-sm">
-                    <span className="font-mono text-5xl font-black tracking-[0.3em] text-brand block">
-                      {pinRevealData.pin}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Copy Notice */}
-              <div className="text-xs text-text-muted leading-relaxed bg-surface/50 border border-border/40 rounded-xl p-3.5 flex items-start gap-2.5">
-                <Info className="w-4 h-4 text-brand shrink-0 mt-0.5" />
-                <span>
-                  Provide both the Business ID and PIN to <strong>{pinRevealData.staffName}</strong> for shift login.
+                <span className="text-[11px] px-2 py-0.5 rounded-md bg-background border border-border text-text-muted">
+                  Required
                 </span>
               </div>
 
-              {/* Action Buttons */}
-              <div className="space-y-3 pt-1">
-                <button 
-                  onClick={copyCredentials}
-                  className="w-full py-3.5 bg-surface border border-border/60 text-text-primary text-xs font-bold rounded-xl hover:bg-surface/80 transition-colors flex items-center justify-center gap-2 min-h-[44px]"
-                >
-                  {copied ? (
-                    <>
-                      <Check className="w-4 h-4 text-success" />
-                      <span className="text-success">Copied to Clipboard!</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-4 h-4 text-text-muted" />
-                      <span>Copy Credentials</span>
-                    </>
-                  )}
-                </button>
-
-                <button 
-                  onClick={() => setPinRevealData(null)}
-                  className="w-full py-3.5 [background:var(--brand-gradient)] text-white text-sm font-bold rounded-xl hover:opacity-90 transition-opacity shadow-md min-h-[48px]"
-                >
-                  Done / Handed to Staff
-                </button>
+              {/* 4-Digit PIN */}
+              <div className="text-center pt-1">
+                <span className="text-[11px] font-semibold text-text-muted uppercase tracking-wider block mb-2">
+                  4-Digit Staff PIN
+                </span>
+                <div className="bg-background border border-brand/40 rounded-xl p-3 shadow-xs">
+                  <span className="font-mono text-3xl font-extrabold tracking-[0.3em] text-brand block">
+                    {pinRevealData.pin}
+                  </span>
+                </div>
               </div>
+            </div>
+
+            {/* Plain-Language Help Note */}
+            <div className="text-xs text-text-muted bg-surface/50 border border-border/40 rounded-xl p-3 flex items-start gap-2">
+              <Info className="w-4 h-4 text-brand shrink-0 mt-0.5" />
+              <p className="leading-normal">
+                Share this Business ID and PIN with <strong>{pinRevealData.staffName}</strong> so they can sign in to their shift.
+              </p>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="space-y-2.5">
+              <button 
+                onClick={copyCredentials}
+                className="w-full py-3 bg-surface border border-border/60 hover:bg-surface/80 text-text-primary text-xs font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 min-h-[44px]"
+              >
+                {copied ? (
+                  <>
+                    <Check className="w-4 h-4 text-success" />
+                    <span className="text-success font-bold">Copied to Clipboard!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-4 h-4 text-text-muted" />
+                    <span>Copy Credentials</span>
+                  </>
+                )}
+              </button>
+
+              <button 
+                onClick={() => setPinRevealData(null)}
+                className="w-full py-3 [background:var(--brand-gradient)] text-white text-xs font-bold rounded-xl hover:opacity-90 transition-opacity shadow-sm min-h-[44px]"
+              >
+                Done / Handed to Staff
+              </button>
             </div>
           </div>
         </div>

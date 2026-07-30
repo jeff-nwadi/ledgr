@@ -3,27 +3,27 @@ import { ScrollReveal } from "@/components/landing/scroll-reveal";
 const FAQ_ITEMS = [
   {
     q: "What happens if the internet drops mid-shift?",
-    a: "Sales and waste go into a local queue on the device. When the connection comes back, the queue syncs to your account. You can close the day offline and reconcile when you're back online — the variance math works the same either way.",
+    a: "Ledgr saves your sales and waste on your phone. When internet connects again, Ledgr uploads your records automatically. You can close your shift offline anytime.",
   },
   {
     q: "Do my staff need an email account to log in?",
-    a: "No. Staff use a 4–6 digit PIN scoped to your business. The owner has the email/password login; everyone else gets a PIN you set for them.",
+    a: "No. Staff log in with a simple 4–6 digit PIN for your business. Only the owner uses an email and password.",
   },
   {
     q: "Where is my data stored, and who can see it?",
-    a: "All data is stored on your account, scoped to your business, in Postgres on Neon. Other businesses on Ledgr cannot see your data. Owner accounts see everything; staff accounts see only what they need to log a sale and close their shift.",
+    a: "Your data is kept safe in your private business account. Other shops cannot view your information. Owners can view all reports, while staff only see screens needed for their shift.",
   },
   {
     q: "What about the paper records I already have?",
-    a: "Onboarding starts with your current stock. Type the product names, the selling and cost prices, and your opening count for the day. The paper goes in a drawer. From the next entry on, Ledgr carries the running count forward.",
+    a: "Enter your current products, prices, and starting stock counts. After that, Ledgr updates your stock automatically every day.",
   },
   {
     q: "How much does it cost?",
-    a: "Free for the first shop during the MVP. After that, a flat per-business monthly fee, no per-transaction charges, no surprise tiers. We'll publish pricing before the MVP ends and give you 30 days' notice.",
+    a: "Ledgr is free to use right now. In the future, we will charge a simple monthly fee per business with no hidden costs.",
   },
   {
     q: "Does it integrate with my accountant or Xero?",
-    a: "Not directly. Ledgr exports a plain CSV you can hand to whoever does your books. Generic format — date, product, quantity sold, revenue, cost, profit. No Xero-specific import, no API connection.",
+    a: "Ledgr lets you download a simple spreadsheet file (CSV). You can share this file with your accountant or bookkeeper.",
   },
 ];
 

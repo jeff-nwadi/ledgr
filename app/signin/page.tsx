@@ -47,21 +47,22 @@ function SignInContent() {
   const handleOwnerSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const errs: Record<string, string> = {};
-    if (!email.trim()) errs.email = "Email is required.";
-    if (!password) errs.password = "Password is required.";
+    if (!email.trim()) errs.email = "Enter your email address.";
+    if (!password) errs.password = "Enter your password.";
 
     setOwnerErrors(errs);
     if (Object.keys(errs).length > 0) return;
 
     setIsOwnerLoading(true);
-    const res = await authClient.signIn.email({ email, password });
+    const cleanEmail = email.trim().toLowerCase();
+    const res = await authClient.signIn.email({ email: cleanEmail, password });
     setIsOwnerLoading(false);
 
     if (res.error) {
-      setOwnerErrors({ email: res.error.message || "Invalid credentials." });
-      toast.error("Sign in failed", res.error.message || "Invalid credentials.");
+      setOwnerErrors({ email: "Wrong email or password. Try again." });
+      toast.error("Sign in failed", "Wrong email or password. Try again.");
     } else {
-      toast.success("Welcome back!", "Redirecting to owner dashboard...");
+      toast.success("Welcome back!", "Opening your owner dashboard...");
       window.location.replace("/owner");
     }
   };
@@ -71,12 +72,12 @@ function SignInContent() {
     e.preventDefault();
     const errs: Record<string, string> = {};
     if (!businessCode.trim()) {
-      errs.businessCode = "Business ID code is required.";
+      errs.businessCode = "Enter your Business ID code.";
     }
     if (!pin) {
-      errs.pin = "PIN is required.";
+      errs.pin = "Enter your 4-digit PIN.";
     } else if (pin.length !== 4) {
-      errs.pin = "PIN must be 4 digits.";
+      errs.pin = "PIN must be exactly 4 digits.";
     }
 
     setPinErrors(errs);
@@ -92,16 +93,16 @@ function SignInContent() {
 
       const data = await res.json().catch(() => ({}));
       if (!res.ok || data.error || data.status === "error") {
-        const errMsg = data.message || data.error || "Invalid Business ID code or PIN.";
+        const errMsg = data.message || data.error || "Wrong Business ID code or PIN. Try again.";
         setPinErrors({ form: errMsg });
-        toast.error("Access Denied", errMsg);
+        toast.error("Sign in failed", errMsg);
       } else {
-        toast.success("Shift Authorized!", "Loading staff dashboard...");
+        toast.success("Welcome!", "Opening your staff page...");
         window.location.replace("/staff");
       }
     } catch (err: any) {
-      setPinErrors({ form: "Failed to connect to authentication server." });
-      toast.error("Connection Error", "Failed to connect to authentication server.");
+      setPinErrors({ form: "Could not connect to authentication server. Try again." });
+      toast.error("Connection Error", "Could not connect to authentication server.");
     } finally {
       setIsPinLoading(false);
     }
@@ -141,7 +142,7 @@ function SignInContent() {
                 Welcome back
               </h1>
               <p className="text-sm text-text-muted font-normal">
-                Choose your login method to access your business ledger.
+                Select how you want to log in to your shop account.
               </p>
             </div>
 
@@ -202,7 +203,7 @@ function SignInContent() {
                   className="w-full"
                   disabled={isOwnerLoading}
                 >
-                  {isOwnerLoading ? "Signing in..." : "Sign In as Owner"}
+                  {isOwnerLoading ? "Signing in..." : "Sign in as Owner"}
                 </Button>
               </div>
             </form>
@@ -217,7 +218,7 @@ function SignInContent() {
 
               <Input
                 label="Business ID Code"
-                placeholder="e.g. X9K3M7 or ZARI'S-CAK-972"
+                placeholder="e.g. X9K3M7 or BKN-8492"
                 value={businessCode}
                 maxLength={50}
                 onChange={(e) => {
@@ -225,7 +226,7 @@ function SignInContent() {
                   if (pinErrors.businessCode) setPinErrors(prev => ({ ...prev, businessCode: "" }));
                 }}
                 error={pinErrors.businessCode}
-                helperText="Provided in Business Settings."
+                helperText="Found in your shop Business Settings."
               />
 
               {/* PIN Display */}
@@ -268,7 +269,7 @@ function SignInContent() {
                   className="w-full"
                   disabled={isPinLoading}
                 >
-                  {isPinLoading ? "Verifying PIN..." : "Log In to Shift"}
+                  {isPinLoading ? "Checking PIN..." : "Sign in to Shift"}
                 </Button>
               </div>
             </form>
@@ -276,7 +277,7 @@ function SignInContent() {
 
           {/* Footer message */}
           <p className="text-center text-xs text-text-muted pt-2 font-normal">
-            Need to register a new shop?{" "}
+            Need to set up a new shop?{" "}
             <Link
               href="/signup"
               className="font-medium text-brand hover:underline"

@@ -21,21 +21,21 @@ export function ReconciliationSection({
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       {/* Cash Variance */}
-      <div className={`p-5 rounded-[1rem] bg-background border shadow-sm transition-[background-color,border-color,transform] duration-220 ease-out motion-reduce:transition-none ${
+      <div className={`p-5 rounded-[1rem] bg-background border transition-[background-color,border-color,transform] duration-220 ease-out motion-reduce:transition-none ${
         cashVariance !== null && !isCashMatched ? "border-danger/40 bg-danger/5 shadow-danger/5" : "border-border/50"
       }`}>
-        <div className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-2">Cash Variance</div>
+        <div className="text-xs text-text-muted uppercase mb-2">Cash Variance</div>
         {cashVariance === null ? (
-          <div className="text-2xl font-bold font-heading text-text-muted">—</div>
+          <div className="text-2xl font-heading text-text-muted">—</div>
         ) : isCashMatched ? (
           <div className="flex items-center gap-2.5 text-success animate-in fade-in zoom-in-95 duration-200">
             <CheckCircle2 className="w-6 h-6 flex-shrink-0" />
-            <span className="text-2xl font-bold font-heading tabular-nums">Balanced ({currencySymbol}0)</span>
+            <span className="text-2xl font-heading tabular-nums">Balanced ({currencySymbol}0)</span>
           </div>
         ) : (
           <div className="flex items-center gap-2.5 text-danger animate-in fade-in zoom-in-95 duration-200">
             <AlertCircle className="w-6 h-6 flex-shrink-0 animate-in zoom-in-75 duration-200" />
-            <span className="text-2xl sm:text-3xl font-extrabold font-heading tracking-tight tabular-nums">
+            <span className="text-2xl sm:text-3xl font-heading tabular-nums">
               {cashVariance > 0 ? "+" : "-"}{formatMoney(cashVariance)}
             </span>
           </div>
@@ -43,21 +43,21 @@ export function ReconciliationSection({
       </div>
 
       {/* Stock Variance */}
-      <div className={`p-5 rounded-[1rem] bg-background border shadow-sm transition-[background-color,border-color,transform] duration-220 ease-out motion-reduce:transition-none ${
+      <div className={`p-5 rounded-[1rem] bg-background border transition-[background-color,border-color,transform] duration-220 ease-out motion-reduce:transition-none ${
         stockVariance !== null && !isStockMatched ? "border-danger/40 bg-danger/5 shadow-danger/5" : "border-border/50"
       }`}>
-        <div className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-2">Stock Variance</div>
+        <div className="text-xs text-text-muted uppercase mb-2">Stock Variance</div>
         {stockVariance === null ? (
-          <div className="text-2xl font-bold font-heading text-text-muted">—</div>
+          <div className="text-2xl font-heading text-text-muted">—</div>
         ) : isStockMatched ? (
           <div className="flex items-center gap-2.5 text-success animate-in fade-in zoom-in-95 duration-200">
             <CheckCircle2 className="w-6 h-6 flex-shrink-0" />
-            <span className="text-2xl font-bold font-heading tabular-nums">Balanced ({currencySymbol}0)</span>
+            <span className="text-2xl font-heading tabular-nums">Balanced ({currencySymbol}0)</span>
           </div>
         ) : (
           <div className="flex items-center gap-2.5 text-danger animate-in fade-in zoom-in-95 duration-200">
             <AlertCircle className="w-6 h-6 flex-shrink-0 animate-in zoom-in-75 duration-200" />
-            <span className="text-2xl sm:text-3xl font-extrabold font-heading tracking-tight tabular-nums">
+            <span className="text-2xl sm:text-3xl font-heading tabular-nums">
               {stockVariance > 0 ? "+" : "-"}{formatMoney(stockVariance)}
             </span>
           </div>
@@ -65,12 +65,12 @@ export function ReconciliationSection({
       </div>
 
       {/* Waste Value */}
-      <div className="p-5 rounded-[1rem] bg-background border border-border/50 shadow-sm">
+      <div className="p-5 rounded-[1rem] bg-background border border-border/50">
         <div className="flex items-center gap-2 mb-2 text-text-muted">
           <Trash2 className="w-4 h-4" />
-          <span className="text-xs font-semibold uppercase tracking-wider">Waste Value</span>
+          <span className="text-xs uppercase">Waste Value</span>
         </div>
-        <div className="text-2xl sm:text-3xl font-bold font-heading text-text-primary tabular-nums">
+        <div className="text-2xl sm:text-3xl font-heading text-text-primary tabular-nums">
           {wasteValue > 0 ? formatMoney(wasteValue) : `${currencySymbol}0`}
         </div>
       </div>

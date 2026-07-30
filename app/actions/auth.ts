@@ -9,6 +9,7 @@ import { generateUniqueBusinessCode } from "@/lib/auth/pin-utils";
 
 export async function registerOwnerAction(data: any) {
   const { businessName, currency, ownerName, email, password } = data;
+  const cleanEmail = (email || "").trim().toLowerCase();
 
   try {
     const businessId = crypto.randomUUID();
@@ -27,7 +28,7 @@ export async function registerOwnerAction(data: any) {
     // 2. Create user using Better Auth server API
     const response: any = await auth.api.signUpEmail({
       body: {
-        email: email,
+        email: cleanEmail,
         password: password,
         name: ownerName
       },
