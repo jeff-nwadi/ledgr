@@ -96,14 +96,14 @@ export function MobileBottomNav({ userRole = "owner" }: { userRole?: string }) {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex-1 min-h-[44px] flex flex-col items-center justify-center py-1 transition-all duration-200 relative ${
+              className={`flex-1 min-h-[44px] flex flex-col items-center justify-center py-1 transition-colors duration-150 relative ${
                 isActive 
-                  ? "text-brand font-semibold scale-105" 
+                  ? "text-brand font-semibold" 
                   : "text-text-muted hover:text-text-primary"
               }`}
             >
               {isActive && (
-                <span className="absolute top-0 w-8 h-1 bg-brand rounded-b-full transition-all" />
+                <span className="absolute top-0 w-8 h-1 bg-brand rounded-b-full transition-[width,background-color] duration-150" />
               )}
               <Icon className="w-5 h-5 mb-0.5" strokeWidth={isActive ? 2.5 : 1.8} />
               <span className="text-[11px] leading-tight tracking-tight">{item.label}</span>
@@ -115,16 +115,16 @@ export function MobileBottomNav({ userRole = "owner" }: { userRole?: string }) {
         <button
           type="button"
           onClick={() => setIsMoreOpen(true)}
-          className={`flex-1 min-h-[44px] flex flex-col items-center justify-center py-1 transition-all duration-200 relative ${
+          className={`flex-1 min-h-[44px] flex flex-col items-center justify-center py-1 transition-colors duration-150 relative ${
             isMoreActive || isMoreOpen
-              ? "text-brand font-semibold scale-105" 
+              ? "text-brand font-semibold" 
               : "text-text-muted hover:text-text-primary"
           }`}
           aria-expanded={isMoreOpen}
           aria-label="Open more navigation options"
         >
           {(isMoreActive || isMoreOpen) && (
-            <span className="absolute top-0 w-8 h-1 bg-brand rounded-b-full transition-all" />
+            <span className="absolute top-0 w-8 h-1 bg-brand rounded-b-full transition-[width,background-color] duration-150" />
           )}
           <MoreHorizontal className="w-5 h-5 mb-0.5" strokeWidth={isMoreActive || isMoreOpen ? 2.5 : 1.8} />
           <span className="text-[11px] leading-tight tracking-tight">More</span>
@@ -136,13 +136,13 @@ export function MobileBottomNav({ userRole = "owner" }: { userRole?: string }) {
         <div className="fixed inset-0 z-50 md:hidden flex flex-col justify-end">
           {/* Backdrop */}
           <div 
-            className="absolute inset-0 bg-black/60 backdrop-blur-xs transition-opacity duration-300 animate-in fade-in"
+            className="absolute inset-0 bg-black/60 backdrop-blur-xs transition-opacity duration-200 animate-in fade-in"
             onClick={() => setIsMoreOpen(false)}
           />
 
           {/* Drawer Content */}
           <div 
-            className="relative bg-background border-t border-border rounded-t-2xl p-5 space-y-4 max-h-[85vh] overflow-y-auto z-10 shadow-2xl animate-in slide-in-from-bottom duration-300 ease-out"
+            className="relative bg-background border-t border-border rounded-t-2xl p-5 space-y-4 max-h-[85vh] overflow-y-auto z-10 shadow-2xl animate-in slide-in-from-bottom duration-220 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:animate-none"
           >
             {/* Grab handle bar */}
             <div 

@@ -36,7 +36,7 @@ export function BusinessSettings({ business, ownerName, ownerEmail }: BusinessSe
                 Business ID Code
               </h2>
             </div>
-            <p className="text-xs text-text-muted max-w-md">
+            <p className="text-xs text-text-muted max-w-md font-normal">
               Staff members use this 6-character code alongside their 4-digit PIN to log in to shift mode.
             </p>
           </div>
@@ -74,35 +74,35 @@ export function BusinessSettings({ business, ownerName, ownerEmail }: BusinessSe
           </div>
           <div>
             <h3 className="font-semibold text-text-primary text-[15px]">Business Details</h3>
-            <p className="text-xs text-text-muted">General store information and owner profile.</p>
+            <p className="text-xs text-text-muted font-normal">General store information and owner profile.</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
-            <label className="text-xs font-semibold text-text-muted uppercase tracking-wider block mb-1">
+            <label className="text-xs font-medium text-text-muted uppercase tracking-wider block mb-1">
               Business Name
             </label>
             <p className="text-sm font-medium text-text-primary">{business.name}</p>
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-text-muted uppercase tracking-wider block mb-1 flex items-center gap-1">
+            <label className="text-xs font-medium text-text-muted uppercase tracking-wider block mb-1 flex items-center gap-1">
               <Coins className="w-3.5 h-3.5 text-brand" /> Default Currency
             </label>
             <p className="text-sm font-medium text-text-primary">{business.currency}</p>
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-text-muted uppercase tracking-wider block mb-1 flex items-center gap-1">
+            <label className="text-xs font-medium text-text-muted uppercase tracking-wider block mb-1 flex items-center gap-1">
               <ShieldCheck className="w-3.5 h-3.5 text-brand" /> Account Owner
             </label>
             <p className="text-sm font-medium text-text-primary">{ownerName}</p>
-            <p className="text-xs text-text-muted">{ownerEmail}</p>
+            <p className="text-xs text-text-muted font-normal">{ownerEmail}</p>
           </div>
 
           <div>
-            <label className="text-xs font-semibold text-text-muted uppercase tracking-wider block mb-1">
+            <label className="text-xs font-medium text-text-muted uppercase tracking-wider block mb-1">
               Created Date
             </label>
             <p className="text-sm font-medium text-text-primary">

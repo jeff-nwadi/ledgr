@@ -15,7 +15,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-export function ProductList({ products, categories }: { products: any[], categories: string[] }) {
+export function ProductList({ products, categories, currencySymbol = "₦" }: { products: any[], categories: string[], currencySymbol?: string }) {
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   
@@ -36,7 +36,7 @@ export function ProductList({ products, categories }: { products: any[], categor
   }, [products, search, categoryFilter]);
 
   const formatMoney = (amount: number) => {
-    return `₦${amount.toLocaleString()}`;
+    return `${currencySymbol}${amount.toLocaleString()}`;
   };
 
   const confirmArchive = async () => {

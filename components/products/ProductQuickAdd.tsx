@@ -8,9 +8,10 @@ interface ProductQuickAddProps {
   onClose: () => void;
   initialData?: any;
   existingCategories?: string[];
+  currencySymbol?: string;
 }
 
-export function ProductQuickAdd({ onClose, initialData, existingCategories = [] }: ProductQuickAddProps) {
+export function ProductQuickAdd({ onClose, initialData, existingCategories = [], currencySymbol = "₦" }: ProductQuickAddProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showMore, setShowMore] = useState(false);
@@ -38,57 +39,69 @@ export function ProductQuickAdd({ onClose, initialData, existingCategories = [] 
     setError("");
 
     const formData = new FormData(e.currentTarget);
-    
+    const sellingPriceStr = formData.get("sellingPrice") as string;
+    const costPriceStr = formData.get("costPrice") as string;
+    const startingStockStr = formData.get("startingStock") as string;
+    const thresholdStr = formData.get("lowStockThreshold") as string;
+
     const data = {
-      name: formData.get("name") as string,
-      unit: formData.get("unit") as string,
-      sellingPrice: parseInt(formData.get("sellingPrice") as string, 10),
-      costPrice: formData.get("costPrice") ? parseInt(formData.get("costPrice") as string, 10) : null,
-      startingStock: parseInt(formData.get("startingStock") as string, 10) || 0,
-      lowStockThreshold: formData.get("lowStockThreshold") ? parseInt(formData.get("lowStockThreshold") as string, 10) : null,
-      category: formData.get("category") as string || null,
+      name: (formData.get("name") as string) || "",
+      unit: (formData.get("unit") as string) || "each",
+      sellingPrice: parseFloat(sellingPriceStr) || 0,
+      costPrice: costPriceStr ? parseFloat(costPriceStr) : null,
+      startingStock: parseInt(startingStockStr, 10) || 0,
+      lowStockThreshold: thresholdStr ? parseInt(thresholdStr, 10) : null,
+      category: (formData.get("category") as string) || null,
     };
 
-    if (isNaN(data.sellingPrice)) {
-      setError("Selling price must be a valid number.");
+    if (!data.name.trim()) {
+      setError("Product name is required.");
       setLoading(false);
       return;
     }
 
-    const res = await createProductAction(data);
+    const result = await createProductAction(data);
 
-    if (res.error) {
-      setError(res.error);
-      setLoading(false);
+    setLoading(false);
+    if (result.error) {
+      setError(result.error);
     } else {
-      onClose(); 
+      onClose();
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-background/80 backdrop-blur-sm sm:p-4">
-      <div className="bg-background border border-border/50 sm:rounded-[1.25rem] rounded-t-[1.25rem] shadow-xl w-full max-w-md overflow-hidden animate-in slide-in-from-bottom-10 sm:zoom-in-95 duration-200 flex flex-col max-h-[90dvh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200">
+      <div className="w-full max-w-md bg-background border border-border rounded-2xl shadow-xl overflow-hidden animate-in zoom-in-95 duration-200">
         
-        <div className="flex items-center justify-between px-6 py-4 border-b border-border/40 shrink-0">
-          <h2 className="text-[18px] font-semibold text-text-primary font-heading">
-            {initialData ? "Edit Product" : "Quick Add Product"}
+        {/* HEADER */}
+        <div className="flex items-center justify-between px-5 py-4 border-b border-border/50">
+          <h2 className="font-heading text-lg font-bold text-text-primary">
+            {initialData ? "Edit Product" : "Add New Product"}
           </h2>
           <button 
+            type="button"
             onClick={onClose}
-            className="p-1.5 text-text-muted hover:text-text-primary rounded-lg hover:bg-surface transition-colors"
+            className="p-1 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <div className="overflow-y-auto p-6">
-          <form id="product-form" onSubmit={handleSubmit} className="space-y-4">
-            {error && (
-              <div className="p-3 rounded-lg bg-danger/10 text-danger text-[13px] font-medium">
-                {error}
-              </div>
-            )}
+        {/* FORM */}
+        <form onSubmit={handleSubmit} className="p-5 space-y-4 max-h-[80vh] overflow-y-auto">
+          {error && (
+            <div className="p-3 text-xs text-danger bg-danger/10 border border-danger/20 rounded-lg">
+              {error}
+            </div>
+          )}
 
+          {initialData?.id && (
+            <input type="hidden" name="id" value={initialData.id} />
+          )}
+
+          {/* ESSENTIAL FIELDS (ALWAYS VISIBLE) */}
+          <div className="space-y-3">
             <div className="space-y-1.5">
               <label htmlFor="name" className="text-[13px] font-medium text-text-primary">Product Name</label>
               <input 
@@ -104,7 +117,7 @@ export function ProductQuickAdd({ onClose, initialData, existingCategories = [] 
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label htmlFor="sellingPrice" className="text-[13px] font-medium text-text-primary">Selling Price (₦)</label>
+                <label htmlFor="sellingPrice" className="text-[13px] font-medium text-text-primary">Selling Price ({currencySymbol})</label>
                 <input 
                   id="sellingPrice"
                   name="sellingPrice" 
@@ -163,7 +176,7 @@ export function ProductQuickAdd({ onClose, initialData, existingCategories = [] 
               <div className="space-y-4 pt-2 animate-in fade-in slide-in-from-top-2 duration-200">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label htmlFor="costPrice" className="text-[13px] font-medium text-text-primary">Cost Price (₦)</label>
+                    <label htmlFor="costPrice" className="text-[13px] font-medium text-text-primary">Cost Price ({currencySymbol})</label>
                     <input 
                       id="costPrice"
                       name="costPrice" 
@@ -209,27 +222,27 @@ export function ProductQuickAdd({ onClose, initialData, existingCategories = [] 
                 </div>
               </div>
             )}
-          </form>
-        </div>
+          </div>
 
-        <div className="p-4 border-t border-border/40 shrink-0 flex justify-end gap-3 bg-background">
-          <button 
-            type="button" 
-            onClick={onClose}
-            disabled={loading}
-            className="px-4 py-2.5 text-[13px] font-medium text-text-muted hover:text-text-primary transition-colors"
-          >
-            Cancel
-          </button>
-          <button 
-            type="submit" 
-            form="product-form"
-            disabled={loading}
-            className="flex items-center justify-center min-w-[120px] px-4 py-2.5 text-[13px] font-medium text-white rounded-full [background:var(--brand-gradient)] hover:opacity-90 transition-opacity disabled:opacity-50 shadow-sm"
-          >
-            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save Product"}
-          </button>
-        </div>
+          {/* ACTIONS */}
+          <div className="pt-4 flex justify-end gap-3 border-t border-border/40">
+            <button 
+              type="button" 
+              onClick={onClose}
+              disabled={loading}
+              className="px-4 py-2 text-xs font-semibold text-text-muted hover:text-text-primary transition-colors"
+            >
+              Cancel
+            </button>
+            <button 
+              type="submit" 
+              disabled={loading}
+              className="flex items-center justify-center min-w-[120px] px-5 py-2 text-xs font-semibold text-white rounded-xl [background:var(--brand-gradient)] hover:opacity-90 transition-all active:scale-[0.96] disabled:opacity-50 shadow-sm"
+            >
+              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save Product"}
+            </button>
+          </div>
+        </form>
 
       </div>
     </div>

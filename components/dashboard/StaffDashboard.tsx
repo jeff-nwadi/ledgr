@@ -844,16 +844,16 @@ export function StaffDashboard({
                                   <button
                                     type="button"
                                     onClick={() => updateCartQty(prod.id, -1)}
-                                    className="w-9 h-9 rounded-lg bg-surface border border-border flex items-center justify-center font-bold text-text-primary active:scale-95 transition-transform"
+                                    className="w-9 h-9 rounded-lg bg-surface border border-border flex items-center justify-center font-bold text-text-primary active:scale-[0.96] transition-transform duration-100 ease-out motion-reduce:transition-none"
                                     aria-label="Decrease quantity"
                                   >
                                     <Minus className="w-3.5 h-3.5" />
                                   </button>
-                                  <span className="w-7 text-center text-xs font-bold text-brand">{inCartQty}</span>
+                                  <span className="w-7 text-center text-xs font-bold text-brand tabular-nums">{inCartQty}</span>
                                   <button
                                     type="button"
                                     onClick={() => updateCartQty(prod.id, 1)}
-                                    className="w-9 h-9 rounded-lg bg-brand text-white flex items-center justify-center font-bold active:scale-95 transition-transform"
+                                    className="w-9 h-9 rounded-lg bg-brand text-white flex items-center justify-center font-bold active:scale-[0.96] transition-transform duration-100 ease-out motion-reduce:transition-none"
                                     aria-label="Increase quantity"
                                   >
                                     <Plus className="w-3.5 h-3.5" />
@@ -863,7 +863,7 @@ export function StaffDashboard({
                                 <button
                                   type="button"
                                   onClick={() => setCartQty(prod.id, 1)}
-                                  className="px-4 py-2 bg-brand/10 hover:bg-brand text-brand hover:text-white border border-brand/20 font-bold text-xs rounded-xl transition-all flex items-center gap-1 min-h-[40px] active:scale-95"
+                                  className="px-4 py-2 bg-brand/10 hover:bg-brand text-brand hover:text-white border border-brand/20 font-bold text-xs rounded-xl transition-all duration-150 flex items-center gap-1 min-h-[40px] active:scale-[0.96] motion-reduce:transition-none"
                                 >
                                   <Plus className="w-3.5 h-3.5" /> Add
                                 </button>
@@ -910,7 +910,7 @@ export function StaffDashboard({
 
                         {/* Payment Type Selection */}
                         <div className="space-y-2">
-                          <span className="text-xs font-bold text-text-primary uppercase tracking-wider block">Payment Type</span>
+                          <span className="text-xs font-semibold text-text-muted uppercase tracking-wider block">Payment Type</span>
                           <div className="grid grid-cols-2 gap-2">
                             <button
                               type="button"
@@ -1014,12 +1014,14 @@ export function StaffDashboard({
                           <button
                             type="submit"
                             disabled={isSaleSubmitting}
-                            className="w-full py-3.5 px-4 rounded-xl text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 min-h-[48px] active:scale-98 disabled:opacity-50"
-                            style={{ backgroundImage: saleSuccess ? undefined : 'var(--brand-gradient)', backgroundColor: saleSuccess ? '#059669' : undefined }}
+                            className={`w-full py-3.5 px-4 rounded-xl text-white font-bold text-sm shadow-md transition-[transform,background-color,opacity] duration-150 ease-out flex items-center justify-center gap-2 min-h-[48px] active:scale-[0.96] disabled:opacity-50 motion-reduce:transition-none ${
+                              saleSuccess ? "bg-success" : ""
+                            }`}
+                            style={{ backgroundImage: saleSuccess ? undefined : 'var(--brand-gradient)' }}
                           >
                             {saleSuccess ? (
-                              <span className="flex items-center gap-1.5">
-                                <CheckCircle2 className="w-4 h-4 animate-bounce text-white" /> Order Logged!
+                              <span className="flex items-center gap-1.5 animate-in zoom-in-90 duration-150">
+                                <CheckCircle2 className="w-4 h-4 animate-in zoom-in-75 duration-150 text-white" /> Order Logged!
                               </span>
                             ) : isSaleSubmitting ? (
                               "Processing..."
@@ -1049,7 +1051,7 @@ export function StaffDashboard({
               <form onSubmit={handleWasteSubmit} className="bg-surface p-5 sm:p-6 rounded-2xl border border-border space-y-4 shadow-xs">
                 {/* Product Search & Select */}
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-text-primary uppercase tracking-wider block">1. Select Product</label>
+                  <label className="text-xs font-semibold text-text-muted uppercase tracking-wider block">1. Select Product</label>
                   <input
                     type="text"
                     placeholder="Search product..."
@@ -1071,7 +1073,7 @@ export function StaffDashboard({
 
                 {/* Reason Tappable Chips */}
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-text-primary uppercase tracking-wider block">2. Reason for Waste</label>
+                  <label className="text-xs font-semibold text-text-muted uppercase tracking-wider block">2. Reason for Waste</label>
                   <div className="grid grid-cols-2 gap-2">
                     {[
                       { id: "Expired", label: "Expired / Spoiled", icon: "🥀" },
@@ -1098,20 +1100,20 @@ export function StaffDashboard({
 
                 {/* Quantity Stepper */}
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-text-primary uppercase tracking-wider block">3. Wasted Quantity</label>
+                  <label className="text-xs font-semibold text-text-muted uppercase tracking-wider block">3. Wasted Quantity</label>
                   <div className="flex items-center gap-3 bg-background p-2 rounded-2xl border border-border justify-between">
                     <button
                       type="button"
                       onClick={() => setWasteQty((q) => Math.max(1, q - 1))}
-                      className="w-12 h-12 rounded-xl bg-surface border border-border flex items-center justify-center font-bold text-text-primary active:scale-95 transition-transform"
+                      className="w-12 h-12 rounded-xl bg-surface border border-border flex items-center justify-center font-bold text-text-primary active:scale-[0.96] transition-transform duration-100 ease-out motion-reduce:transition-none"
                     >
                       <Minus className="w-5 h-5" />
                     </button>
-                    <span className="text-xl font-bold text-rose-600 font-heading">{wasteQty}</span>
+                    <span className="text-xl font-bold text-danger font-heading tabular-nums">{wasteQty}</span>
                     <button
                       type="button"
                       onClick={() => setWasteQty((q) => q + 1)}
-                      className="w-12 h-12 rounded-xl bg-rose-600 text-white flex items-center justify-center font-bold active:scale-95 transition-transform"
+                      className="w-12 h-12 rounded-xl bg-danger text-white flex items-center justify-center font-bold active:scale-[0.96] transition-transform duration-100 ease-out motion-reduce:transition-none"
                     >
                       <Plus className="w-5 h-5" />
                     </button>
@@ -1122,13 +1124,13 @@ export function StaffDashboard({
                 <button
                   type="submit"
                   disabled={isWasteSubmitting || !wasteProductId}
-                  className={`w-full py-4 text-white font-bold text-sm rounded-2xl shadow-md transition-all min-h-[52px] active:scale-98 disabled:opacity-50 ${
-                    wasteSuccess ? "bg-emerald-600" : "bg-rose-600 hover:bg-rose-700"
+                  className={`w-full py-4 text-white font-bold text-sm rounded-2xl shadow-md transition-[transform,background-color,opacity] duration-150 ease-out min-h-[52px] active:scale-[0.96] disabled:opacity-50 motion-reduce:transition-none ${
+                    wasteSuccess ? "bg-success" : "bg-danger hover:opacity-90"
                   }`}
                 >
                   {wasteSuccess ? (
-                    <span className="flex items-center justify-center gap-2">
-                      <CheckCircle2 className="w-5 h-5 animate-bounce" /> Waste Logged!
+                    <span className="flex items-center justify-center gap-2 animate-in zoom-in-90 duration-150">
+                      <CheckCircle2 className="w-5 h-5 animate-in zoom-in-75 duration-150" /> Waste Logged!
                     </span>
                   ) : isWasteSubmitting ? (
                     "Logging Waste..."
@@ -1190,11 +1192,19 @@ export function StaffDashboard({
                       <div className="bg-surface p-3.5 rounded-2xl border border-border space-y-2">
                         <div className="flex items-center justify-between text-xs font-bold">
                           <span className="text-text-primary">Counting Progress</span>
-                          <span className="text-brand">{countedOpeningCount} of {totalOpeningProducts} counted ({openingProgressPercent}%)</span>
+                          <span className="text-brand flex items-center gap-1">
+                            <span key={countedOpeningCount} className="tabular-nums inline-block animate-in fade-in zoom-in-90 duration-150">
+                              {countedOpeningCount}
+                            </span>
+                            <span className="text-text-muted">of {totalOpeningProducts} counted</span>
+                            <span className="tabular-nums text-text-muted ml-1">({openingProgressPercent}%)</span>
+                          </span>
                         </div>
-                        <div className="w-full h-2 bg-border/60 rounded-full overflow-hidden">
+                        <div className="w-full h-2 bg-border/60 rounded-full overflow-hidden relative">
                           <div 
-                            className="h-full bg-brand rounded-full transition-all duration-300"
+                            className={`h-full rounded-full transition-[width,background-color] duration-250 ease-out motion-reduce:transition-none ${
+                              openingProgressPercent === 100 ? "bg-success" : "bg-brand"
+                            }`}
                             style={{ width: `${openingProgressPercent}%` }}
                           />
                         </div>
@@ -1232,7 +1242,7 @@ export function StaffDashboard({
                                     ...openingCounts,
                                     [prod.id]: Math.max(0, (openingCounts[prod.id] ?? expected) - 1)
                                   })}
-                                  className="w-11 h-11 rounded-xl bg-background border border-border flex items-center justify-center font-bold text-text-primary active:scale-95 transition-transform"
+                                  className="w-11 h-11 rounded-xl bg-background border border-border flex items-center justify-center font-bold text-text-primary active:scale-[0.96] transition-transform duration-100 ease-out motion-reduce:transition-none"
                                 >
                                   <Minus className="w-4 h-4" />
                                 </button>
@@ -1244,7 +1254,7 @@ export function StaffDashboard({
                                     ...openingCounts,
                                     [prod.id]: Math.max(0, parseInt(e.target.value, 10) || 0)
                                   })}
-                                  className="flex-1 py-2.5 border border-border bg-background rounded-xl text-base font-bold text-center text-text-primary focus:ring-2 focus:ring-brand min-h-[44px]"
+                                  className="flex-1 py-2.5 border border-border bg-background rounded-xl text-base font-bold text-center text-text-primary focus:ring-2 focus:ring-brand min-h-[44px] tabular-nums"
                                 />
                                 <button
                                   type="button"
@@ -1252,7 +1262,7 @@ export function StaffDashboard({
                                     ...openingCounts,
                                     [prod.id]: (openingCounts[prod.id] ?? expected) + 1
                                   })}
-                                  className="w-11 h-11 rounded-xl bg-brand text-white flex items-center justify-center font-bold active:scale-95 transition-transform"
+                                  className="w-11 h-11 rounded-xl bg-brand text-white flex items-center justify-center font-bold active:scale-[0.96] transition-transform duration-100 ease-out motion-reduce:transition-none"
                                 >
                                   <Plus className="w-4 h-4" />
                                 </button>
@@ -1299,7 +1309,7 @@ export function StaffDashboard({
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-xs font-bold text-text-primary uppercase tracking-wider block">Product</label>
+                    <label className="text-xs font-semibold text-text-muted uppercase tracking-wider block">Product</label>
                     <select
                       value={restockProductId}
                       onChange={(e) => setRestockProductId(e.target.value)}
@@ -1313,7 +1323,7 @@ export function StaffDashboard({
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-xs font-bold text-text-primary uppercase tracking-wider block">Quantity Delivered</label>
+                    <label className="text-xs font-semibold text-text-muted uppercase tracking-wider block">Quantity Delivered</label>
                     <div className="flex items-center gap-3 bg-background p-2 rounded-2xl border border-border justify-between">
                       <button
                         type="button"
@@ -1499,7 +1509,7 @@ export function StaffDashboard({
                     <label className="text-xs font-bold text-text-primary uppercase tracking-wider block">Physical Counted Cash in Drawer</label>
                     <input
                       type="number"
-                      placeholder="Enter counted ₦ cash..."
+                      placeholder={`Enter counted ${currencySymbol} cash...`}
                       value={countedCash}
                       onChange={(e) => setCountedCash(e.target.value)}
                       className="w-full p-4 border border-border bg-surface rounded-2xl text-lg font-bold text-text-primary focus:ring-2 focus:ring-brand min-h-[52px]"
@@ -1542,19 +1552,27 @@ export function StaffDashboard({
                     const cashVar = countedNum - expectedCashForClose;
 
                     return (
-                      <div className={`p-4 rounded-2xl border flex items-center justify-between ${
-                        cashVar === 0 
-                          ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-700"
-                          : "bg-rose-500/10 border-rose-500/30 text-rose-700"
-                      }`}>
+                      <div 
+                        className={`p-4 rounded-2xl border flex items-center justify-between transition-[transform,opacity,background-color] duration-220 ease-out motion-reduce:transition-none animate-in fade-in zoom-in-95 ${
+                          cashVar === 0 
+                            ? "bg-success/10 border-success/30 text-success"
+                            : "bg-danger/10 border-danger/30 text-danger shadow-xs shadow-danger/10"
+                        }`}
+                      >
                         <div className="flex items-center gap-3">
-                          {cashVar === 0 ? <CheckCircle2 className="w-5 h-5 text-emerald-600" /> : <AlertTriangle className="w-5 h-5 text-rose-600" />}
+                          {cashVar === 0 ? (
+                            <CheckCircle2 className="w-5 h-5 text-success shrink-0" />
+                          ) : (
+                            <AlertTriangle className="w-5 h-5 text-danger shrink-0 animate-in zoom-in-75 duration-200" />
+                          )}
                           <div>
                             <span className="text-xs font-bold block">Cash Drawer Variance</span>
-                            <span className="text-[11px] opacity-80">Counted {currencySymbol}{countedNum.toLocaleString()} vs Expected {currencySymbol}{expectedCashForClose.toLocaleString()}</span>
+                            <span className="text-[11px] opacity-90 tabular-nums">
+                              Counted {currencySymbol}{countedNum.toLocaleString()} vs Expected {currencySymbol}{expectedCashForClose.toLocaleString()}
+                            </span>
                           </div>
                         </div>
-                        <span className="text-base font-bold">
+                        <span className="text-base font-bold tabular-nums font-heading tracking-tight">
                           {cashVar >= 0 ? `+${currencySymbol}${cashVar.toLocaleString()}` : `-${currencySymbol}${Math.abs(cashVar).toLocaleString()}`}
                         </span>
                       </div>
@@ -1565,20 +1583,24 @@ export function StaffDashboard({
                   <div className="bg-surface rounded-2xl p-4 border border-border space-y-3 max-h-52 overflow-y-auto">
                     <span className="text-xs font-bold text-text-muted uppercase tracking-wider block">Stock Variances</span>
                     <div className="divide-y divide-border/50">
-                      {stockSummary.map((item) => {
+                      {stockSummary.map((item, idx) => {
                         const counted = closingStockCounts[item.productId] ?? item.calculatedClosingQty;
                         const variance = counted - item.calculatedClosingQty;
 
                         return (
-                          <div key={item.id} className="py-2 flex items-center justify-between text-xs">
+                          <div 
+                            key={item.id} 
+                            style={{ animationDelay: `${idx * 40}ms` }}
+                            className="py-2.5 flex items-center justify-between text-xs animate-in fade-in slide-in-from-bottom-1 duration-200 motion-reduce:animate-none"
+                          >
                             <span className="font-semibold text-text-primary">{item.productName}</span>
-                            <div className="flex items-center gap-1.5 font-bold">
+                            <div className="flex items-center gap-1.5 font-bold tabular-nums">
                               {variance === 0 ? (
-                                <span className="text-emerald-600 flex items-center gap-1">
+                                <span className="text-success flex items-center gap-1">
                                   <CheckCircle2 className="w-3.5 h-3.5" /> 0 variance
                                 </span>
                               ) : (
-                                <span className="text-rose-600 flex items-center gap-1">
+                                <span className="text-danger flex items-center gap-1 bg-danger/10 px-2 py-0.5 rounded-lg border border-danger/20">
                                   <AlertTriangle className="w-3.5 h-3.5" /> {variance > 0 ? `+${variance}` : variance} {item.unit}
                                 </span>
                               )}

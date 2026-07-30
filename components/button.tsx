@@ -9,12 +9,11 @@ const BASE =
   "transition-[transform,opacity,box-shadow] duration-150 ease-out " +
   "active:scale-[0.96] focus-visible:outline-none focus-visible:ring-2 " +
   "focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background " +
-  "disabled:opacity-50 disabled:pointer-events-none select-none";
+  "disabled:opacity-50 disabled:pointer-events-none select-none motion-reduce:transition-none motion-reduce:transform-none";
 
 const SIZES: Record<ButtonSize, string> = {
-  md: "h-11 px-5 text-[15px]",
-  // Phone-first CTA — 52px hit area, above the 44px minimum, for the landing sign-up.
-  lg: "h-[52px] px-7 text-base",
+  md: "h-10 px-4 text-xs sm:text-sm font-semibold",
+  lg: "h-11 px-5 text-xs sm:text-sm font-semibold",
 };
 
 const VARIANTS: Record<ButtonVariant, string> = {

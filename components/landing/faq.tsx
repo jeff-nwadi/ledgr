@@ -1,3 +1,5 @@
+import { ScrollReveal } from "@/components/landing/scroll-reveal";
+
 const FAQ_ITEMS = [
   {
     q: "What happens if the internet drops mid-shift?",
@@ -30,14 +32,14 @@ export function FAQ() {
     <section id="faq" className="bg-background overflow-hidden">
       <div className="mx-auto max-w-6xl px-5 py-14 sm:px-10 sm:py-28">
         <div className="grid gap-8 md:grid-cols-[5fr_8fr] md:gap-20">
-          <div>
+          <ScrollReveal>
             <h2 className="font-heading text-3xl font-bold leading-none tracking-tight text-text-primary sm:text-6xl">
               FAQs
             </h2>
             <p className="mt-2.5 text-xs sm:text-base text-text-muted">Six answers, no fine print.</p>
-          </div>
+          </ScrollReveal>
 
-          <div className="divide-y divide-border border-y border-border">
+          <ScrollReveal delay={100} className="divide-y divide-border border-y border-border">
             {FAQ_ITEMS.map((item) => (
               <details key={item.q} name="ledgr-faq" className="group">
                 <summary
@@ -53,7 +55,7 @@ export function FAQ() {
                   <span className="leading-snug pr-2">{item.q}</span>
                   <svg
                     aria-hidden="true"
-                    className="size-4 shrink-0 text-text-muted transition-transform duration-200 ease-out group-open:rotate-180 group-hover:text-brand"
+                    className="size-4 shrink-0 text-text-muted transition-transform duration-200 ease-out group-open:rotate-180 group-hover:text-brand motion-reduce:transition-none"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
@@ -66,16 +68,16 @@ export function FAQ() {
                     />
                   </svg>
                 </summary>
-                <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out group-open:grid-rows-[1fr]">
+                <div className="grid grid-rows-[0fr] transition-[grid-template-rows] duration-250 ease-out group-open:grid-rows-[1fr] motion-reduce:transition-none">
                   <div className="overflow-hidden">
-                    <p className="pb-4 sm:pb-5 pr-4 text-xs sm:text-[15px] leading-relaxed text-text-muted opacity-0 translate-y-1 transition-[opacity,transform] duration-200 ease-out group-open:opacity-100 group-open:translate-y-0">
+                    <p className="pb-4 sm:pb-5 pr-4 text-xs sm:text-[15px] leading-relaxed text-text-muted opacity-0 translate-y-1 transition-[opacity,transform] duration-200 ease-out group-open:opacity-100 group-open:translate-y-0 motion-reduce:transition-none">
                       {item.a}
                     </p>
                   </div>
                 </div>
               </details>
             ))}
-          </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>

@@ -18,15 +18,13 @@ export default function SignInPage() {
 }
 
 function SignInContent() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const { data: sessionData } = authClient.useSession();
 
   const initialType = searchParams.get("type") === "pin" ? "pin" : "owner";
-
   const [loginType, setLoginType] = React.useState<"owner" | "pin">(initialType);
 
-  // If already logged in client-side (e.g. via bfcache or direct navigation), redirect immediately
+  // If already logged in client-side, redirect immediately
   React.useEffect(() => {
     if (sessionData?.user) {
       const userRole = (sessionData.user as any).role || "owner";
@@ -112,11 +110,11 @@ function SignInContent() {
   return (
     <div className="min-h-dvh flex flex-col bg-background text-text-primary">
       {/* Header */}
-      <header className="border-b border-border bg-surface/50">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+      <header className="px-6 py-5">
+        <div className="mx-auto flex max-w-6xl items-center justify-between">
           <Link
             href="/"
-            className="font-heading text-xl tracking-tight text-text-primary hover:text-brand transition-colors"
+            className="font-heading text-xl font-bold tracking-tight text-text-primary hover:text-brand transition-colors"
           >
             Ledgr
           </Link>
@@ -132,174 +130,152 @@ function SignInContent() {
         </div>
       </header>
 
-      {/* Main Container */}
-      <main className="flex-1 flex items-center justify-center p-6 sm:p-10">
-        <div className="w-full max-w-md space-y-6">
-          {/* Header text */}
-          <div className="text-center space-y-2">
-            <h1 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl text-text-primary">
-              Welcome back
-            </h1>
-            <p className="text-sm text-text-muted">
-              Choose your login method to access your business ledger.
-            </p>
+      {/* Main Form Area — Sitting Directly on --background */}
+      <main className="flex-1 flex items-center justify-center px-6 py-12">
+        <div className="w-full max-w-[400px] space-y-8">
+          
+          {/* Header & Segmented Pill Switcher */}
+          <div className="space-y-6 text-center">
+            <div className="space-y-2">
+              <h1 className="font-heading text-3xl font-bold tracking-tight text-text-primary sm:text-4xl">
+                Welcome back
+              </h1>
+              <p className="text-sm text-text-muted font-normal">
+                Choose your login method to access your business ledger.
+              </p>
+            </div>
+
+            {/* Lighter Segmented Pill Control */}
+            <div className="inline-flex p-1 bg-surface border border-border/50 rounded-full text-xs font-semibold select-none">
+              <button
+                type="button"
+                onClick={() => setLoginType("owner")}
+                className={`px-5 py-2 rounded-full transition-all ${
+                  loginType === "owner"
+                    ? "bg-background text-text-primary shadow-xs"
+                    : "text-text-muted hover:text-text-primary"
+                }`}
+              >
+                Owner Login
+              </button>
+              <button
+                type="button"
+                onClick={() => setLoginType("pin")}
+                className={`px-5 py-2 rounded-full transition-all flex items-center gap-1.5 ${
+                  loginType === "pin"
+                    ? "bg-background text-text-primary shadow-xs"
+                    : "text-text-muted hover:text-text-primary"
+                }`}
+              >
+                <span>Staff Login</span>
+                <span className="size-1.5 rounded-full bg-brand" />
+              </button>
+            </div>
           </div>
 
-          {/* Login Type Switcher (Tabs) */}
-          <div className="grid grid-cols-2 p-1.5 rounded-2xl border border-border bg-surface">
-            <button
-              type="button"
-              onClick={() => setLoginType("owner")}
-              className={
-                "py-2.5 px-3 rounded-xl text-sm font-semibold transition-all select-none " +
-                (loginType === "owner"
-                  ? "bg-background text-text-primary shadow-sm border border-border/50"
-                  : "text-text-muted hover:text-text-primary")
-              }
-            >
-              Owner Login
-            </button>
-            <button
-              type="button"
-              onClick={() => setLoginType("pin")}
-              className={
-                "py-2.5 px-3 rounded-xl text-sm font-semibold transition-all select-none flex items-center justify-center gap-1.5 " +
-                (loginType === "pin"
-                  ? "bg-background text-text-primary shadow-sm border border-border/50"
-                  : "text-text-muted hover:text-text-primary")
-              }
-            >
-              <span>Staff Login</span>
-              <span className="size-2 rounded-full bg-brand" />
-            </button>
-          </div>
+          {/* Form Content directly on page */}
+          {loginType === "owner" ? (
+            /* Owner Login Form */
+            <form onSubmit={handleOwnerSubmit} className="space-y-5">
+              <Input
+                label="Email Address"
+                type="email"
+                placeholder="owner@bakery.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                error={ownerErrors.email}
+              />
 
-          {/* Card Body */}
-          <div className="rounded-2xl border border-border bg-surface p-6 sm:p-8 shadow-sm">
-            {loginType === "owner" ? (
-              /* Owner Login Form */
-              <form onSubmit={handleOwnerSubmit} className="space-y-4">
-                <div className="space-y-1">
-                  <h2 className="font-heading text-xl text-text-primary">
-                    Owner Sign In
-                  </h2>
-                  <p className="text-xs text-text-muted">
-                    Sign in with your email and password.
+              <Input
+                label="Password"
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                error={ownerErrors.password}
+              />
+
+              <div className="pt-2">
+                <Button
+                  type="submit"
+                  size="lg"
+                  className="w-full"
+                  disabled={isOwnerLoading}
+                >
+                  {isOwnerLoading ? "Signing in..." : "Sign In as Owner"}
+                </Button>
+              </div>
+            </form>
+          ) : (
+            /* Staff PIN Login Form (2 Fields: Business ID + PIN) */
+            <form onSubmit={handlePinSubmit} className="space-y-5">
+              {pinErrors.form && (
+                <div className="text-xs font-medium text-danger bg-danger/10 p-3.5 rounded-xl border border-danger/20">
+                  ⚠ {pinErrors.form}
+                </div>
+              )}
+
+              <Input
+                label="Business ID Code"
+                placeholder="e.g. X9K3M7 or ZARI'S-CAK-972"
+                value={businessCode}
+                maxLength={50}
+                onChange={(e) => {
+                  setBusinessCode(e.target.value.toUpperCase());
+                  if (pinErrors.businessCode) setPinErrors(prev => ({ ...prev, businessCode: "" }));
+                }}
+                error={pinErrors.businessCode}
+                helperText="Provided in Business Settings."
+              />
+
+              {/* PIN Display */}
+              <div className="space-y-1.5">
+                <label className="block text-xs font-semibold text-text-muted uppercase tracking-wider">
+                  4-Digit Staff PIN
+                </label>
+                <div className="relative">
+                  <input
+                    type="password"
+                    maxLength={4}
+                    pattern="[0-9]*"
+                    inputMode="numeric"
+                    placeholder="••••"
+                    value={pin}
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/\D/g, "");
+                      setPin(val);
+                      if (pinErrors.pin) setPinErrors((prev) => ({ ...prev, pin: "" }));
+                      if (pinErrors.form) setPinErrors((prev) => ({ ...prev, form: "" }));
+                    }}
+                    className={
+                      "w-full h-14 px-4 rounded-xl border bg-surface text-text-primary text-center text-2xl font-mono tracking-[0.4em] " +
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand transition-all " +
+                      (pinErrors.pin ? "border-danger" : "border-border")
+                    }
+                  />
+                </div>
+                {pinErrors.pin && (
+                  <p className="text-xs font-medium text-danger flex items-center gap-1">
+                    <span aria-hidden="true">⚠</span> {pinErrors.pin}
                   </p>
-                </div>
-
-                <Input
-                  label="Email Address"
-                  type="email"
-                  placeholder="owner@bakery.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  error={ownerErrors.email}
-                />
-
-                <Input
-                  label="Password"
-                  type="password"
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  error={ownerErrors.password}
-                />
-
-                <div className="pt-2">
-                  <Button
-                    type="submit"
-                    size="lg"
-                    className="w-full"
-                    disabled={isOwnerLoading}
-                  >
-                    {isOwnerLoading ? "Signing in..." : "Sign In as Owner →"}
-                  </Button>
-                </div>
-              </form>
-            ) : (
-              /* Staff PIN Login Form (2 Fields: Business ID + PIN) */
-              <form onSubmit={handlePinSubmit} className="space-y-5">
-                <div className="space-y-1">
-                  <h2 className="font-heading text-xl text-text-primary flex items-center justify-between">
-                    <span>Staff PIN Login</span>
-                    <span className="text-xs font-normal text-text-muted">
-                      Shift Access
-                    </span>
-                  </h2>
-                  <p className="text-xs text-text-muted">
-                    Enter your 6-character Business ID and 4-digit PIN.
-                  </p>
-                </div>
-
-                {pinErrors.form && (
-                  <div className="text-xs font-medium text-danger bg-danger/10 p-3 rounded-xl border border-danger/20">
-                    ⚠ {pinErrors.form}
-                  </div>
                 )}
+              </div>
 
-                <Input
-                  label="Business ID Code"
-                  placeholder="e.g. X9K3M7 or ZARI'S-CAK-972"
-                  value={businessCode}
-                  maxLength={50}
-                  onChange={(e) => {
-                    setBusinessCode(e.target.value.toUpperCase());
-                    if (pinErrors.businessCode) setPinErrors(prev => ({ ...prev, businessCode: "" }));
-                  }}
-                  error={pinErrors.businessCode}
-                  helperText="Provided in Business Settings."
-                />
-
-                {/* PIN Display */}
-                <div className="space-y-1.5">
-                  <label className="block text-sm font-medium text-text-primary">
-                    4-Digit Staff PIN
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="password"
-                      maxLength={4}
-                      pattern="[0-9]*"
-                      inputMode="numeric"
-                      placeholder="••••"
-                      value={pin}
-                      onChange={(e) => {
-                        const val = e.target.value.replace(/\D/g, "");
-                        setPin(val);
-                        if (pinErrors.pin) setPinErrors((prev) => ({ ...prev, pin: "" }));
-                        if (pinErrors.form) setPinErrors((prev) => ({ ...prev, form: "" }));
-                      }}
-                      className={
-                        "w-full h-14 px-4 rounded-xl border bg-background text-text-primary text-center text-2xl font-mono tracking-[0.4em] " +
-                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand " +
-                        (pinErrors.pin ? "border-danger" : "border-border")
-                      }
-                    />
-                  </div>
-                  {pinErrors.pin && (
-                    <p className="text-xs font-medium text-danger flex items-center gap-1">
-                      <span aria-hidden="true">⚠</span> {pinErrors.pin}
-                    </p>
-                  )}
-                </div>
-
-                <div className="pt-2">
-                  <Button
-                    type="submit"
-                    size="lg"
-                    className="w-full"
-                    disabled={isPinLoading}
-                  >
-                    {isPinLoading ? "Verifying PIN..." : "Log In to Shift →"}
-                  </Button>
-                </div>
-              </form>
-            )}
-          </div>
+              <div className="pt-2">
+                <Button
+                  type="submit"
+                  size="lg"
+                  className="w-full"
+                  disabled={isPinLoading}
+                >
+                  {isPinLoading ? "Verifying PIN..." : "Log In to Shift"}
+                </Button>
+              </div>
+            </form>
+          )}
 
           {/* Footer message */}
-          <p className="text-center text-xs text-text-muted">
+          <p className="text-center text-xs text-text-muted pt-2 font-normal">
             Need to register a new shop?{" "}
             <Link
               href="/signup"

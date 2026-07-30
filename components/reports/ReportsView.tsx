@@ -63,13 +63,13 @@ export function ReportsView() {
           </div>
           <div>
             <h2 className="font-bold text-text-primary text-base sm:text-lg">Export Financial Ledger Data</h2>
-            <p className="text-xs sm:text-sm text-text-muted">Select a date range to generate a generic CSV export (Revenue, Cost, Profit, Qty).</p>
+            <p className="text-xs sm:text-sm text-text-muted font-normal">Select a date range to generate a generic CSV export (Revenue, Cost, Profit, Qty).</p>
           </div>
         </div>
 
         {/* Quick Date Presets */}
         <div className="space-y-2">
-          <label className="text-xs font-semibold text-text-muted uppercase tracking-wider">Quick Date Presets</label>
+          <label className="text-xs font-medium text-text-muted uppercase tracking-wider">Quick Date Presets</label>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             {presetRanges.map((preset) => (
               <button
@@ -106,11 +106,11 @@ export function ReportsView() {
           {/* Full-Width Touch Native Date Inputs */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label htmlFor="startDate" className="text-xs font-semibold text-text-primary block">
+              <label htmlFor="startDate" className="text-xs font-medium text-text-muted block">
                 Start Date
               </label>
               <div className="relative">
-                <Calendar className="w-4 h-4 absolute left-3 top.1/2 top-3.5 text-brand" />
+                <Calendar className="w-4 h-4 absolute left-3 top-3.5 text-brand" />
                 <input 
                   id="startDate"
                   type="date"
@@ -124,7 +124,7 @@ export function ReportsView() {
             </div>
 
             <div className="space-y-1.5">
-              <label htmlFor="endDate" className="text-xs font-semibold text-text-primary block">
+              <label htmlFor="endDate" className="text-xs font-medium text-text-muted block">
                 End Date
               </label>
               <div className="relative">

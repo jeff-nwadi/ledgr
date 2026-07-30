@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { SampleDataTag } from "@/components/card";
 import { ShieldCheck, Zap, WifiOff, CheckCircle2 } from "lucide-react";
+import { ScrollReveal } from "@/components/landing/scroll-reveal";
 
 export function DashboardMockup() {
   const [activeTab, setActiveTab] = useState<"sale" | "waste" | "pin">("sale");
@@ -11,22 +12,19 @@ export function DashboardMockup() {
     <section className="bg-surface overflow-hidden border-y border-border">
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-10 sm:py-24">
         {/* Section Header */}
-        <div className="mx-auto max-w-2xl text-center">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-brand/20 bg-brand/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-brand">
-            <Zap className="w-3.5 h-3.5" /> Staff & Counter Experience
-          </span>
+        <ScrollReveal className="mx-auto max-w-2xl text-center">
           <h2 className="mt-4 font-heading text-2xl leading-tight font-bold tracking-tight text-text-primary sm:text-4xl md:text-5xl">
             Built for the counter. Fast for staff.
           </h2>
-          <p className="mt-3 text-sm leading-relaxed text-text-muted sm:mt-4 sm:text-lg">
+          <p className="mt-3 text-base leading-relaxed text-text-muted sm:mt-4">
             No complex email logins or passwords. Staff log sales, waste, and shift counts in seconds on any smartphone.
           </p>
-        </div>
+        </ScrollReveal>
 
         {/* Feature Grid & Phone Showcase */}
         <div className="mt-12 sm:mt-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left / Phone Mockup (5 cols) */}
-          <div className="lg:col-span-6 flex justify-center">
+          <ScrollReveal delay={100} className="lg:col-span-6 flex justify-center">
             <div className="w-full max-w-[340px] sm:max-w-[360px] rounded-[40px] border-[6px] border-text-primary/90 bg-background p-3 shadow-2xl relative overflow-hidden">
               {/* Phone Notch */}
               <div className="w-32 h-4 bg-text-primary/90 rounded-b-xl mx-auto mb-3 flex justify-center items-center">
@@ -92,7 +90,7 @@ export function DashboardMockup() {
 
                   {/* Dynamic Mockup View */}
                   {activeTab === "sale" && (
-                    <div className="space-y-3 animate-in fade-in duration-200">
+                    <div className="space-y-3 animate-in fade-in zoom-in-95 duration-200 motion-reduce:animate-none">
                       <div className="space-y-2">
                         {[
                           { name: "Sourdough Loaf", price: "₦2,400", qty: 2 },
@@ -120,7 +118,7 @@ export function DashboardMockup() {
 
                       <button
                         type="button"
-                        className="w-full py-3 rounded-xl text-xs font-bold text-white shadow-md active:scale-98 transition-transform bg-[background:var(--brand-gradient)]"
+                        className="w-full py-3 rounded-xl text-xs font-bold text-white shadow-md active:scale-[0.96] transition-[transform,opacity] duration-150 ease-out bg-[background:var(--brand-gradient)] motion-reduce:transition-none"
                       >
                         ✓ Confirm & Log Sale
                       </button>
@@ -128,7 +126,7 @@ export function DashboardMockup() {
                   )}
 
                   {activeTab === "waste" && (
-                    <div className="space-y-3 animate-in fade-in duration-200">
+                    <div className="space-y-3 animate-in fade-in zoom-in-95 duration-200 motion-reduce:animate-none">
                       <div className="p-3 rounded-xl border border-amber-500/20 bg-amber-500/10">
                         <p className="text-xs font-bold text-amber-700 dark:text-amber-300">Log Spoilage / Waste</p>
                         <p className="text-[10px] text-text-muted mt-0.5">Reduces calculated closing stock automatically</p>
@@ -147,7 +145,7 @@ export function DashboardMockup() {
 
                       <button
                         type="button"
-                        className="w-full py-3 rounded-xl text-xs font-bold text-white bg-danger shadow-md active:scale-98 transition-transform"
+                        className="w-full py-3 rounded-xl text-xs font-bold text-white bg-danger shadow-md active:scale-[0.96] transition-[transform,opacity] duration-150 ease-out motion-reduce:transition-none"
                       >
                         Record Waste Item
                       </button>
@@ -155,7 +153,7 @@ export function DashboardMockup() {
                   )}
 
                   {activeTab === "pin" && (
-                    <div className="space-y-3 text-center py-2 animate-in fade-in duration-200">
+                    <div className="space-y-3 text-center py-2 animate-in fade-in zoom-in-95 duration-200 motion-reduce:animate-none">
                       <div className="w-10 h-10 rounded-full bg-brand/10 text-brand flex items-center justify-center mx-auto">
                         <ShieldCheck className="w-5 h-5" />
                       </div>
@@ -178,56 +176,64 @@ export function DashboardMockup() {
                 </div>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* Right / Benefits List (6 cols) */}
           <div className="lg:col-span-6 space-y-6">
-            <div className="flex items-start gap-4 p-4 rounded-2xl border border-border bg-background transition-all hover:border-brand/30 hover:shadow-sm">
-              <div className="w-10 h-10 shrink-0 rounded-xl bg-brand/10 text-brand flex items-center justify-center font-bold">
-                <ShieldCheck className="w-5 h-5" />
+            <ScrollReveal delay={150}>
+              <div className="flex items-start gap-4 p-4 rounded-2xl border border-border bg-background transition-all hover:border-brand/30 hover:shadow-sm">
+                <div className="w-10 h-10 shrink-0 rounded-xl bg-brand/10 text-brand flex items-center justify-center font-bold">
+                  <ShieldCheck className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-heading text-lg font-bold text-text-primary">
+                    Fast 4–6 Digit Staff PIN Access
+                  </h3>
+                  <p className="mt-1 text-sm text-text-muted leading-relaxed">
+                    No passwords, emails, or personal accounts required for shop staff. Simply assign a 4–6 digit PIN to each staff member scoped directly to your business.
+                  </p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-heading text-lg font-bold text-text-primary">
-                  Fast 4–6 Digit Staff PIN Access
-                </h3>
-                <p className="mt-1 text-sm text-text-muted leading-relaxed">
-                  No passwords, emails, or personal accounts required for shop staff. Simply assign a 4–6 digit PIN to each staff member scoped directly to your business.
-                </p>
-              </div>
-            </div>
+            </ScrollReveal>
 
-            <div className="flex items-start gap-4 p-4 rounded-2xl border border-border bg-background transition-all hover:border-brand/30 hover:shadow-sm">
-              <div className="w-10 h-10 shrink-0 rounded-xl bg-brand/10 text-brand flex items-center justify-center font-bold">
-                <Zap className="w-5 h-5" />
+            <ScrollReveal delay={200}>
+              <div className="flex items-start gap-4 p-4 rounded-2xl border border-border bg-background transition-all hover:border-brand/30 hover:shadow-sm">
+                <div className="w-10 h-10 shrink-0 rounded-xl bg-brand/10 text-brand flex items-center justify-center font-bold">
+                  <Zap className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-heading text-lg font-bold text-text-primary">
+                    3 Taps to Record Sales & Waste
+                  </h3>
+                  <p className="mt-1 text-sm text-text-muted leading-relaxed">
+                    Designed for mobile phones used with one hand during busy rush hours. Staff tap product tiles to instantly record sales or log spoilage.
+                  </p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-heading text-lg font-bold text-text-primary">
-                  3 Taps to Record Sales & Waste
-                </h3>
-                <p className="mt-1 text-sm text-text-muted leading-relaxed">
-                  Designed for mobile phones used with one hand during busy rush hours. Staff tap product tiles to instantly record sales or log spoilage.
-                </p>
-              </div>
-            </div>
+            </ScrollReveal>
 
-            <div className="flex items-start gap-4 p-4 rounded-2xl border border-border bg-background transition-all hover:border-brand/30 hover:shadow-sm">
-              <div className="w-10 h-10 shrink-0 rounded-xl bg-brand/10 text-brand flex items-center justify-center font-bold">
-                <WifiOff className="w-5 h-5" />
+            <ScrollReveal delay={250}>
+              <div className="flex items-start gap-4 p-4 rounded-2xl border border-border bg-background transition-all hover:border-brand/30 hover:shadow-sm">
+                <div className="w-10 h-10 shrink-0 rounded-xl bg-brand/10 text-brand flex items-center justify-center font-bold">
+                  <WifiOff className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-heading text-lg font-bold text-text-primary">
+                    Offline-First Queue & Sync
+                  </h3>
+                  <p className="mt-1 text-sm text-text-muted leading-relaxed">
+                    Internet connection dropped in the shop? Sales and waste entries are saved locally on the device and sync automatically to Neon as soon as connection restores.
+                  </p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-heading text-lg font-bold text-text-primary">
-                  Offline-First Queue & Sync
-                </h3>
-                <p className="mt-1 text-sm text-text-muted leading-relaxed">
-                  Internet connection dropped in the shop? Sales and waste entries are saved locally on the device and sync automatically to Neon as soon as connection restores.
-                </p>
-              </div>
-            </div>
+            </ScrollReveal>
 
-            <div className="pt-2 flex items-center gap-2 text-xs font-semibold text-text-muted">
-              <CheckCircle2 className="w-4 h-4 text-success" />
-              Works on Android, iPhone, and tablets without installing any app.
-            </div>
+            <ScrollReveal delay={300}>
+              <div className="pt-2 flex items-center gap-2 text-xs font-semibold text-text-muted">
+                <CheckCircle2 className="w-4 h-4 text-success" />
+                Works on Android, iPhone, and tablets without installing any app.
+              </div>
+            </ScrollReveal>
           </div>
         </div>
       </div>

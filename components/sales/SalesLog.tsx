@@ -15,13 +15,14 @@ interface SaleRecord {
 
 interface SalesLogProps {
   sales: SaleRecord[];
+  currencySymbol?: string;
 }
 
-export function SalesLog({ sales }: SalesLogProps) {
+export function SalesLog({ sales, currencySymbol = "₦" }: SalesLogProps) {
   const [search, setSearch] = useState("");
   const [filterType, setFilterType] = useState<string>("all");
 
-  const formatMoney = (amount: number) => `₦${amount.toLocaleString()}`;
+  const formatMoney = (amount: number) => `${currencySymbol}${amount.toLocaleString()}`;
 
   const filtered = sales.filter(s => {
     const matchesSearch = 

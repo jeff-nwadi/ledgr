@@ -5,6 +5,7 @@ import { headers } from "next/headers";
 import { db } from "@/lib/db";
 import { user, business } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
+import { getCurrencySymbol } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -16,6 +17,7 @@ export default async function StaffDashboardPage() {
 
   let staffName = session?.user?.name || "Staff Member";
   let shopCode = "";
+  let currencyCode = "NGN";
 
   if (session?.user?.id) {
     const dbUser = await db.query.user.findFirst({
@@ -27,9 +29,12 @@ export default async function StaffDashboardPage() {
       if (dbUser.businessId) {
         const b = await db.query.business.findFirst({
           where: eq(business.id, dbUser.businessId),
-          columns: { code: true }
+          columns: { code: true, currency: true }
         });
-        if (b) shopCode = b.code;
+        if (b) {
+          shopCode = b.code;
+          if (b.currency) currencyCode = b.currency;
+        }
       }
     }
   }
@@ -43,7 +48,7 @@ export default async function StaffDashboardPage() {
       initialShift={shiftRes.activeShift || null}
       products={shiftRes.products || productsRes.products || []}
       initialActivities={activityRes.activities || []}
-      currencySymbol="₦"
+      currencySymbol={getCurrencySymbol(currencyCode)}
       staffName={staffName}
       shopCode={shopCode}
     />

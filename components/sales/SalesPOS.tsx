@@ -22,9 +22,10 @@ interface Customer {
 interface SalesPOSProps {
   products: Product[];
   customers: Customer[];
+  currencySymbol?: string;
 }
 
-export function SalesPOS({ products, customers = [] }: SalesPOSProps) {
+export function SalesPOS({ products, customers = [], currencySymbol = "₦" }: SalesPOSProps) {
   const { items, mode, setMode, addItem, removeItem, updateQuantity, clearCart, getTotal } = useCartStore();
   const [paymentType, setPaymentType] = useState<"cash" | "credit" | "other">("cash");
   const [selectedCustomerId, setSelectedCustomerId] = useState<string>("");
@@ -32,7 +33,7 @@ export function SalesPOS({ products, customers = [] }: SalesPOSProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const formatMoney = (amount: number) => `₦${amount.toLocaleString()}`;
+  const formatMoney = (amount: number) => `${currencySymbol}${amount.toLocaleString()}`;
 
   const handleCheckout = async () => {
     if (items.length === 0) return;

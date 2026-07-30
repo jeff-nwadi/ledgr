@@ -21,7 +21,7 @@ export function RevenueChart({ data = defaultMockData, currencySymbol = "₦" }:
   const chartData = data.length > 0 ? data : defaultMockData;
 
   return (
-    <div className="h-64 w-full mt-4">
+    <div className="h-64 w-full mt-4 animate-in fade-in duration-300 motion-reduce:animate-none">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={false} stroke="var(--border)" />
@@ -55,6 +55,10 @@ export function RevenueChart({ data = defaultMockData, currencySymbol = "₦" }:
             strokeWidth={2.5} 
             dot={{ r: 3, fill: "var(--brand)" }} 
             activeDot={{ r: 6, fill: "var(--brand)" }}
+            isAnimationActive={true}
+            animationBegin={100}
+            animationDuration={600}
+            animationEasing="ease-out"
           />
         </LineChart>
       </ResponsiveContainer>

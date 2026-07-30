@@ -6,9 +6,10 @@ import { createProductAction } from "@/app/actions/products";
 
 interface AddProductFormProps {
   onClose: () => void;
+  currencySymbol?: string;
 }
 
-export function AddProductForm({ onClose }: AddProductFormProps) {
+export function AddProductForm({ onClose, currencySymbol = "₦" }: AddProductFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -40,7 +41,7 @@ export function AddProductForm({ onClose }: AddProductFormProps) {
       <div className="bg-background border border-border/50 rounded-[1.25rem] shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         
         <div className="flex items-center justify-between px-6 py-4 border-b border-border/40">
-          <h2 className="text-[18px] font-semibold text-text-primary font-heading">Add Product</h2>
+          <h2 className="text-[18px] font-semibold text-text-primary font-heading">Add New Product</h2>
           <button 
             onClick={onClose}
             className="p-1.5 text-text-muted hover:text-text-primary rounded-lg hover:bg-surface transition-colors"
@@ -82,7 +83,7 @@ export function AddProductForm({ onClose }: AddProductFormProps) {
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label htmlFor="costPrice" className="text-[13px] font-medium text-text-primary">Cost Price (₦)</label>
+              <label htmlFor="costPrice" className="text-[13px] font-medium text-text-primary">Cost Price ({currencySymbol})</label>
               <input 
                 id="costPrice"
                 name="costPrice" 

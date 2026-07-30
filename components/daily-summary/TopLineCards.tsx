@@ -5,14 +5,16 @@ export function TopLineCards({
   cogs,
   grossProfit,
   stockValue,
+  currencySymbol = "₦",
 }: {
   revenue: number;
   cogs: number;
   grossProfit: number;
   stockValue: number | null;
+  currencySymbol?: string;
 }) {
   const formatMoney = (amount: number) => {
-    return `₦${amount.toLocaleString()}`;
+    return `${currencySymbol}${amount.toLocaleString()}`;
   };
 
   const cards = [

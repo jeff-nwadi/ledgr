@@ -4,13 +4,15 @@ export function ReconciliationSection({
   cashVariance,
   stockVariance,
   wasteValue,
+  currencySymbol = "₦",
 }: {
   cashVariance: number | null;
   stockVariance: number | null;
   wasteValue: number;
+  currencySymbol?: string;
 }) {
   const formatMoney = (amount: number) => {
-    return `₦${Math.abs(amount).toLocaleString()}`;
+    return `${currencySymbol}${Math.abs(amount).toLocaleString()}`;
   };
 
   const isCashMatched = cashVariance === 0;
@@ -19,21 +21,21 @@ export function ReconciliationSection({
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       {/* Cash Variance */}
-      <div className={`p-5 rounded-[1rem] bg-background border shadow-sm transition-all ${
-        cashVariance !== null && !isCashMatched ? "border-danger/40 bg-danger/5" : "border-border/50"
+      <div className={`p-5 rounded-[1rem] bg-background border shadow-sm transition-[background-color,border-color,transform] duration-220 ease-out motion-reduce:transition-none ${
+        cashVariance !== null && !isCashMatched ? "border-danger/40 bg-danger/5 shadow-danger/5" : "border-border/50"
       }`}>
         <div className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-2">Cash Variance</div>
         {cashVariance === null ? (
           <div className="text-2xl font-bold font-heading text-text-muted">—</div>
         ) : isCashMatched ? (
-          <div className="flex items-center gap-2.5 text-success">
+          <div className="flex items-center gap-2.5 text-success animate-in fade-in zoom-in-95 duration-200">
             <CheckCircle2 className="w-6 h-6 flex-shrink-0" />
-            <span className="text-2xl font-bold font-heading">Balanced (₦0)</span>
+            <span className="text-2xl font-bold font-heading tabular-nums">Balanced ({currencySymbol}0)</span>
           </div>
         ) : (
-          <div className="flex items-center gap-2.5 text-danger">
-            <AlertCircle className="w-6 h-6 flex-shrink-0 animate-pulse" />
-            <span className="text-2xl sm:text-3xl font-extrabold font-heading tracking-tight">
+          <div className="flex items-center gap-2.5 text-danger animate-in fade-in zoom-in-95 duration-200">
+            <AlertCircle className="w-6 h-6 flex-shrink-0 animate-in zoom-in-75 duration-200" />
+            <span className="text-2xl sm:text-3xl font-extrabold font-heading tracking-tight tabular-nums">
               {cashVariance > 0 ? "+" : "-"}{formatMoney(cashVariance)}
             </span>
           </div>
@@ -41,21 +43,21 @@ export function ReconciliationSection({
       </div>
 
       {/* Stock Variance */}
-      <div className={`p-5 rounded-[1rem] bg-background border shadow-sm transition-all ${
-        stockVariance !== null && !isStockMatched ? "border-danger/40 bg-danger/5" : "border-border/50"
+      <div className={`p-5 rounded-[1rem] bg-background border shadow-sm transition-[background-color,border-color,transform] duration-220 ease-out motion-reduce:transition-none ${
+        stockVariance !== null && !isStockMatched ? "border-danger/40 bg-danger/5 shadow-danger/5" : "border-border/50"
       }`}>
         <div className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-2">Stock Variance</div>
         {stockVariance === null ? (
           <div className="text-2xl font-bold font-heading text-text-muted">—</div>
         ) : isStockMatched ? (
-          <div className="flex items-center gap-2.5 text-success">
+          <div className="flex items-center gap-2.5 text-success animate-in fade-in zoom-in-95 duration-200">
             <CheckCircle2 className="w-6 h-6 flex-shrink-0" />
-            <span className="text-2xl font-bold font-heading">Balanced (₦0)</span>
+            <span className="text-2xl font-bold font-heading tabular-nums">Balanced ({currencySymbol}0)</span>
           </div>
         ) : (
-          <div className="flex items-center gap-2.5 text-danger">
-            <AlertCircle className="w-6 h-6 flex-shrink-0 animate-pulse" />
-            <span className="text-2xl sm:text-3xl font-extrabold font-heading tracking-tight">
+          <div className="flex items-center gap-2.5 text-danger animate-in fade-in zoom-in-95 duration-200">
+            <AlertCircle className="w-6 h-6 flex-shrink-0 animate-in zoom-in-75 duration-200" />
+            <span className="text-2xl sm:text-3xl font-extrabold font-heading tracking-tight tabular-nums">
               {stockVariance > 0 ? "+" : "-"}{formatMoney(stockVariance)}
             </span>
           </div>
@@ -68,8 +70,8 @@ export function ReconciliationSection({
           <Trash2 className="w-4 h-4" />
           <span className="text-xs font-semibold uppercase tracking-wider">Waste Value</span>
         </div>
-        <div className="text-2xl sm:text-3xl font-bold font-heading text-text-primary">
-          {wasteValue > 0 ? formatMoney(wasteValue) : "₦0"}
+        <div className="text-2xl sm:text-3xl font-bold font-heading text-text-primary tabular-nums">
+          {wasteValue > 0 ? formatMoney(wasteValue) : `${currencySymbol}0`}
         </div>
       </div>
     </div>

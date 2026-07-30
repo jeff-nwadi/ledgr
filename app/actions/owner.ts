@@ -9,7 +9,8 @@ import {
   cashSession, 
   customer, 
   shiftStockCount, 
-  user 
+  user,
+  business
 } from "@/lib/db/schema";
 import { auth } from "@/lib/auth/auth";
 import { headers } from "next/headers";
@@ -26,6 +27,11 @@ export async function getOwnerAnalyticsAction() {
   if (!businessId) return { error: "No business linked to account." };
 
   try {
+    const biz = await db.query.business.findFirst({
+      where: eq(business.id, businessId),
+      columns: { currency: true }
+    });
+
     const today = new Date();
     const startOfToday = startOfDay(today);
     const endOfToday = endOfDay(today);
@@ -175,6 +181,7 @@ export async function getOwnerAnalyticsAction() {
     });
 
     return {
+      currency: biz?.currency || "NGN",
       hasProducts: products.length > 0,
       grossVolume,
       netVolume,
@@ -208,6 +215,12 @@ export async function exportReportsCsvAction(startDateStr: string, endDateStr: s
   try {
     const { parseISO } = await import("date-fns");
     const { lte } = await import("drizzle-orm");
+
+    const biz = await db.query.business.findFirst({
+      where: eq(business.id, businessId),
+      columns: { currency: true }
+    });
+    const curr = (biz?.currency || "NGN").toUpperCase();
 
     const start = startOfDay(parseISO(startDateStr));
     const end = endOfDay(parseISO(endDateStr));
@@ -262,7 +275,7 @@ export async function exportReportsCsvAction(startDateStr: string, endDateStr: s
       }
     });
 
-    const header = "Date,Product,Qty Sold,Revenue (NGN),Cost (NGN),Profit (NGN)";
+    const header = `Date,Product,Qty Sold,Revenue (${curr}),Cost (${curr}),Profit (${curr})`;
     const rows = Array.from(summaryMap.values()).map(
       r => `"${r.date}","${r.product.replace(/"/g, '""')}",${r.qty},${r.revenue},${r.cost},${r.profit}`
     );

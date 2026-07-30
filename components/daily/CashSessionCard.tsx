@@ -7,9 +7,10 @@ import { Loader2, Wallet, CheckCircle2, AlertCircle } from "lucide-react";
 interface CashSessionCardProps {
   activeSession: any; // Ideally typed, using any for brevity in MVP
   cashSalesTotal: number;
+  currencySymbol?: string;
 }
 
-export function CashSessionCard({ activeSession, cashSalesTotal }: CashSessionCardProps) {
+export function CashSessionCard({ activeSession, cashSalesTotal, currencySymbol = "₦" }: CashSessionCardProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   
@@ -17,7 +18,7 @@ export function CashSessionCard({ activeSession, cashSalesTotal }: CashSessionCa
   const [countedCash, setCountedCash] = useState("");
   const [closedVariance, setClosedVariance] = useState<number | null>(null);
 
-  const formatMoney = (amount: number) => `₦${amount.toLocaleString()}`;
+  const formatMoney = (amount: number) => `${currencySymbol}${amount.toLocaleString()}`;
 
   const handleOpen = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,7 +77,7 @@ export function CashSessionCard({ activeSession, cashSalesTotal }: CashSessionCa
         <form onSubmit={handleOpen} className="space-y-4">
           {error && <div className="text-[13px] text-danger bg-danger/10 p-2 rounded">{error}</div>}
           <div>
-            <label className="text-[13px] font-medium text-text-primary block mb-1">Opening Float (₦)</label>
+            <label className="text-[13px] font-medium text-text-primary block mb-1">Opening Float ({currencySymbol})</label>
             <input 
               type="number"
               required
@@ -123,7 +124,7 @@ export function CashSessionCard({ activeSession, cashSalesTotal }: CashSessionCa
       <form onSubmit={handleClose} className="space-y-4 pt-4 border-t border-border/40">
         {error && <div className="text-[13px] text-danger bg-danger/10 p-2 rounded">{error}</div>}
         <div>
-          <label className="text-[13px] font-medium text-text-primary block mb-1">Counted Cash in Drawer (₦)</label>
+          <label className="text-[13px] font-medium text-text-primary block mb-1">Counted Cash in Drawer ({currencySymbol})</label>
           <input 
             type="number"
             required

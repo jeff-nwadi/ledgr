@@ -14,7 +14,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={inputId}
-            className="block text-sm font-medium text-text-primary"
+            className="block text-xs font-semibold text-text-muted uppercase tracking-wider"
           >
             {label}
           </label>
@@ -23,7 +23,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           id={inputId}
           className={
-            "w-full h-12 px-4 rounded-xl border bg-background text-text-primary text-base " +
+            "w-full h-12 px-4 rounded-xl border bg-surface text-text-primary text-sm " +
             "placeholder:text-text-muted/60 transition-colors focus-visible:outline-none " +
             "focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 " +
             "focus-visible:ring-offset-background disabled:opacity-50 disabled:pointer-events-none " +
@@ -40,7 +40,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             <span aria-hidden="true">⚠</span> {error}
           </p>
         ) : helperText ? (
-          <p className="text-xs text-text-muted">{helperText}</p>
+          <p className="text-xs text-text-muted font-normal">{helperText}</p>
         ) : null}
       </div>
     );
@@ -62,7 +62,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
         {label && (
           <label
             htmlFor={selectId}
-            className="block text-sm font-medium text-text-primary"
+            className="block text-xs font-semibold text-text-muted uppercase tracking-wider"
           >
             {label}
           </label>
@@ -71,7 +71,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
           ref={ref}
           id={selectId}
           className={
-            "w-full h-12 px-4 rounded-xl border bg-background text-text-primary text-base " +
+            "w-full h-12 px-4 rounded-xl border bg-surface text-text-primary text-sm " +
             "transition-colors focus-visible:outline-none focus-visible:ring-2 " +
             "focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background " +
             (error
@@ -93,7 +93,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
             <span aria-hidden="true">⚠</span> {error}
           </p>
         ) : helperText ? (
-          <p className="text-xs text-text-muted">{helperText}</p>
+          <p className="text-xs text-text-muted font-normal">{helperText}</p>
         ) : null}
       </div>
     );

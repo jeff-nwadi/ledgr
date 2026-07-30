@@ -13,9 +13,10 @@ interface Customer {
 
 interface CustomerListProps {
   customers: Customer[];
+  currencySymbol?: string;
 }
 
-export function CustomerList({ customers }: CustomerListProps) {
+export function CustomerList({ customers, currencySymbol = "₦" }: CustomerListProps) {
   const [search, setSearch] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [paymentModalData, setPaymentModalData] = useState<Customer | null>(null);
@@ -27,7 +28,7 @@ export function CustomerList({ customers }: CustomerListProps) {
   const [newPhone, setNewPhone] = useState("");
   const [paymentAmount, setPaymentAmount] = useState("");
 
-  const formatMoney = (amount: number) => `₦${amount.toLocaleString()}`;
+  const formatMoney = (amount: number) => `${currencySymbol}${amount.toLocaleString()}`;
 
   const filtered = customers.filter(c => 
     c.name.toLowerCase().includes(search.toLowerCase()) || 
@@ -211,7 +212,7 @@ export function CustomerList({ customers }: CustomerListProps) {
                 <p className="text-[13px] text-danger mt-1">Current Balance: {formatMoney(paymentModalData.balanceOwed)}</p>
               </div>
               <div>
-                <label className="text-[13px] font-medium text-text-primary block mb-1">Payment Amount (₦)</label>
+                <label className="text-[13px] font-medium text-text-primary block mb-1">Payment Amount ({currencySymbol})</label>
                 <input 
                   type="number" required min="1" max={paymentModalData.balanceOwed} value={paymentAmount} onChange={e => setPaymentAmount(e.target.value)}
                   className="w-full px-3 py-2 bg-surface border border-border/50 rounded-lg text-sm text-text-primary focus:ring-1 focus:ring-brand/50 outline-none"
