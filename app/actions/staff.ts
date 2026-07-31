@@ -183,3 +183,51 @@ export async function deactivateOrDeleteStaffAction(staffId: string) {
     return { error: "Failed to deactivate staff." };
   }
 }
+
+export async function changeOwnPinAction(currentPin: string, newPin: string) {
+  const session = await auth.api.getSession({
+    headers: await headers()
+  });
+
+  if (!session?.user?.id) return { error: "Unauthorized" };
+
+  if (!/^\d{4}$/.test(currentPin) || !/^\d{4}$/.test(newPin)) {
+    return { error: "PIN must be a 4-digit number." };
+  }
+
+  try {
+    const existing = await db.query.user.findFirst({
+      where: eq(user.id, session.user.id)
+    });
+
+    if (!existing || !existing.pinHash) {
+      return { error: "User profile or PIN record not found." };
+    }
+
+    const isValidCurrent = await bcrypt.compare(currentPin, existing.pinHash);
+    if (!isValidCurrent) {
+      return { error: "Current PIN is incorrect." };
+    }
+
+    const newPinHash = await bcrypt.hash(newPin, 10);
+    const systemPassword = `PIN_${newPin}_STAFF`;
+
+    await db.update(user)
+      .set({ pinHash: newPinHash, updatedAt: new Date() })
+      .where(eq(user.id, session.user.id));
+
+    // Update Better Auth password if credential account exists
+    if (existing.email) {
+      const passwordHash = await hashPassword(systemPassword);
+      await db.update(account)
+        .set({ password: passwordHash, updatedAt: new Date() })
+        .where(and(eq(account.userId, session.user.id), eq(account.providerId, "credential")));
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error("Change PIN error:", error);
+    return { error: "Failed to update PIN. Please try again." };
+  }
+}
+

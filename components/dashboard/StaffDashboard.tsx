@@ -518,9 +518,6 @@ export function StaffDashboard({
               <h1 className="text-xl md:text-2xl lg:text-3xl font-heading text-text-primary ">
                 {greeting}, {staffName}
               </h1>
-              <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-brand/10 text-brand border border-brand/20">
-                Staff Shift
-              </span>
             </div>
             <p className="text-xs sm:text-sm text-text-muted mt-1">
               {shopCode ? `Shop: ${shopCode} · ` : ""}Manage sales, log waste, and perform stock count reconciliation.
@@ -528,7 +525,7 @@ export function StaffDashboard({
           </div>
 
           <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
-            <span className={`text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5 border ${
+            <span className={`text-xs px-3 py-1.5 rounded-full flex items-center gap-1.5 border ${
               isOnline ? "bg-emerald-500/10 text-emerald-600 border-emerald-500/20" : "bg-amber-500/10 text-amber-600 border-amber-500/20"
             }`}>
               {isOnline ? <Wifi className="w-3.5 h-3.5" /> : <WifiOff className="w-3.5 h-3.5" />}
@@ -539,7 +536,7 @@ export function StaffDashboard({
               <button
                 data-tour="cash-session"
                 onClick={handleOpenCloseShift}
-                className="px-4 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 text-xs font-bold rounded-xl border border-rose-500/20 transition-all min-h-[40px] flex items-center gap-1.5"
+                className="px-4 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 text-xs rounded-xl border border-rose-500/20 transition-all min-h-[40px] flex items-center gap-1.5"
               >
                 <LogOut className="w-4 h-4" /> Close Shift
               </button>
@@ -550,33 +547,33 @@ export function StaffDashboard({
 
         {/* SHIFT KPI METRICS (Matching Owner Dashboard 4-card KPI grid) */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-          <div className="rounded-[1rem] border border-border/50 bg-background p-3.5 sm:p-5 shadow-xs space-y-1">
-            <span className="text-xs font-medium text-text-muted block truncate">Shift Revenue</span>
-            <p className="text-lg sm:text-[24px] font-bold text-brand tracking-tight tabular-nums">
+          <div className="rounded-[1rem] border border-border/50 bg-background p-3.5 sm:p-5 space-y-1">
+            <span className="text-xs text-text-muted block truncate">Shift Revenue</span>
+            <p className="text-lg sm:text-[24px] text-brand tracking-tight tabular-nums">
               {currencySymbol}{(shift?.totalSalesAmount || 0).toLocaleString()}
             </p>
             <span className="text-[10px] sm:text-[11px] text-text-muted block truncate">Live shift sales</span>
           </div>
 
-          <div className="rounded-[1rem] border border-border/50 bg-background p-3.5 sm:p-5 shadow-xs space-y-1">
-            <span className="text-xs font-medium text-text-muted block truncate">Units Sold</span>
-            <p className="text-lg sm:text-[24px] font-bold text-emerald-600 tracking-tight tabular-nums">
+          <div className="rounded-[1rem] border border-border/50 bg-background p-3.5 sm:p-5 space-y-1">
+            <span className="text-xs text-text-muted block truncate">Units Sold</span>
+            <p className="text-lg sm:text-[24px] text-black tabular-nums">
               {totalUnitsSold} items
-            </p>
+            </p> 
             <span className="text-[10px] sm:text-[11px] text-text-muted block truncate">Across catalog</span>
           </div>
 
-          <div data-tour="stock-ledger" className="rounded-[1rem] border border-border/50 bg-background p-3.5 sm:p-5 shadow-xs space-y-1">
-            <span className="text-xs font-medium text-text-muted block truncate">Expected Cash Drawer</span>
-            <p className="text-lg sm:text-[24px] font-bold text-text-primary tracking-tight tabular-nums">
+          <div className="rounded-[1rem] border border-border/50 bg-background p-3.5 sm:p-5 space-y-1">
+            <span className="text-xs text-text-muted block truncate">Expected Cash Drawer</span>
+            <p className="text-lg sm:text-[24px] text-text-primary tabular-nums">
               {currencySymbol}{(shift?.expectedCash || 0).toLocaleString()}
             </p>
             <span className="text-[10px] sm:text-[11px] text-text-muted block truncate">Float + cash sales</span>
           </div>
 
-          <div className="rounded-[1rem] border border-border/50 bg-background p-3.5 sm:p-5 shadow-xs space-y-1">
-            <span className="text-xs font-medium text-text-muted block truncate">Catalog Products</span>
-            <p className="text-lg sm:text-[24px] font-bold text-indigo-600 tracking-tight tabular-nums">
+          <div className="rounded-[1rem] border border-border/50 bg-background p-3.5 sm:p-5 space-y-1">
+            <span className="text-xs text-text-muted block truncate">Catalog Products</span>
+            <p className="text-lg sm:text-[24px] text-black tabular-nums">
               {productList.length} items
             </p>
             <span className="text-[10px] sm:text-[11px] text-text-muted block truncate">Available stock</span>
@@ -598,22 +595,22 @@ export function StaffDashboard({
               {/* PERSISTENT OPENING STOCK COUNT BANNER IF PENDING */}
               {(!shift || !isOpeningDone) && (
                 <div 
-                  className="rounded-2xl p-5 text-white space-y-3 shadow-md border border-brand/20 animate-pulse"
+                  className="rounded-2xl p-5 text-white space-y-3 border border-brand/20 animate-pulse"
                   style={{ backgroundImage: 'var(--brand-gradient)' }}
                 >
                   <div className="flex items-center gap-2">
                     <AlertTriangle className="w-4 h-4 text-amber-300 shrink-0" />
-                    <span className="text-xs font-bold uppercase tracking-wider text-amber-200">Shift Action Required</span>
+                    <span className="text-xs uppercase text-amber-200">Shift Action Required</span>
                   </div>
-                  <h3 className="text-lg font-bold font-heading leading-snug">
+                  <h3 className="text-lg font-heading leading-snug">
                     Count today's stock to start your shift
                   </h3>
-                  <p className="text-xs text-white/90 leading-relaxed font-medium">
+                  <p className="text-xs text-white/90 leading-relaxed">
                     Sales and waste logging are disabled until your physical shelf stock count is confirmed.
                   </p>
                   <button
                     onClick={() => { setActiveTab("stock"); setStockSubTab("count"); }}
-                    className="w-full py-3 bg-white text-brand font-bold text-xs rounded-xl shadow-sm hover:bg-white/90 transition-all flex items-center justify-center gap-2 min-h-[44px]"
+                    className="w-full py-3 bg-white text-brand text-xs rounded-xl shadow-sm hover:bg-white/90 transition-all flex items-center justify-center gap-2 min-h-[44px]"
                   >
                     Count Shelf Stock Now <ChevronRight className="w-4 h-4" />
                   </button>
@@ -624,9 +621,9 @@ export function StaffDashboard({
               <div className="space-y-3 pt-2">
                 <button
                   onClick={() => handleTabClick("sale")}
-                  className={`w-full py-4 px-5 rounded-2xl text-white font-bold text-base shadow-lg transition-all transform active:scale-98 flex items-center justify-between min-h-[56px] ${
+                  className={`w-full py-4 px-5 rounded-2xl text-white text-base transition-all transform active:scale-98 flex items-center justify-between min-h-[56px] ${
                     isOpeningDone 
-                      ? "hover:opacity-95 shadow-brand/20 cursor-pointer" 
+                      ? "hover:opacity-95 cursor-pointer" 
                       : "opacity-60 cursor-not-allowed"
                   }`}
                   style={{ backgroundImage: isOpeningDone ? 'var(--brand-gradient)' : undefined, backgroundColor: !isOpeningDone ? '#5B6764' : undefined }}
@@ -657,7 +654,7 @@ export function StaffDashboard({
                       <Trash2 className="w-4 h-4" />
                     </div>
                     <div>
-                      <span className="text-xs font-bold block">Log Waste</span>
+                      <span className="text-xs block">Log Waste</span>
                       <span className="text-[10px] text-text-muted block">Record spoilage</span>
                     </div>
                   </button>
@@ -674,7 +671,7 @@ export function StaffDashboard({
                       <PackagePlus className="w-4 h-4" />
                     </div>
                     <div>
-                      <span className="text-xs font-bold block">Log Restock</span>
+                      <span className="text-xs block">Log Restock</span>
                       <span className="text-[10px] text-text-muted block">Add inventory</span>
                     </div>
                   </button>
@@ -687,27 +684,27 @@ export function StaffDashboard({
                   {/* Shift Status Box */}
                   <div className="bg-surface rounded-2xl p-5 border border-border space-y-3 shadow-xs">
                     <div className="flex items-center gap-2">
-                      <span className={`w-2.5 h-2.5 rounded-full ${shift && isOpeningDone ? "bg-emerald-500 animate-pulse" : "bg-amber-500"}`} />
-                      <h3 className="text-sm font-bold font-heading text-text-primary">
-                        {shift ? "Active Shift Status" : "Shift Not Started"}
+                      <span className={`w-2.5 h-2.5 rounded-full ${shift && isOpeningDone ? " animate-pulse" : "bg-amber-500"}`} />
+                      <h3 className="text-sm font-heading text-text-primary">
+                        {shift ? "Active Shift Status" : "Shift Not Started"} 
                       </h3>
                     </div>
                     <div className="text-xs space-y-2 text-text-muted border-t border-border/50 pt-3">
                       <div className="flex justify-between">
                         <span>Started at:</span>
-                        <span className="font-semibold text-text-primary">
+                        <span className="text-text-primary">
                           {shift ? new Date(shift.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "Pending"}
                         </span>
                       </div>
                       <div className="flex justify-between">
                         <span>Opening Float:</span>
-                        <span className="font-semibold text-text-primary">
+                        <span className="text-text-primary">
                           {currencySymbol}{(shift?.openingFloat || 0).toLocaleString()}
                         </span>
                       </div>
                       <div className="flex justify-between">
                         <span>Stock Count Status:</span>
-                        <span className={`font-semibold ${isOpeningDone ? "text-emerald-600" : "text-amber-600"}`}>
+                        <span className={`${isOpeningDone ? "text-emerald-600" : "text-amber-600"}`}>
                           {isOpeningDone ? "Confirmed" : "Pending"}
                         </span>
                       </div>
@@ -717,8 +714,8 @@ export function StaffDashboard({
                   {/* RECENT SHIFT ACTIVITY PREVIEW */}
                   <div className="bg-surface rounded-2xl p-4 border border-border space-y-3 shadow-xs">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-text-muted">Shift Activity</h3>
-                      <button onClick={() => setActiveTab("activity")} className="text-xs text-brand font-semibold hover:underline">
+                      <h3 className="text-xs uppercase text-text-muted">Shift Activity</h3>
+                      <button onClick={() => setActiveTab("activity")} className="text-xs text-brand hover:underline">
                         View all ({activities.length})
                       </button>
                     </div>
@@ -746,7 +743,7 @@ export function StaffDashboard({
                             </div>
                             <div className="text-right shrink-0">
                               {act.amount !== null && (
-                                <p className="font-bold text-text-primary">{currencySymbol}{act.amount.toLocaleString()}</p>
+                                <p className="text-text-primary">{currencySymbol}{act.amount.toLocaleString()}</p>
                               )}
                               <span className="text-[10px] text-text-muted block">
                                 {new Date(act.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
@@ -769,11 +766,11 @@ export function StaffDashboard({
             <div className="space-y-4 animate-in fade-in duration-200">
               <div className="flex items-center justify-between border-b border-border/50 pb-3">
                 <div>
-                  <h2 className="text-lg font-bold font-heading text-text-primary">Log a Sale / POS Checkout</h2>
+                  <h2 className="text-lg font-heading text-text-primary">Log a Sale / POS Checkout</h2>
                   <p className="text-xs text-text-muted">Search catalog products, build customer order, and process checkout</p>
                 </div>
                 {cart.length > 0 && (
-                  <button onClick={clearCart} className="text-xs font-semibold text-rose-600 hover:underline">
+                  <button onClick={clearCart} className="text-xs text-rose-600 hover:underline">
                     Clear Order ({cartTotalItemsCount})
                   </button>
                 )}
@@ -791,7 +788,7 @@ export function StaffDashboard({
                       placeholder="Search product by name..."
                       value={saleSearch}
                       onChange={(e) => setSaleSearch(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 border border-border bg-surface rounded-2xl text-sm font-medium text-text-primary focus:outline-none focus:ring-2 focus:ring-brand min-h-[48px]"
+                      className="w-full pl-10 pr-4 py-3 border border-border bg-surface rounded-2xl text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-brand min-h-[48px]"
                     />
                     {saleSearch && (
                       <button 
@@ -808,7 +805,7 @@ export function StaffDashboard({
                     {filteredSaleProducts.length === 0 ? (
                       <div className="py-10 text-center space-y-2 bg-surface rounded-2xl border border-border p-4">
                         <Package className="w-8 h-8 text-text-muted/40 mx-auto" />
-                        <p className="text-xs font-semibold text-text-muted">No products found matching "{saleSearch}"</p>
+                        <p className="text-xs text-text-muted">No products found matching "{saleSearch}"</p>
                       </div>
                     ) : (
                       filteredSaleProducts.map((prod) => {
@@ -820,15 +817,15 @@ export function StaffDashboard({
                             key={prod.id}
                             className={`p-3.5 rounded-2xl border transition-all flex items-center justify-between min-h-[56px] ${
                               inCartQty > 0 
-                                ? "bg-brand/5 border-brand/40 shadow-xs" 
+                                ? "bg-brand/5 border-brand/40" 
                                 : "bg-surface border-border hover:border-brand/30"
                             }`}
                           >
                             <div className="space-y-1 min-w-0 flex-1 pr-2">
                               <div className="flex items-center gap-2 flex-wrap">
-                                <h4 className="text-sm font-semibold text-text-primary truncate">{prod.name}</h4>
+                                <h4 className="text-sm text-text-primary truncate">{prod.name}</h4>
                                 {isLowStock && (
-                                  <span className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-amber-500/10 text-amber-600 border border-amber-500/20">
+                                  <span className="px-2 py-0.5 rounded-full text-[9px] bg-amber-500/10 text-amber-600 border border-amber-500/20">
                                     Low Stock ({prod.currentStock})
                                   </span>
                                 )}
@@ -845,16 +842,16 @@ export function StaffDashboard({
                                   <button
                                     type="button"
                                     onClick={() => updateCartQty(prod.id, -1)}
-                                    className="w-9 h-9 rounded-lg bg-surface border border-border flex items-center justify-center font-bold text-text-primary active:scale-[0.96] transition-transform duration-100 ease-out motion-reduce:transition-none"
+                                    className="w-9 h-9 rounded-lg bg-surface border border-border flex items-center justify-center text-text-primary active:scale-[0.96] transition-transform duration-100 ease-out motion-reduce:transition-none"
                                     aria-label="Decrease quantity"
                                   >
                                     <Minus className="w-3.5 h-3.5" />
                                   </button>
-                                  <span className="w-7 text-center text-xs font-bold text-brand tabular-nums">{inCartQty}</span>
+                                  <span className="w-7 text-center text-xs text-brand tabular-nums">{inCartQty}</span>
                                   <button
                                     type="button"
                                     onClick={() => updateCartQty(prod.id, 1)}
-                                    className="w-9 h-9 rounded-lg bg-brand text-white flex items-center justify-center font-bold active:scale-[0.96] transition-transform duration-100 ease-out motion-reduce:transition-none"
+                                    className="w-9 h-9 rounded-lg bg-brand text-white flex items-center justify-center active:scale-[0.96] transition-transform duration-100 ease-out motion-reduce:transition-none"
                                     aria-label="Increase quantity"
                                   >
                                     <Plus className="w-3.5 h-3.5" />
@@ -864,7 +861,7 @@ export function StaffDashboard({
                                 <button
                                   type="button"
                                   onClick={() => setCartQty(prod.id, 1)}
-                                  className="px-4 py-2 bg-brand/10 hover:bg-brand text-brand hover:text-white border border-brand/20 font-bold text-xs rounded-xl transition-all duration-150 flex items-center gap-1 min-h-[40px] active:scale-[0.96] motion-reduce:transition-none"
+                                  className="px-4 py-2 bg-brand/10 hover:bg-brand text-brand hover:text-white border border-brand/20 text-xs rounded-xl transition-all duration-150 flex items-center gap-1 min-h-[40px] active:scale-[0.96] motion-reduce:transition-none"
                                 >
                                   <Plus className="w-3.5 h-3.5" /> Add
                                 </button>
@@ -879,10 +876,10 @@ export function StaffDashboard({
 
                 {/* RIGHT 1 COLUMN: ACTIVE ORDER CHECKOUT PANEL */}
                 <div className="space-y-4">
-                  <div className="bg-surface rounded-2xl p-5 border border-border space-y-4 shadow-xs">
+                  <div className="bg-surface rounded-2xl p-5 border border-border space-y-4 ">
                     <div className="flex items-center justify-between border-b border-border/50 pb-3">
-                      <h3 className="text-sm font-bold font-heading text-text-primary">Current Order Summary</h3>
-                      <span className="text-xs font-semibold text-text-muted">{cartTotalItemsCount} item(s)</span>
+                      <h3 className="text-sm font-heading text-text-primary">Current Order Summary</h3>
+                      <span className="text-xs text-text-muted">{cartTotalItemsCount} item(s)</span>
                     </div>
 
                     {cart.length === 0 ? (
@@ -896,8 +893,8 @@ export function StaffDashboard({
                             if (!p) return null;
                             return (
                               <div key={item.productId} className="py-2 flex items-center justify-between text-xs">
-                                <span className="font-semibold text-text-primary truncate max-w-[140px]">{p.name} × {item.quantity}</span>
-                                <span className="font-bold text-text-primary">{currencySymbol}{(p.sellingPrice * item.quantity).toLocaleString()}</span>
+                                <span className="text-text-primary truncate max-w-[140px]">{p.name} × {item.quantity}</span>
+                                <span className="text-text-primary">{currencySymbol}{(p.sellingPrice * item.quantity).toLocaleString()}</span>
                               </div>
                             );
                           })}
@@ -905,20 +902,20 @@ export function StaffDashboard({
 
                         {/* Order Total */}
                         <div className="p-3 bg-background rounded-xl border border-border/80 flex items-center justify-between">
-                          <span className="text-xs font-bold text-text-muted">Total Amount Due</span>
-                          <span className="text-xl font-bold font-heading text-brand">{currencySymbol}{cartTotal.toLocaleString()}</span>
+                          <span className="text-xs text-text-muted">Total Amount Due</span>
+                          <span className="text-xl font-heading text-brand">{currencySymbol}{cartTotal.toLocaleString()}</span>
                         </div>
 
                         {/* Payment Type Selection */}
                         <div className="space-y-2">
-                          <span className="text-xs font-semibold text-text-muted uppercase tracking-wider block">Payment Type</span>
+                          <span className="text-xs text-text-muted uppercase block">Payment Type</span>
                           <div className="grid grid-cols-2 gap-2">
                             <button
                               type="button"
                               onClick={() => setPaymentType("paid")}
-                              className={`py-2.5 px-2 rounded-xl border text-xs font-bold transition-all min-h-[44px] flex items-center justify-center gap-1.5 ${
+                              className={`py-2.5 px-2 rounded-xl border text-xs transition-all min-h-[44px] flex items-center justify-center gap-1.5 ${
                                 paymentType === "paid"
-                                  ? "bg-brand text-white border-brand shadow-xs"
+                                  ? "bg-brand text-white border-brand"
                                   : "bg-background text-text-muted border-border hover:text-text-primary"
                               }`}
                             >
@@ -928,9 +925,9 @@ export function StaffDashboard({
                             <button
                               type="button"
                               onClick={() => setPaymentType("credit")}
-                              className={`py-2.5 px-2 rounded-xl border text-xs font-bold transition-all min-h-[44px] flex items-center justify-center gap-1.5 ${
+                              className={`py-2.5 px-2 rounded-xl border text-xs transition-all min-h-[44px] flex items-center justify-center gap-1.5 ${
                                 paymentType === "credit"
-                                  ? "bg-indigo-600 text-white border-indigo-600 shadow-xs"
+                                  ? "bg-indigo-600 text-white border-indigo-600"
                                   : "bg-background text-text-muted border-border hover:text-text-primary"
                               }`}
                             >
@@ -941,7 +938,7 @@ export function StaffDashboard({
                           {/* Customer Debt Selector */}
                           {paymentType === "credit" && (
                             <div className="p-3 bg-background rounded-xl border border-indigo-500/30 space-y-2.5 animate-in fade-in duration-150">
-                              <span className="text-xs font-semibold text-text-primary block">Customer Account</span>
+                              <span className="text-xs text-text-primary block">Customer Account</span>
                               {!showAddCustomer ? (
                                 <div className="space-y-2">
                                   <input
@@ -952,7 +949,7 @@ export function StaffDashboard({
                                     className="w-full px-3 py-2 border border-border bg-surface rounded-xl text-xs text-text-primary focus:outline-none min-h-[38px]"
                                   />
                                   {selectedCustomer && (
-                                    <div className="p-2 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-between text-xs text-indigo-700 font-semibold">
+                                    <div className="p-2 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-between text-xs text-indigo-700">
                                       <span>{selectedCustomer.name}</span>
                                       <button type="button" onClick={() => setSelectedCustomer(null)}>
                                         <X className="w-3.5 h-3.5 text-indigo-700" />
@@ -968,7 +965,7 @@ export function StaffDashboard({
                                           onClick={() => { setSelectedCustomer(c); setCustomerResults([]); }}
                                           className="w-full p-2 text-left text-xs hover:bg-border/30 flex items-center justify-between"
                                         >
-                                          <span className="font-semibold text-text-primary">{c.name}</span>
+                                          <span className="text-text-primary">{c.name}</span>
                                           <span className="text-text-muted">Owes {currencySymbol}{c.balanceOwed?.toLocaleString() || 0}</span>
                                         </button>
                                       ))}
@@ -977,7 +974,7 @@ export function StaffDashboard({
                                   <button
                                     type="button"
                                     onClick={() => setShowAddCustomer(true)}
-                                    className="text-[11px] font-semibold text-indigo-600 hover:underline block"
+                                    className="text-[11px] text-indigo-600 hover:underline block"
                                   >
                                     + Add New Customer
                                   </button>
@@ -985,7 +982,7 @@ export function StaffDashboard({
                               ) : (
                                 <div className="space-y-2">
                                   <div className="flex items-center justify-between">
-                                    <span className="text-xs font-bold text-text-primary">New Customer</span>
+                                    <span className="text-xs text-text-primary">New Customer</span>
                                     <button type="button" onClick={() => setShowAddCustomer(false)} className="text-xs text-text-muted hover:underline">
                                       Cancel
                                     </button>
@@ -1015,7 +1012,7 @@ export function StaffDashboard({
                           <button
                             type="submit"
                             disabled={isSaleSubmitting}
-                            className={`w-full py-3.5 px-4 rounded-xl text-white font-bold text-sm shadow-md transition-[transform,background-color,opacity] duration-150 ease-out flex items-center justify-center gap-2 min-h-[48px] active:scale-[0.96] disabled:opacity-50 motion-reduce:transition-none ${
+                            className={`w-full py-3.5 px-4 rounded-xl text-white text-sm shadow-md transition-[transform,background-color,opacity] duration-150 ease-out flex items-center justify-center gap-2 min-h-[48px] active:scale-[0.96] disabled:opacity-50 motion-reduce:transition-none ${
                               saleSuccess ? "bg-success" : ""
                             }`}
                             style={{ backgroundImage: saleSuccess ? undefined : 'var(--brand-gradient)' }}
@@ -1045,25 +1042,25 @@ export function StaffDashboard({
           {activeTab === "waste" && (
             <div className="max-w-2xl mx-auto space-y-4 animate-in fade-in duration-200">
               <div className="space-y-1">
-                <h2 className="text-lg font-bold font-heading text-text-primary">Log Waste & Spoilage</h2>
+                <h2 className="text-lg font-heading text-text-primary">Log Waste & Spoilage</h2>
                 <p className="text-xs text-text-muted">Record unsellable, damaged, or expired items</p>
               </div>
 
-              <form onSubmit={handleWasteSubmit} className="bg-surface p-5 sm:p-6 rounded-2xl border border-border space-y-4 shadow-xs">
+              <form onSubmit={handleWasteSubmit} className="bg-surface p-5 sm:p-6 rounded-2xl border border-border space-y-4">
                 {/* Product Search & Select */}
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold text-text-muted uppercase tracking-wider block">1. Select Product</label>
+                  <label className="text-xs text-text-muted uppercase block">1. Select Product</label>
                   <input
                     type="text"
                     placeholder="Search product..."
                     value={wasteSearch}
                     onChange={(e) => setWasteSearch(e.target.value)}
-                    className="w-full px-3.5 py-2.5 border border-border bg-background rounded-xl text-xs font-medium text-text-primary min-h-[44px]"
+                    className="w-full px-3.5 py-2.5 border border-border bg-background rounded-xl text-xs text-text-primary min-h-[44px]"
                   />
                   <select
                     value={wasteProductId}
                     onChange={(e) => setWasteProductId(e.target.value)}
-                    className="w-full px-3.5 py-3 border border-border bg-background rounded-xl text-xs font-semibold text-text-primary min-h-[48px] focus:ring-2 focus:ring-rose-500"
+                    className="w-full px-3.5 py-3 border border-border bg-background rounded-xl text-xs text-text-primary min-h-[48px] focus:ring-2 focus:ring-rose-500"
                   >
                     <option value="">-- Choose Product --</option>
                     {filteredWasteProducts.map((p) => (
@@ -1074,7 +1071,7 @@ export function StaffDashboard({
 
                 {/* Reason Tappable Chips */}
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold text-text-muted uppercase tracking-wider block">2. Reason for Waste</label>
+                  <label className="text-xs text-text-muted uppercase block">2. Reason for Waste</label>
                   <div className="grid grid-cols-2 gap-2">
                     {[
                       { id: "Expired", label: "Expired / Spoiled", icon: "🥀" },
@@ -1086,9 +1083,9 @@ export function StaffDashboard({
                         key={reason.id}
                         type="button"
                         onClick={() => setWasteReason(reason.id)}
-                        className={`p-3 rounded-xl border text-xs font-bold transition-all min-h-[48px] flex items-center justify-center gap-2 ${
+                        className={`p-3 rounded-xl border text-xs transition-all min-h-[48px] flex items-center justify-center gap-2 ${
                           wasteReason === reason.id
-                            ? "bg-rose-600 text-white border-rose-600 shadow-xs"
+                            ? "bg-rose-600 text-white border-rose-600"
                             : "bg-background text-text-muted border-border hover:text-text-primary"
                         }`}
                       >
@@ -1101,20 +1098,20 @@ export function StaffDashboard({
 
                 {/* Quantity Stepper */}
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold text-text-muted uppercase tracking-wider block">3. Wasted Quantity</label>
+                  <label className="text-xs text-text-muted uppercase block">3. Wasted Quantity</label>
                   <div className="flex items-center gap-3 bg-background p-2 rounded-2xl border border-border justify-between">
                     <button
                       type="button"
                       onClick={() => setWasteQty((q) => Math.max(1, q - 1))}
-                      className="w-12 h-12 rounded-xl bg-surface border border-border flex items-center justify-center font-bold text-text-primary active:scale-[0.96] transition-transform duration-100 ease-out motion-reduce:transition-none"
+                      className="w-12 h-12 rounded-xl bg-surface border border-border flex items-center justify-center text-text-primary active:scale-[0.96] transition-transform duration-100 ease-out motion-reduce:transition-none"
                     >
                       <Minus className="w-5 h-5" />
                     </button>
-                    <span className="text-xl font-bold text-danger font-heading tabular-nums">{wasteQty}</span>
+                    <span className="text-xl text-danger font-heading tabular-nums">{wasteQty}</span>
                     <button
                       type="button"
                       onClick={() => setWasteQty((q) => q + 1)}
-                      className="w-12 h-12 rounded-xl bg-danger text-white flex items-center justify-center font-bold active:scale-[0.96] transition-transform duration-100 ease-out motion-reduce:transition-none"
+                      className="w-12 h-12 rounded-xl bg-danger text-white flex items-center justify-center active:scale-[0.96] transition-transform duration-100 ease-out motion-reduce:transition-none"
                     >
                       <Plus className="w-5 h-5" />
                     </button>
@@ -1125,7 +1122,7 @@ export function StaffDashboard({
                 <button
                   type="submit"
                   disabled={isWasteSubmitting || !wasteProductId}
-                  className={`w-full py-4 text-white font-bold text-sm rounded-2xl shadow-md transition-[transform,background-color,opacity] duration-150 ease-out min-h-[52px] active:scale-[0.96] disabled:opacity-50 motion-reduce:transition-none ${
+                  className={`w-full py-4 text-white text-sm rounded-2xl transition-[transform,background-color,opacity] duration-150 ease-out min-h-[52px] active:scale-[0.96] disabled:opacity-50 motion-reduce:transition-none ${
                     wasteSuccess ? "bg-success" : "bg-danger hover:opacity-90"
                   }`}
                 >
@@ -1136,7 +1133,7 @@ export function StaffDashboard({
                   ) : isWasteSubmitting ? (
                     "Logging Waste..."
                   ) : (
-                    "Confirm & Log Waste Item →"
+                    "Confirm & Log Waste Item"
                   )}
                 </button>
               </form>
@@ -1153,9 +1150,9 @@ export function StaffDashboard({
               <div className="flex bg-surface p-1 rounded-2xl border border-border">
                 <button
                   onClick={() => setStockSubTab("count")}
-                  className={`flex-1 py-2.5 text-xs font-bold rounded-xl transition-all min-h-[40px] ${
+                  className={`flex-1 py-2.5 text-xs rounded-xl transition-all min-h-[40px] ${
                     stockSubTab === "count"
-                      ? "bg-brand text-white shadow-xs"
+                      ? "bg-brand text-white"
                       : "text-text-muted hover:text-text-primary"
                   }`}
                 >
@@ -1163,9 +1160,9 @@ export function StaffDashboard({
                 </button>
                 <button
                   onClick={() => setStockSubTab("restock")}
-                  className={`flex-1 py-2.5 text-xs font-bold rounded-xl transition-all min-h-[40px] ${
+                  className={`flex-1 py-2.5 text-xs rounded-xl transition-all min-h-[40px] ${
                     stockSubTab === "restock"
-                      ? "bg-brand text-white shadow-xs"
+                      ? "bg-brand text-white"
                       : "text-text-muted hover:text-text-primary"
                   }`}
                 >
@@ -1177,7 +1174,7 @@ export function StaffDashboard({
               {stockSubTab === "count" && (
                 <div className="space-y-4">
                   <div className="space-y-1">
-                    <h2 className="text-lg font-bold font-heading text-text-primary">
+                    <h2 className="text-lg font-heading text-text-primary">
                       {isOpeningDone ? "Shift Stock Record" : "Physical Stock Count"}
                     </h2>
                     <p className="text-xs text-text-muted">
@@ -1221,15 +1218,15 @@ export function StaffDashboard({
                             <div key={prod.id} className="p-3.5 bg-surface rounded-2xl border border-border space-y-2.5">
                               <div className="flex items-start justify-between">
                                 <div>
-                                  <h4 className="text-sm font-bold text-text-primary">{prod.name}</h4>
+                                  <h4 className="text-sm text-text-primary">{prod.name}</h4>
                                   <p className="text-xs text-text-muted mt-0.5">
-                                    Expected: <span className="font-bold text-text-primary">{expected} {prod.unit}(s)</span>
+                                    Expected: <span className="text-text-primary">{expected} {prod.unit}(s)</span>
                                   </p>
                                 </div>
                                 <button
                                   type="button"
                                   onClick={() => setOpeningCounts({ ...openingCounts, [prod.id]: expected })}
-                                  className="px-2.5 py-1 text-[11px] font-semibold text-brand bg-brand/10 hover:bg-brand/20 rounded-lg border border-brand/20"
+                                  className="px-2.5 py-1 text-[11px] text-brand bg-brand/10 hover:bg-brand/20 rounded-lg border border-brand/20"
                                 >
                                   Match Expected
                                 </button>
@@ -1243,7 +1240,7 @@ export function StaffDashboard({
                                     ...openingCounts,
                                     [prod.id]: Math.max(0, (openingCounts[prod.id] ?? expected) - 1)
                                   })}
-                                  className="w-11 h-11 rounded-xl bg-background border border-border flex items-center justify-center font-bold text-text-primary active:scale-[0.96] transition-transform duration-100 ease-out motion-reduce:transition-none"
+                                  className="w-11 h-11 rounded-xl bg-background border border-border flex items-center justify-center  text-text-primary active:scale-[0.96] transition-transform duration-100 ease-out motion-reduce:transition-none"
                                 >
                                   <Minus className="w-4 h-4" />
                                 </button>
@@ -1255,7 +1252,7 @@ export function StaffDashboard({
                                     ...openingCounts,
                                     [prod.id]: Math.max(0, parseInt(e.target.value, 10) || 0)
                                   })}
-                                  className="flex-1 py-2.5 border border-border bg-background rounded-xl text-base font-bold text-center text-text-primary focus:ring-2 focus:ring-brand min-h-[44px] tabular-nums"
+                                  className="flex-1 py-2.5 border border-border bg-background rounded-xl text-base text-center text-text-primary focus:ring-2 focus:ring-brand min-h-[44px] tabular-nums"
                                 />
                                 <button
                                   type="button"
@@ -1277,7 +1274,7 @@ export function StaffDashboard({
                       <button
                         type="submit"
                         disabled={isOpeningSubmitting}
-                        className="w-full py-4 text-white font-bold text-sm rounded-2xl shadow-md transition-all min-h-[52px]"
+                        className="w-full py-4 text-white text-sm rounded-2xl shadow-md transition-all min-h-[52px]"
                         style={{ backgroundImage: 'var(--brand-gradient)' }}
                       >
                         {isOpeningSubmitting ? "Confirming Count..." : "Confirm Opening Stock Count →"}
@@ -1286,13 +1283,13 @@ export function StaffDashboard({
                   ) : (
                     <div className="bg-surface rounded-2xl p-6 border border-border text-center space-y-3">
                       <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto" />
-                      <h3 className="text-base font-bold text-text-primary font-heading">Opening Count Complete</h3>
+                      <h3 className="text-base text-text-primary font-heading">Opening Count Complete</h3>
                       <p className="text-xs text-text-muted leading-relaxed">
                         Opening stock count has been recorded. End-of-shift closing count will be prompted during Shift Close.
                       </p>
                       <button
                         onClick={handleOpenCloseShift}
-                        className="px-4 py-2.5 bg-rose-500/10 text-rose-600 font-semibold text-xs rounded-xl border border-rose-500/20"
+                        className="px-4 py-2.5 bg-rose-500/10 text-rose-600 text-xs rounded-xl border border-rose-500/20"
                       >
                         Close Shift Now
                       </button>
@@ -1303,18 +1300,18 @@ export function StaffDashboard({
 
               {/* STOCK SUB-TAB 2: LOG RESTOCK */}
               {stockSubTab === "restock" && (
-                <form onSubmit={handleRestockSubmit} className="bg-surface p-5 sm:p-6 rounded-2xl border border-border space-y-4 shadow-xs">
+                <form onSubmit={handleRestockSubmit} className="bg-surface p-5 sm:p-6 rounded-2xl border border-border space-y-4">
                   <div className="space-y-1">
-                    <h2 className="text-lg font-bold font-heading text-text-primary">Log Restock</h2>
+                    <h2 className="text-lg font-heading text-text-primary">Log Restock</h2>
                     <p className="text-xs text-text-muted">Record new inventory delivered to shop</p>
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-text-muted uppercase tracking-wider block">Product</label>
+                    <label className="text-xs text-text-muted uppercase block">Product</label>
                     <select
                       value={restockProductId}
                       onChange={(e) => setRestockProductId(e.target.value)}
-                      className="w-full px-3.5 py-3 border border-border bg-background rounded-xl text-xs font-semibold text-text-primary min-h-[48px]"
+                      className="w-full px-3.5 py-3 border border-border bg-background rounded-xl text-xs text-text-primary min-h-[48px]"
                     >
                       <option value="">-- Choose Product --</option>
                       {productList.map((p) => (
@@ -1324,20 +1321,20 @@ export function StaffDashboard({
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-xs font-semibold text-text-muted uppercase tracking-wider block">Quantity Delivered</label>
+                    <label className="text-xs text-text-muted uppercase block">Quantity Delivered</label>
                     <div className="flex items-center gap-3 bg-background p-2 rounded-2xl border border-border justify-between">
                       <button
                         type="button"
                         onClick={() => setRestockQty((q) => Math.max(1, q - 1))}
-                        className="w-12 h-12 rounded-xl bg-surface border border-border flex items-center justify-center font-bold text-text-primary active:scale-95 transition-transform"
+                        className="w-12 h-12 rounded-xl bg-surface border border-border flex items-center justify-center text-text-primary active:scale-95 transition-transform"
                       >
                         <Minus className="w-5 h-5" />
                       </button>
-                      <span className="text-xl font-bold text-emerald-600 font-heading">{restockQty}</span>
+                      <span className="text-xl text-emerald-600 font-heading">{restockQty}</span>
                       <button
                         type="button"
                         onClick={() => setRestockQty((q) => q + 1)}
-                        className="w-12 h-12 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold active:scale-95 transition-transform"
+                        className="w-12 h-12 rounded-xl bg-emerald-600 text-white flex items-center justify-center active:scale-95 transition-transform"
                       >
                         <Plus className="w-5 h-5" />
                       </button>
@@ -1347,7 +1344,7 @@ export function StaffDashboard({
                   <button
                     type="submit"
                     disabled={isRestockSubmitting || !restockProductId}
-                    className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-2xl shadow-md transition-all min-h-[52px]"
+                    className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white text-sm rounded-2xl transition-all min-h-[52px]"
                   >
                     {isRestockSubmitting ? "Adding Restock..." : "Add to Inventory →"}
                   </button>
@@ -1363,11 +1360,11 @@ export function StaffDashboard({
           {activeTab === "activity" && (
             <div className="max-w-3xl mx-auto space-y-4 animate-in fade-in duration-200">
               <div className="space-y-1">
-                <h2 className="text-lg font-bold font-heading text-text-primary">Shift Activity</h2>
+                <h2 className="text-lg font-heading text-text-primary">Shift Activity</h2>
                 <p className="text-xs text-text-muted">Reverse-chronological event log for this shift</p>
               </div>
 
-              <div className="bg-surface rounded-2xl p-4 border border-border space-y-3 shadow-xs">
+              <div className="bg-surface rounded-2xl p-4 border border-border space-y-3">
                 {activities.length === 0 ? (
                   <p className="text-xs text-text-muted py-8 text-center">No activity logged yet for this shift.</p>
                 ) : (
@@ -1385,13 +1382,13 @@ export function StaffDashboard({
                              act.type === "restock" ? <PackagePlus className="w-4 h-4" /> : <BarChart3 className="w-4 h-4" />}
                           </div>
                           <div className="truncate">
-                            <p className="font-bold text-text-primary truncate">{act.title}</p>
+                            <p className="text-text-primary truncate">{act.title}</p>
                             <p className="text-[11px] text-text-muted truncate">{act.detail}</p>
                           </div>
                         </div>
                         <div className="text-right shrink-0">
                           {act.amount !== null && (
-                            <p className="font-bold text-text-primary">{currencySymbol}{act.amount.toLocaleString()}</p>
+                            <p className="text-text-primary">{currencySymbol}{act.amount.toLocaleString()}</p>
                           )}
                           <span className="text-[10px] text-text-muted block">
                             {new Date(act.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
@@ -1414,10 +1411,10 @@ export function StaffDashboard({
           <div className="fixed inset-0 z-50 bg-background overflow-y-auto flex flex-col p-4 sm:p-6 max-w-lg mx-auto animate-in fade-in duration-200">
             <div className="flex items-center justify-between border-b border-border pb-4">
               <div>
-                <span className="text-xs font-bold text-brand uppercase tracking-wider block">
+                <span className="text-xs text-brand uppercase block">
                   {closeStep === "stock" ? "Step 1 of 2" : closeStep === "cash" ? "Step 2 of 2" : "Final Step"}
                 </span>
-                <h2 className="text-xl font-bold font-heading text-text-primary">
+                <h2 className="text-xl font-heading text-text-primary">
                   {closeStep === "stock" ? "Closing Stock Count" : closeStep === "cash" ? "Cash Drawer Reconciliation" : "Confirm Shift Closure"}
                 </h2>
               </div>
@@ -1440,7 +1437,7 @@ export function StaffDashboard({
                         <div key={item.id} className="p-3.5 space-y-2">
                           <div className="flex items-start justify-between">
                             <div>
-                              <h4 className="text-sm font-bold text-text-primary">{item.productName}</h4>
+                              <h4 className="text-sm text-text-primary">{item.productName}</h4>
                               <p className="text-[11px] text-text-muted mt-0.5">
                                 Expected: <span className="font-bold text-text-primary">{item.calculatedClosingQty} {item.unit}</span>
                               </p>
@@ -1454,7 +1451,7 @@ export function StaffDashboard({
                                 ...closingStockCounts,
                                 [item.productId]: Math.max(0, counted - 1)
                               })}
-                              className="w-10 h-10 rounded-xl bg-background border border-border flex items-center justify-center font-bold text-text-primary min-h-[40px]"
+                              className="w-10 h-10 rounded-xl bg-background border border-border flex items-center justify-center text-text-primary min-h-[40px]"
                             >
                               -
                             </button>
@@ -1465,7 +1462,7 @@ export function StaffDashboard({
                                 ...closingStockCounts,
                                 [item.productId]: Math.max(0, parseInt(e.target.value, 10) || 0)
                               })}
-                              className="w-20 py-2 border border-border bg-background rounded-xl text-center text-sm font-bold min-h-[40px]"
+                              className="w-20 py-2 border border-border bg-background rounded-xl text-center text-sm min-h-[40px]"
                             />
                             <button
                               type="button"
@@ -1473,7 +1470,7 @@ export function StaffDashboard({
                                 ...closingStockCounts,
                                 [item.productId]: counted + 1
                               })}
-                              className="w-10 h-10 rounded-xl bg-background border border-border flex items-center justify-center font-bold text-text-primary min-h-[40px]"
+                              className="w-10 h-10 rounded-xl bg-background border border-border flex items-center justify-center text-text-primary min-h-[40px]"
                             >
                               +
                             </button>
@@ -1487,9 +1484,9 @@ export function StaffDashboard({
                     <button
                       type="button"
                       onClick={() => setCloseStep("cash")}
-                      className="w-full sm:w-auto px-6 py-3 bg-brand hover:opacity-90 text-white font-bold text-xs rounded-xl shadow-md transition-all min-h-[44px]"
+                      className="w-full sm:w-auto px-6 py-3 bg-brand hover:opacity-90 text-white text-xs rounded-xl transition-all min-h-[44px]"
                     >
-                      Next: Cash Reconciliation →
+                      Next: Cash Reconciliation
                     </button>
                   </div>
                 </div>
@@ -1499,21 +1496,21 @@ export function StaffDashboard({
               {closeStep === "cash" && (
                 <div className="space-y-4">
                   <div className="bg-surface rounded-2xl p-4 border border-border space-y-2">
-                    <span className="text-xs text-text-muted font-medium block">Calculated System Cash</span>
-                    <p className="text-2xl font-bold font-heading text-brand">
+                    <span className="text-xs text-text-muted block">Calculated System Cash</span>
+                    <p className="text-2xl font-heading text-brand">
                       {currencySymbol}{expectedCashForClose.toLocaleString()}
                     </p>
                     <p className="text-[11px] text-text-muted">Opening float + total cash sales recorded today.</p>
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-xs font-bold text-text-primary uppercase tracking-wider block">Physical Counted Cash in Drawer</label>
+                    <label className="text-xs text-text-primary uppercase block">Physical Counted Cash in Drawer</label>
                     <input
                       type="number"
                       placeholder={`Enter counted ${currencySymbol} cash...`}
                       value={countedCash}
                       onChange={(e) => setCountedCash(e.target.value)}
-                      className="w-full p-4 border border-border bg-surface rounded-2xl text-lg font-bold text-text-primary focus:ring-2 focus:ring-brand min-h-[52px]"
+                      className="w-full p-4 border border-border bg-surface rounded-2xl text-lg text-text-primary focus:ring-2 focus:ring-brand min-h-[52px]"
                     />
                   </div>
 
@@ -1521,19 +1518,19 @@ export function StaffDashboard({
                     <button
                       type="button"
                       onClick={() => setCloseStep("stock")}
-                      className="w-1/3 py-3.5 border border-border bg-surface text-text-primary text-xs font-bold rounded-2xl min-h-[48px]"
+                      className="w-1/3 py-3.5 border border-border bg-surface text-text-primary text-xs rounded-2xl min-h-[48px]"
                     >
-                      ← Back
+                      Back
                     </button>
 
                     <button
                       type="button"
                       onClick={() => setCloseStep("summary")}
                       disabled={!countedCash}
-                      className="w-2/3 py-3.5 text-white text-xs font-bold rounded-2xl shadow-md transition-all min-h-[48px] disabled:opacity-50"
+                      className="w-2/3 py-3.5 text-white text-xs rounded-2xl transition-all min-h-[48px] disabled:opacity-50"
                       style={{ backgroundImage: 'var(--brand-gradient)' }}
                     >
-                      Review Final Summary →
+                      Review Final Summary 
                     </button>
                   </div>
                 </div>
@@ -1543,7 +1540,7 @@ export function StaffDashboard({
               {closeStep === "summary" && (
                 <div className="space-y-4">
                   <div className="space-y-1">
-                    <h3 className="text-base font-bold text-text-primary">Shift Reconciliation Overview</h3>
+                    <h3 className="text-base text-text-primary">Shift Reconciliation Overview</h3>
                     <p className="text-xs text-text-muted">Review surfaced variances before confirming shift closure.</p>
                   </div>
 
@@ -1557,7 +1554,7 @@ export function StaffDashboard({
                         className={`p-4 rounded-2xl border flex items-center justify-between transition-[transform,opacity,background-color] duration-220 ease-out motion-reduce:transition-none animate-in fade-in zoom-in-95 ${
                           cashVar === 0 
                             ? "bg-success/10 border-success/30 text-success"
-                            : "bg-danger/10 border-danger/30 text-danger shadow-xs shadow-danger/10"
+                            : "bg-danger/10 border-danger/30 text-danger"
                         }`}
                       >
                         <div className="flex items-center gap-3">
@@ -1567,13 +1564,13 @@ export function StaffDashboard({
                             <AlertTriangle className="w-5 h-5 text-danger shrink-0 animate-in zoom-in-75 duration-200" />
                           )}
                           <div>
-                            <span className="text-xs font-bold block">Cash Drawer Variance</span>
+                            <span className="text-xs block">Cash Drawer Variance</span>
                             <span className="text-[11px] opacity-90 tabular-nums">
                               Counted {currencySymbol}{countedNum.toLocaleString()} vs Expected {currencySymbol}{expectedCashForClose.toLocaleString()}
                             </span>
                           </div>
                         </div>
-                        <span className="text-base font-bold tabular-nums font-heading tracking-tight">
+                        <span className="text-base tabular-nums font-heading">
                           {cashVar >= 0 ? `+${currencySymbol}${cashVar.toLocaleString()}` : `-${currencySymbol}${Math.abs(cashVar).toLocaleString()}`}
                         </span>
                       </div>
@@ -1582,7 +1579,7 @@ export function StaffDashboard({
 
                   {/* Stock Variance List */}
                   <div className="bg-surface rounded-2xl p-4 border border-border space-y-3 max-h-52 overflow-y-auto">
-                    <span className="text-xs font-bold text-text-muted uppercase tracking-wider block">Stock Variances</span>
+                    <span className="text-xs text-text-muted uppercase block">Stock Variances</span>
                     <div className="divide-y divide-border/50">
                       {stockSummary.map((item, idx) => {
                         const counted = closingStockCounts[item.productId] ?? item.calculatedClosingQty;
@@ -1594,8 +1591,8 @@ export function StaffDashboard({
                             style={{ animationDelay: `${idx * 40}ms` }}
                             className="py-2.5 flex items-center justify-between text-xs animate-in fade-in slide-in-from-bottom-1 duration-200 motion-reduce:animate-none"
                           >
-                            <span className="font-semibold text-text-primary">{item.productName}</span>
-                            <div className="flex items-center gap-1.5 font-bold tabular-nums">
+                            <span className="text-text-primary">{item.productName}</span>
+                            <div className="flex items-center gap-1.5 tabular-nums">
                               {variance === 0 ? (
                                 <span className="text-success flex items-center gap-1">
                                   <CheckCircle2 className="w-3.5 h-3.5" /> 0 variance
@@ -1616,16 +1613,16 @@ export function StaffDashboard({
                     <button
                       type="button"
                       onClick={() => setCloseStep("cash")}
-                      className="w-1/3 py-3.5 border border-border bg-surface text-text-primary text-xs font-bold rounded-2xl min-h-[48px]"
+                      className="w-1/3 py-3.5 border border-border bg-surface text-text-primary text-xs rounded-2xl min-h-[48px]"
                     >
-                      ← Edit
+                      Edit
                     </button>
 
                     <button
                       type="button"
                       onClick={handleFinalCloseShift}
                       disabled={isClosingSubmitting}
-                      className="w-2/3 py-3.5 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-2xl shadow-lg transition-all min-h-[48px] disabled:opacity-50"
+                      className="w-2/3 py-3.5 bg-rose-600 hover:bg-rose-700 text-white text-xs rounded-2xl transition-all min-h-[48px] disabled:opacity-50"
                     >
                       {isClosingSubmitting ? "Closing Shift..." : "Confirm & Close Shift"}
                     </button>

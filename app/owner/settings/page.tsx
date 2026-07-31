@@ -28,16 +28,7 @@ export default async function SettingsPage() {
   });
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 pb-12">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold font-heading text-text-primary">Business Settings</h1>
-          <p className="text-[13px] text-text-muted mt-1">
-            View your Business ID code and manage shop configuration.
-          </p>
-        </div>
-      </div>
-
+    <div className="max-w-6xl mx-auto pb-12">
       <BusinessSettings 
         business={{
           id: b.id,
@@ -46,8 +37,12 @@ export default async function SettingsPage() {
           currency: b.currency,
           createdAt: b.createdAt.toISOString(),
         }}
-        ownerName={owner?.name || session.user.name}
-        ownerEmail={owner?.email || session.user.email}
+        owner={{
+          name: owner?.name || session.user.name || "Jefferson Nwadi",
+          email: owner?.email || session.user.email || "jefftech108@gmail.com",
+          phone: "Not added",
+          country: "Nigeria",
+        }}
       />
     </div>
   );

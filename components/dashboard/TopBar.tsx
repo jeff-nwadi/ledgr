@@ -18,6 +18,8 @@ const pageTitles: Record<string, string> = {
   "/owner/reports": "Reports & Exports",
   "/owner/pos": "Point of Sale",
   "/owner/settings": "Settings",
+  "/staff/settings": "Staff Settings",
+  "/staff/profile": "Staff Profile",
 };
 
 export function TopBar({ user }: { user?: any }) {
