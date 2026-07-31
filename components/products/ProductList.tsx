@@ -67,7 +67,7 @@ export function ProductList({ products, categories, currencySymbol = "₦" }: { 
     <div className="space-y-4 relative">
       {/* Sticky Search & Filter Bar */}
       <div className="sticky top-14 md:top-0 z-20 bg-background/95 backdrop-blur-xs py-2 flex flex-col sm:flex-row gap-3 border-b border-border/30">
-        <div className="relative flex-1">
+        <div className="relative flex-1 sm:max-w-xs">
           <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
           <input 
             type="text"

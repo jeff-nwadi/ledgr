@@ -77,13 +77,12 @@ export function GlobalSearch({ iconOnly = false, userRole = "owner" }: { iconOnl
       ) : (
         <button 
           onClick={() => setIsOpen(true)}
-          className="hidden md:flex items-center gap-2 px-4 py-2 bg-surface rounded-full text-sm text-text-muted w-80 hover:ring-1 hover:ring-brand/30 transition-all text-left min-h-[36px]"
+          className="hidden md:flex items-center gap-2 px-3 py-1 bg-surface border border-border/40 rounded-full text-xs text-text-muted w-56 hover:border-brand/30 hover:ring-1 hover:ring-brand/20 transition-all text-left min-h-[36px]"
         >
-          <Search className="w-4 h-4 text-text-muted/70" />
-          <span className="flex-1 text-text-muted/70">Search...</span>
-          <div className="flex items-center gap-1 text-[11px] font-medium text-text-muted">
-            <span>Ctrl</span>
-            <span>K</span>
+          <Search className="w-3.5 h-3.5 text-text-muted/70" />
+          <span className="flex-1 text-text-muted/70 truncate">Search...</span>
+          <div className="flex items-center gap-0.5 text-[10px] font-medium text-text-muted px-1.5 py-0.5 bg-background/60 rounded border border-border/40">
+            <span>Ctrl K</span>
           </div>
         </button>
       )}
