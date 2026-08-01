@@ -13,6 +13,7 @@ import {
   BarChart2, 
   Settings,
   ShoppingBag,
+  PackagePlus,
   Trash2,
   ClipboardList,
   Clock
@@ -78,14 +79,14 @@ export function Sidebar({ userRole = "owner" }: SidebarProps) {
           <Tooltip side="right">
             <TooltipTrigger asChild>
               <Link 
-                href={userRole === "staff" ? "/staff?tab=sale" : "/owner/pos"} 
+                href={userRole === "staff" ? "/staff?tab=sale" : "/owner/products?action=new"} 
                 className={`flex items-center justify-center gap-2 ${isCollapsed ? "w-10 h-10 p-0" : "w-full py-2.5"} [background:var(--brand-gradient)] text-white text-[13px] font-medium rounded-xl hover:opacity-90 shadow-sm transition-all`}
               >
-                {userRole === "staff" ? <ShoppingBag className="w-4 h-4" /> : <DollarSign className="w-4 h-4" />}
-                {!isCollapsed && (userRole === "staff" ? "Log Sale" : "New Sale")}
+                {userRole === "staff" ? <ShoppingBag className="w-4 h-4" /> : <PackagePlus className="w-4 h-4" />}
+                {!isCollapsed && (userRole === "staff" ? "Log Sale" : "Add Product")}
               </Link>
             </TooltipTrigger>
-            {isCollapsed && <TooltipContent>{userRole === "staff" ? "Log Sale" : "New Sale"}</TooltipContent>}
+            {isCollapsed && <TooltipContent>{userRole === "staff" ? "Log Sale" : "Add Product"}</TooltipContent>}
           </Tooltip>
         </div>
 

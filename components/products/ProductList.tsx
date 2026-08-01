@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { Package, Search, MoreHorizontal, Edit, Copy, Archive, AlertCircle } from "lucide-react";
 import { ProductQuickAdd } from "./ProductQuickAdd";
 import { archiveProductAction } from "@/app/actions/products";
@@ -16,6 +17,7 @@ import {
 } from "@/components/ui/alert-dialog";
 
 export function ProductList({ products, categories, currencySymbol = "₦" }: { products: any[], categories: string[], currencySymbol?: string }) {
+  const searchParams = useSearchParams();
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   
@@ -23,6 +25,13 @@ export function ProductList({ products, categories, currencySymbol = "₦" }: { 
   const [modalMode, setModalMode] = useState<"none" | "edit" | "duplicate">("none");
   const [archivingProduct, setArchivingProduct] = useState<{id: string, name: string} | null>(null);
   const [isArchiving, setIsArchiving] = useState(false);
+
+  useEffect(() => {
+    if (searchParams.get("action") === "new") {
+      setActiveProduct(null);
+      setModalMode("edit");
+    }
+  }, [searchParams]);
 
   const filteredProducts = useMemo(() => {
     return products.filter(p => {

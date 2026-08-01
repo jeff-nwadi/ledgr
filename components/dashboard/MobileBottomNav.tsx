@@ -60,7 +60,7 @@ export function MobileBottomNav({ userRole = "owner" }: { userRole?: string }) {
     { href: "/owner/customers", label: "Customers", icon: Users, desc: "Debt ledger & customer accounts" },
     { href: "/owner/staff", label: "Staff", icon: UserSquare2, desc: "PIN access & staff management" },
     { href: "/owner/reports", label: "Reports", icon: BarChart2, desc: "Business metrics & CSV exports" },
-    { href: "/owner/pos", label: "New Sale / POS", icon: PlusCircle, desc: "Log a sale quickly" },
+    { href: "/owner/products?action=new", label: "Add Product", icon: PlusCircle, desc: "Add a new product to inventory" },
     { href: "/owner/settings", label: "Settings", icon: Settings, desc: "Shop parameters & configuration" },
   ];
 
