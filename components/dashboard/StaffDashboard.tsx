@@ -250,7 +250,7 @@ export function StaffDashboard({
   // Handle Tab Click with Locked Check
   const handleTabClick = (tab: string) => {
     if ((tab === "sale" || tab === "waste") && !isOpeningDone) {
-      toast.error("Count Stock First", "You must count today's opening stock before logging sales or waste.");
+      toast.error("Count Stock First", "Please count your opening stock first before recording sales or waste.");
       setActiveTab("stock");
       setStockSubTab("count");
       return;
@@ -520,7 +520,7 @@ export function StaffDashboard({
               </h1>
             </div>
             <p className="text-xs sm:text-sm text-text-muted mt-1">
-              {shopCode ? `Shop: ${shopCode} · ` : ""}Manage sales, log waste, and perform stock count reconciliation.
+              {shopCode ? `Shop: ${shopCode} · ` : ""}Record sales, log waste, and count your closing stock.
             </p>
           </div>
 
@@ -633,7 +633,7 @@ export function StaffDashboard({
                       <ShoppingBag className="w-5 h-5 text-white" />
                     </div>
                     <div className="text-left">
-                      <span className="block leading-tight font-heading">Log a Sale</span>
+                      <span className="block leading-tight font-heading">Record a Sale</span>
                       <span className="text-xs text-white/80 font-normal">Quick product checkout</span>
                     </div>
                   </div>

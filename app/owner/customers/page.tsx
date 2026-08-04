@@ -28,7 +28,7 @@ export default async function CustomersPage() {
         </div>
         <h2 className="text-xl font-bold font-heading text-text-primary mb-2">Coming Soon</h2>
         <p className="text-[14px] text-text-muted max-w-md mx-auto">
-          We're currently building the customer debt and credit management module. Soon you'll be able to assign credit to specific customers, track balances, and log their payments seamlessly.
+          We're currently building the customer debt and credit management module. Soon you'll be able to assign credit to specific customers, track balances, and record their payments directly.
         </p>
       </div>
     </div>

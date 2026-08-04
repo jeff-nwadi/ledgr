@@ -142,7 +142,7 @@ function SignInContent() {
                 Welcome back
               </h1>
               <p className="text-sm text-text-muted font-normal">
-                Select how you want to log in to your shop account.
+                Select how you want to sign in to your shop account.
               </p>
             </div>
 
@@ -157,7 +157,7 @@ function SignInContent() {
                     : "text-text-muted hover:text-text-primary"
                 }`}
               >
-                Owner Login
+                Owner sign in
               </button>
               <button
                 type="button"
@@ -168,7 +168,7 @@ function SignInContent() {
                     : "text-text-muted hover:text-text-primary"
                 }`}
               >
-                <span>Staff Login</span>
+                <span>Staff sign in</span>
                 <span className="size-1.5 rounded-full bg-brand" />
               </button>
             </div>
@@ -226,13 +226,13 @@ function SignInContent() {
                   if (pinErrors.businessCode) setPinErrors(prev => ({ ...prev, businessCode: "" }));
                 }}
                 error={pinErrors.businessCode}
-                helperText="Found in your shop Business Settings."
+                helperText="Ask your shop owner for your shop code."
               />
 
               {/* PIN Display */}
               <div className="space-y-1.5">
                 <label className="block text-xs font-semibold text-text-muted uppercase tracking-wider">
-                  4-Digit Staff PIN
+                  4-Digit PIN
                 </label>
                 <div className="relative">
                   <input
@@ -282,7 +282,7 @@ function SignInContent() {
               href="/signup"
               className="font-medium text-brand hover:underline"
             >
-              Create Business Account
+              Create a shop account
             </Link>
           </p>
         </div>

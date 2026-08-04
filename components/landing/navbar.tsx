@@ -56,7 +56,7 @@ export function Navbar() {
             size="md" 
             className="hidden md:inline-flex font-bold"
           >
-            Get Started
+            Create account
           </ButtonLink>
         </div>
       </div>
@@ -84,14 +84,14 @@ export function Navbar() {
               onClick={() => setIsMobileMenuOpen(false)}
               className="px-3 py-2.5 rounded-xl text-sm font-semibold text-text-primary hover:bg-surface transition-colors min-h-[44px] flex items-center"
             >
-              Owner Sign in
+              Owner sign in
             </Link>
             <Link
               href="/signin?type=pin"
               onClick={() => setIsMobileMenuOpen(false)}
               className="px-3 py-2.5 rounded-xl text-sm font-semibold text-brand hover:bg-brand/10 transition-colors min-h-[44px] flex items-center"
             >
-              Staff PIN Login
+              Staff PIN sign in
             </Link>
           </nav>
         </div>

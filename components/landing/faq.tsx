@@ -7,7 +7,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Do my staff need an email account to log in?",
-    a: "No. Staff log in with a simple 4–6 digit PIN for your business. Only the owner uses an email and password.",
+    a: "No. Staff log in with a simple 4 to 6 digit PIN for your shop. Only the owner uses an email and password.",
   },
   {
     q: "Where is my data stored, and who can see it?",
@@ -22,8 +22,8 @@ const FAQ_ITEMS = [
     a: "Ledgr is free to use right now. In the future, we will charge a simple monthly fee per business with no hidden costs.",
   },
   {
-    q: "Does it integrate with my accountant or Xero?",
-    a: "Ledgr lets you download a simple spreadsheet file (CSV). You can share this file with your accountant or bookkeeper.",
+    q: "Can I share my numbers with my accountant?",
+    a: "Yes. You can download a simple spreadsheet file anytime and share it with your accountant.",
   },
 ];
 

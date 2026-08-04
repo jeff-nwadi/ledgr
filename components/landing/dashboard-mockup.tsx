@@ -157,7 +157,7 @@ export function DashboardMockup() {
                       <div className="w-10 h-10 rounded-full bg-brand/10 text-brand flex items-center justify-center mx-auto">
                         <ShieldCheck className="w-5 h-5" />
                       </div>
-                      <p className="text-xs font-bold text-text-primary">Enter Staff PIN (4–6 Digits)</p>
+                      <p className="text-xs font-bold text-text-primary">Enter Staff PIN (4 to 6 Digits)</p>
                       <div className="flex justify-center gap-1.5 my-1">
                         {[1, 2, 3, 4].map((dot) => (
                           <div key={dot} className="w-2.5 h-2.5 rounded-full bg-brand" />
@@ -187,10 +187,10 @@ export function DashboardMockup() {
                 </div>
                 <div>
                   <h3 className="font-heading text-lg font-bold text-text-primary">
-                    Fast 4–6 Digit Staff PIN Access
+                    Fast 4 to 6 Digit Staff PIN sign in
                   </h3>
                   <p className="mt-1 text-sm text-text-muted leading-relaxed">
-                    No passwords, emails, or personal accounts required for shop staff. Simply assign a 4–6 digit PIN to each staff member scoped directly to your business.
+                    No passwords, emails, or personal accounts required for shop staff. Simply assign a 4 to 6 digit PIN to each staff member scoped directly to your business.
                   </p>
                 </div>
               </div>
@@ -219,10 +219,10 @@ export function DashboardMockup() {
                 </div>
                 <div>
                   <h3 className="font-heading text-lg font-bold text-text-primary">
-                    Offline-First Queue & Sync
+                    Offline Queue & Automatic Upload
                   </h3>
                   <p className="mt-1 text-sm text-text-muted leading-relaxed">
-                    Internet connection dropped in the shop? Sales and waste entries are saved locally on the device and sync automatically to Neon as soon as connection restores.
+                    Internet connection dropped in the shop? Sales and waste entries save on your phone and upload automatically as soon as internet connection returns.
                   </p>
                 </div>
               </div>

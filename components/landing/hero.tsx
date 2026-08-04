@@ -9,12 +9,12 @@ export function Hero() {
       <div className="mx-auto flex max-w-6xl flex-col items-center text-center px-4 pt-12 pb-16 sm:px-8 sm:pt-20 sm:pb-24">
         {/* Centered headline + subhead + CTAs */}
         <ScrollReveal className="flex flex-col items-center max-w-3xl">
-          <h1 className="font-heading text-[36px] leading-[1.1] tracking-tight font-bold text-text-primary sm:text-5xl md:text-6xl">
-            Stop guessing where your money went
+        <h1 className="font-heading text-[36px] leading-[1.1] tracking-tight font-bold text-text-primary sm:text-5xl md:text-6xl">
+            Stop guessing where your stock and money went.
           </h1>
-          <p className="mt-4 max-w-md text-base leading-relaxed text-text-muted sm:mt-6">
-            Ledgr tracks your stock automatically: Opening, Added, Sold, Waste, and Closing.
-            If your physical count does not match the math, Ledgr shows you the difference. It does the same for your cash drawer.
+          <p className="mt-4 max-w-xl text-base leading-relaxed text-text-muted sm:mt-6">
+            Ledgr keeps track of your shop numbers for you: Opening, Added, Sold, Waste, and Closing.
+            When you count your stock or cash at the end of the day, Ledgr shows you if your count matches the math. If anything is missing, you see the exact difference right away.
           </p>
           <div className="mt-8 flex gap-3 sm:items-center sm:justify-center w-full sm:w-auto">
             <ButtonLink 
@@ -22,7 +22,7 @@ export function Hero() {
               size="md" 
               className="w-full sm:w-auto justify-center active:scale-[0.96] transition-[transform,opacity,box-shadow] duration-150 ease-out font-bold px-6 motion-reduce:transition-none"
             >
-              Get started 
+              Create your shop account
             </ButtonLink>
             <ButtonLink
               href="/signin?type=pin"
@@ -30,7 +30,7 @@ export function Hero() {
               size="md"
               className="w-full sm:w-auto justify-center active:scale-[0.96] transition-[transform,opacity,box-shadow] duration-150 ease-out font-medium px-6 motion-reduce:transition-none"
             >
-              Staff Login
+              Staff sign in
             </ButtonLink>
           </div>
           <p className="mt-4 text-xs text-text-muted sm:text-sm">
@@ -72,7 +72,7 @@ export function Hero() {
             <div className="relative overflow-hidden rounded-xl sm:rounded-2xl border border-border/50 bg-background">
               <Image
                 src="/images/Dashbaord.png"
-                alt="Ledgr Owner Dashboard — Daily stock, revenue, and cash variance overview"
+                alt="Ledgr Owner Dashboard showing daily stock, sales total, and cash variance"
                 width={1280}
                 height={800}
                 className="w-full h-auto object-cover object-top transition-transform duration-300 group-hover:scale-[1.005]"

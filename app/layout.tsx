@@ -20,9 +20,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Ledgr — end-of-day sales & stock, without the paper",
+  title: "Ledgr: Track sales, stock, and cash without paper",
   description:
-    "Ledgr replaces the manual opening/added/sold/closing paper ledger for bakeries, restaurants, and small shops — and adds cash and stock reconciliation so the variance is visible, not hidden.",
+    "Ledgr replaces the manual paper ledger for bakeries, restaurants, and small shops, showing you if your stock and cash match every single day.",
 };
 
 // Inline script that runs before first paint to set data-theme without a flash.

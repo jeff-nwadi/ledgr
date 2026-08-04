@@ -8,8 +8,8 @@ const FEATURE_GRID_ITEMS = [
   },
   {
     icon: "⊞",
-    title: "Sale logging",
-    body: "Pick a product, quantity, and payment type. Log a sale in seconds.",
+    title: "Record sales",
+    body: "Pick a product, quantity, and payment type. Record a sale in seconds.",
   },
   {
     icon: "⊗",
@@ -18,8 +18,8 @@ const FEATURE_GRID_ITEMS = [
   },
   {
     icon: "◎",
-    title: "Shift & cash sessions",
-    body: "Enter your opening float. Ledgr tracks expected cash and shows any difference at close.",
+    title: "Cash shift tracking",
+    body: "Type your starting cash float. Ledgr tracks your expected cash and shows if money is missing at close.",
   },
   {
     icon: "◉",
@@ -33,13 +33,13 @@ const FEATURE_GRID_ITEMS = [
   },
   {
     icon: "⊞",
-    title: "CSV export",
-    body: "Download a simple spreadsheet of your sales and stock for any date range.",
+    title: "Spreadsheet export",
+    body: "Download a simple file of your sales and stock for any date range.",
   },
   {
     icon: "↯",
     title: "Offline queue",
-    body: "Log sales offline without internet. Ledgr saves your data and uploads it when connected.",
+    body: "Record sales offline without internet. Ledgr saves your data and uploads it when connected.",
   },
 ];
 

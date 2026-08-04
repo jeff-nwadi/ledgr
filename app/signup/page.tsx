@@ -262,7 +262,7 @@ export default function SignUpPage() {
                   <div className="flex items-start gap-2.5 text-xs text-text-muted pt-1">
                     <Info className="w-4 h-4 text-brand shrink-0 mt-0.5" />
                     <p className="leading-relaxed">
-                      <strong className="font-semibold text-text-primary">Staff Login:</strong> Staff members log in using a 4–6 digit PIN without an email address. You can create PINs in your owner settings after signing up.
+                      <strong className="font-semibold text-text-primary">Staff sign in:</strong> Staff members sign in using a 4 to 6 digit PIN. They do not need an email address. You can create PINs in your owner settings after signing up.
                     </p>
                   </div>
 

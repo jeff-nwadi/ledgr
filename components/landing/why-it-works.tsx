@@ -3,13 +3,13 @@ import { ScrollReveal } from "@/components/landing/scroll-reveal";
 const WHY_ITEMS = [
   {
     icon: "⊕",
-    title: "Automated",
-    body: "Opening stock + Added − Sold = Closing stock. Ledgr carries the math forward every day. You do not need formulas.",
+    title: "Math done for you",
+    body: "Opening stock + Added − Sold = Closing stock. Ledgr calculates everything every day. You do not need paper or calculators.",
   },
   {
     icon: "△",
-    title: "Transparent",
-    body: "Calculated closing sits next to counted closing. Ledgr shows the difference clearly at the top, not hidden at the bottom.",
+    title: "Clear differences",
+    body: "Calculated closing sits right next to counted closing. Ledgr shows any difference clearly at the top.",
   },
   {
     icon: "↯",
@@ -18,8 +18,8 @@ const WHY_ITEMS = [
   },
   {
     icon: "⊡",
-    title: "Built for the counter",
-    body: "Staff log in with a simple 4–6 digit PIN. Big buttons make it fast to record a sale. Staff do not need email accounts.",
+    title: "Easy for counter staff",
+    body: "Staff log in with a simple 4 to 6 digit PIN. Big buttons make it fast to record a sale. Staff do not need an email.",
   },
 ];
 

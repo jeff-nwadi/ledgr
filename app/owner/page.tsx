@@ -67,7 +67,7 @@ export default async function OwnerDashboardPage() {
           <h1 className="text-xl md:text-2xl lg:text-3xl font-heading text-text-primary">
             {greeting}, {userName}
           </h1>
-          <p className="text-xs  text-text-muted mt-1">Here is your shop's real-time financial and stock ledger overview.</p>
+          <p className="text-xs text-text-muted mt-1">Here is what is happening in your shop today.</p>
         </div>
 
         <Link
@@ -85,9 +85,9 @@ export default async function OwnerDashboardPage() {
           style={{ backgroundImage: 'var(--brand-gradient)' }}
         >
           <div className="space-y-1.5">
-            <h2 className="text-[22px] text-white">Setup Your Shop Products</h2>
+            <h2 className="text-[22px] text-white">Add your products</h2>
             <p className="text-white/90 text-[15px] max-w-xl font-normal">
-              Add your selling products with cost price and selling price to unlock profit tracking and inventory ledger automation.
+              Add the items you sell with your cost price and selling price. This helps Ledgr calculate your profit and stock automatically.
             </p>
           </div>
           <Link href="/owner/products" className="flex items-center gap-2 bg-white text-text-primary px-5 py-2.5 rounded-full text-sm hover:bg-white/90 transition-colors whitespace-nowrap">
@@ -102,7 +102,7 @@ export default async function OwnerDashboardPage() {
         <div className="lg:col-span-2 rounded-[1rem] border border-border/50 bg-background p-4 sm:p-6 flex flex-col">
           <div className="flex flex-row justify-between items-start gap-2">
             <div className="space-y-1">
-              <h3 className="text-text-muted text-xs sm:text-[15px]">Gross Sales Revenue</h3>
+              <h3 className="text-text-muted text-xs sm:text-[15px]">Sales total</h3>
               <p className="text-2xl sm:text-[32px] text-text-primary tracking-tight">
                 {currencySymbol}{grossVolume.toLocaleString()}
               </p>
@@ -122,7 +122,7 @@ export default async function OwnerDashboardPage() {
           {/* Today's Shift Close-out Status Card */}
           <div data-tour="cash-session" className="rounded-[1rem] border border-border/50 bg-background p-5 sm:p-6 space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm sm:text-[15px] text-text-primary">Today's Close-out Status</h3>
+              <h3 className="text-sm sm:text-[15px] text-text-primary">Today's shift summary</h3>
               <span className={`text-[11px] px-2 py-0.5 rounded-full ${
                 analytics.hasClosedShiftToday ? "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20" : "bg-amber-500/10 text-amber-600 border border-amber-500/20"
               }`}>
@@ -134,7 +134,7 @@ export default async function OwnerDashboardPage() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className={`w-2 h-2 rounded-full ${todayCashVariance >= 0 ? "bg-emerald-500" : "bg-rose-500"}`}></span>
-                  <span className="text-xs sm:text-[13px] text-text-muted">Cash Variance</span>
+                  <span className="text-xs sm:text-[13px] text-text-muted">Cash difference</span>
                 </div>
                 <span className={`text-xs sm:text-[13px] ${todayCashVariance >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
                   {analytics.hasClosedShiftToday ? `${currencySymbol}${todayCashVariance.toLocaleString()}` : "Pending Shift Close"}
@@ -144,7 +144,7 @@ export default async function OwnerDashboardPage() {
               <div className="flex items-center justify-between border-t border-border/40 pt-2">
                 <div className="flex items-center gap-2">
                   <span className={`w-2 h-2 rounded-full ${todayStockVarianceValue >= 0 ? "bg-emerald-500" : "bg-rose-500"}`}></span>
-                  <span className="text-xs sm:text-[13px] text-text-muted">Stock Variance Value</span>
+                  <span className="text-xs sm:text-[13px] text-text-muted">Stock difference value</span>
                 </div>
                 <span className={`text-xs sm:text-[13px] ${todayStockVarianceValue >= 0 ? "text-emerald-600" : "text-rose-600"}`}>
                   {analytics.hasClosedShiftToday ? `${currencySymbol}${todayStockVarianceValue.toLocaleString()}` : "Pending Shift Close"}
@@ -168,8 +168,8 @@ export default async function OwnerDashboardPage() {
             {activities.length === 0 ? (
               <div className="flex-1 flex flex-col items-center justify-center text-center space-y-2">
                 <Activity className="w-8 h-8 text-text-muted/40" />
-                <p className="text-xs sm:text-[13px] text-text-primary">Nothing here yet</p>
-                <p className="text-[11px] text-text-muted">Sales and stock changes will appear here live.</p>
+                <p className="text-xs sm:text-[13px] text-text-primary">No sales or changes recorded yet today</p>
+                <p className="text-[11px] text-text-muted font-normal">Sales and stock changes will appear here as staff log them.</p>
               </div>
             ) : (
               <div className="flex-1 overflow-y-auto space-y-3 pr-1 divide-y divide-border/40">
@@ -190,43 +190,43 @@ export default async function OwnerDashboardPage() {
 
       {/* Financial & Inventory KPI Overview Cards (2x2 grid on mobile) */}
       <div className="space-y-4 pt-4">
-        <h2 className="text-base sm:text-[18px] text-text-primary">Key Financial & Inventory Metrics</h2>
+        <h2 className="text-base sm:text-[18px] text-text-primary">Shop overview numbers</h2>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {/* Gross Sales Volume */}
           <div className="rounded-[1rem] border border-border/50 bg-background p-3.5 sm:p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] space-y-1.5">
-            <span className="text-xs sm:text-[13px] text-text-muted block truncate">Gross Sales Volume</span>
+            <span className="text-xs sm:text-[13px] text-text-muted block truncate">Total sales</span>
             <p className="text-lg sm:text-[24px] text-text-primary tracking-tight truncate">
               {currencySymbol}{grossVolume.toLocaleString()}
             </p>
-            <span className="text-[10px] sm:text-[11px] text-text-muted block truncate">Total customer transactions</span>
+            <span className="text-[10px] sm:text-[11px] text-text-muted block truncate">Total money from sales</span>
           </div>
 
           {/* Gross Profit (Net Profit) */}
           <div className="rounded-[1rem] border border-border/50 bg-background p-3.5 sm:p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] space-y-1.5">
-            <span className="text-xs sm:text-[13px] text-text-muted block truncate">Gross Profit</span>
+            <span className="text-xs sm:text-[13px] text-text-muted block truncate">Profit</span>
             <p className="text-lg sm:text-[24px] tracking-tight truncate">
               {currencySymbol}{netVolume.toLocaleString()}
             </p>
-            <span className="text-[10px] sm:text-[11px] text-text-muted block truncate">Revenue minus COGS</span>
+            <span className="text-[10px] sm:text-[11px] text-text-muted block truncate">Sales minus cost of items</span>
           </div>
 
           {/* Stock Value On Hand */}
           <div className="rounded-[1rem] border border-border/50 bg-background p-3.5 sm:p-5 shadow-[0_1px_3px_0_rgba(0,0,0,0.02)] space-y-1.5">
-            <span className="text-xs sm:text-[13px] text-text-muted block truncate">Stock Value On Hand</span>
+            <span className="text-xs sm:text-[13px] text-text-muted block truncate">Value of stock on hand</span>
             <p className="text-lg sm:text-[24px] text-brand tracking-tight truncate">
               {currencySymbol}{stockValue.toLocaleString()}
             </p>
-            <span className="text-[10px] sm:text-[11px] text-text-muted block truncate">Stock × cost price</span>
+            <span className="text-[10px] sm:text-[11px] text-text-muted block truncate">Stock multiplied by cost price</span>
           </div>
 
           {/* Waste / Spoilage Value */}
           <div className="rounded-[1rem] border border-border/50 bg-background p-3.5 sm:p-5 space-y-1.5">
-            <span className="text-xs sm:text-[13px] text-text-muted block truncate">Total Waste Value</span>
+            <span className="text-xs sm:text-[13px] text-text-muted block truncate">Total waste cost</span>
             <p className="text-lg sm:text-[24px] tracking-tight truncate">
               {currencySymbol}{wasteValue.toLocaleString()}
             </p>
-            <span className="text-[10px] sm:text-[11px] text-text-muted block truncate">Spoiled inventory cost</span>
+            <span className="text-[10px] sm:text-[11px] text-text-muted block truncate">Cost of damaged or spoiled items</span>
           </div>
         </div>
 
@@ -234,11 +234,11 @@ export default async function OwnerDashboardPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           <div className="rounded-[1rem] border border-border/50 bg-background p-4 sm:p-5 flex items-center justify-between">
             <div>
-              <span className="text-xs sm:text-[13px] text-text-muted block">Total Customer Debt</span>
+              <span className="text-xs sm:text-[13px] text-text-muted block">Money owed by customers</span>
               <p className="text-xl sm:text-[24px] tracking-tight mt-1">
                 {currencySymbol}{customerDebtTotal.toLocaleString()}
               </p>
-              <span className="text-[10px] sm:text-[11px] text-text-muted">Uncollected credit sales</span>
+              <span className="text-[10px] sm:text-[11px] text-text-muted">Credit sales not paid yet</span>
             </div>
             <Link href="/owner/customers" className="text-xs text-brand hover:underline min-h-[44px] flex items-center">
               View Debtors
@@ -247,11 +247,11 @@ export default async function OwnerDashboardPage() {
 
           <div className="rounded-[1rem] border border-border/50 bg-background p-4 sm:p-5 flex items-center justify-between">
             <div>
-              <span className="text-xs sm:text-[13px]text-text-muted block">Registered Customers</span>
+              <span className="text-xs sm:text-[13px] text-text-muted block">Registered Customers</span>
               <p className="text-xl sm:text-[24px] text-text-primary tracking-tight mt-1">
                 {totalCustomers.toLocaleString()}
               </p>
-              <span className="text-[10px] sm:text-[11px] text-text-muted">Profiles in shop ledger</span>
+              <span className="text-[10px] sm:text-[11px] text-text-muted">Customers added to shop</span>
             </div>
             <Link href="/owner/customers" className="text-xs text-brand hover:underline min-h-[44px] flex items-center">
               Manage Customers 
