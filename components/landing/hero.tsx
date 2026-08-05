@@ -9,11 +9,6 @@ export function Hero() {
       <div className="mx-auto flex max-w-6xl flex-col items-center text-center px-4 pt-12 pb-16 sm:px-8 sm:pt-20 sm:pb-24">
         {/* Centered headline + subhead + CTAs */}
         <ScrollReveal className="flex flex-col items-center max-w-3xl">
-          {/* Plain first sentence stating what the app is for within 5 seconds */}
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand/5 px-4 py-1.5 text-xs sm:text-sm font-medium text-brand">
-            <span>Ledgr helps small shops track what they sell, what runs out, and where the money went, every single day.</span>
-          </div>
-
           <h1 className="font-heading text-[36px] leading-[1.1] tracking-tight font-bold text-text-primary sm:text-5xl md:text-6xl">
             Stop guessing where your stock and money went.
           </h1>
