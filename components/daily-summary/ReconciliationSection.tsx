@@ -24,7 +24,7 @@ export function ReconciliationSection({
       <div className={`p-5 rounded-[1rem] bg-background border transition-[background-color,border-color,transform] duration-220 ease-out motion-reduce:transition-none ${
         cashVariance !== null && !isCashMatched ? "border-danger/40 bg-danger/5 shadow-danger/5" : "border-border/50"
       }`}>
-        <div className="text-xs text-text-muted uppercase mb-2">Cash Variance</div>
+        <div className="text-xs text-text-muted uppercase mb-2">Cash Difference</div>
         {cashVariance === null ? (
           <div className="text-2xl font-heading text-text-muted">—</div>
         ) : isCashMatched ? (
@@ -46,7 +46,7 @@ export function ReconciliationSection({
       <div className={`p-5 rounded-[1rem] bg-background border transition-[background-color,border-color,transform] duration-220 ease-out motion-reduce:transition-none ${
         stockVariance !== null && !isStockMatched ? "border-danger/40 bg-danger/5 shadow-danger/5" : "border-border/50"
       }`}>
-        <div className="text-xs text-text-muted uppercase mb-2">Stock Variance</div>
+        <div className="text-xs text-text-muted uppercase mb-2">Stock Difference</div>
         {stockVariance === null ? (
           <div className="text-2xl font-heading text-text-muted">—</div>
         ) : isStockMatched ? (

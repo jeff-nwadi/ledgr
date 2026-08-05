@@ -9,7 +9,12 @@ export function Hero() {
       <div className="mx-auto flex max-w-6xl flex-col items-center text-center px-4 pt-12 pb-16 sm:px-8 sm:pt-20 sm:pb-24">
         {/* Centered headline + subhead + CTAs */}
         <ScrollReveal className="flex flex-col items-center max-w-3xl">
-        <h1 className="font-heading text-[36px] leading-[1.1] tracking-tight font-bold text-text-primary sm:text-5xl md:text-6xl">
+          {/* Plain first sentence stating what the app is for within 5 seconds */}
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand/5 px-4 py-1.5 text-xs sm:text-sm font-medium text-brand">
+            <span>Ledgr helps small shops track what they sell, what runs out, and where the money went, every single day.</span>
+          </div>
+
+          <h1 className="font-heading text-[36px] leading-[1.1] tracking-tight font-bold text-text-primary sm:text-5xl md:text-6xl">
             Stop guessing where your stock and money went.
           </h1>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-text-muted sm:mt-6">
@@ -72,7 +77,7 @@ export function Hero() {
             <div className="relative overflow-hidden rounded-xl sm:rounded-2xl border border-border/50 bg-background">
               <Image
                 src="/images/Dashbaord.png"
-                alt="Ledgr Owner Dashboard showing daily stock, sales total, and cash variance"
+                alt="Ledgr Owner Dashboard showing daily stock, sales total, and cash difference"
                 width={1280}
                 height={800}
                 className="w-full h-auto object-cover object-top transition-transform duration-300 group-hover:scale-[1.005]"

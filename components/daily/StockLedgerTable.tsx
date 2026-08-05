@@ -57,7 +57,7 @@ export function StockLedgerTable({ ledger: initialLedger }: StockLedgerTableProp
   if (ledger.length === 0) {
     return (
       <div className="py-12 text-center text-text-muted border border-border/50 rounded-2xl bg-surface/50">
-        No products available to reconcile.
+        No products available to check.
       </div>
     );
   }
@@ -75,7 +75,7 @@ export function StockLedgerTable({ ledger: initialLedger }: StockLedgerTableProp
               <th className="px-6 py-4 text-right text-danger">Waste</th>
               <th className="px-6 py-4 text-right text-brand">Calculated</th>
               <th className="px-6 py-4 text-right">Counted</th>
-              <th className="px-6 py-4 text-right">Variance</th>
+              <th className="px-6 py-4 text-right">Difference</th>
               <th className="px-6 py-4"></th>
             </tr>
           </thead>
@@ -135,7 +135,7 @@ export function StockLedgerTable({ ledger: initialLedger }: StockLedgerTableProp
                     </button>
                   ) : (
                     <span className="text-success text-xs flex items-center justify-end gap-1">
-                      <Check className="w-3.5 h-3.5" /> Reconciled
+                      <Check className="w-3.5 h-3.5" /> Confirmed
                     </span>
                   )}
                 </td>

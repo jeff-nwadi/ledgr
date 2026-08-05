@@ -1540,8 +1540,8 @@ export function StaffDashboard({
               {closeStep === "summary" && (
                 <div className="space-y-4">
                   <div className="space-y-1">
-                    <h3 className="text-base text-text-primary">Shift Reconciliation Overview</h3>
-                    <p className="text-xs text-text-muted">Review surfaced variances before confirming shift closure.</p>
+                    <h3 className="text-base text-text-primary">Shift Summary</h3>
+                    <p className="text-xs text-text-muted font-normal">Review surfaced differences before confirming shift closure.</p>
                   </div>
 
                   {/* Cash Variance Box */}
@@ -1564,7 +1564,7 @@ export function StaffDashboard({
                             <AlertTriangle className="w-5 h-5 text-danger shrink-0 animate-in zoom-in-75 duration-200" />
                           )}
                           <div>
-                            <span className="text-xs block">Cash Drawer Variance</span>
+                            <span className="text-xs block">Cash Drawer Difference</span>
                             <span className="text-[11px] opacity-90 tabular-nums">
                               Counted {currencySymbol}{countedNum.toLocaleString()} vs Expected {currencySymbol}{expectedCashForClose.toLocaleString()}
                             </span>
@@ -1579,7 +1579,7 @@ export function StaffDashboard({
 
                   {/* Stock Variance List */}
                   <div className="bg-surface rounded-2xl p-4 border border-border space-y-3 max-h-52 overflow-y-auto">
-                    <span className="text-xs text-text-muted uppercase block">Stock Variances</span>
+                    <span className="text-xs text-text-muted uppercase block">Stock Differences</span>
                     <div className="divide-y divide-border/50">
                       {stockSummary.map((item, idx) => {
                         const counted = closingStockCounts[item.productId] ?? item.calculatedClosingQty;
@@ -1595,7 +1595,7 @@ export function StaffDashboard({
                             <div className="flex items-center gap-1.5 tabular-nums">
                               {variance === 0 ? (
                                 <span className="text-success flex items-center gap-1">
-                                  <CheckCircle2 className="w-3.5 h-3.5" /> 0 variance
+                                  <CheckCircle2 className="w-3.5 h-3.5" /> 0 difference
                                 </span>
                               ) : (
                                 <span className="text-danger flex items-center gap-1 bg-danger/10 px-2 py-0.5 rounded-lg border border-danger/20">

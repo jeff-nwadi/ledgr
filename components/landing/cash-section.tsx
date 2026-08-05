@@ -52,7 +52,7 @@ export function CashSection() {
               <div className="flex items-center justify-between gap-3 border-t border-border bg-[color-mix(in_srgb,var(--danger)_10%,transparent)] px-4 py-2.5 sm:px-5 sm:py-3">
                 <p className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-danger">
                   <span aria-hidden="true">⚠</span>
-                  Variance −₦1,200
+                  Difference −₦1,200
                 </p>
                 <span className="text-[11px] sm:text-[12px] font-medium text-text-muted">Short</span>
               </div>

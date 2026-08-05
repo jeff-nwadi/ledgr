@@ -35,7 +35,7 @@ export function ShiftBreakdown({ sessions }: { sessions: any[] }) {
                       ? "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20" 
                       : "bg-rose-500/10 text-rose-600 border border-rose-500/20"
                   }`}>
-                    {s.variance === 0 ? "Balanced" : `Variance: ${s.variance > 0 ? "+" : ""}${formatMoney(s.variance)}`}
+                    {s.variance === 0 ? "Balanced" : `Difference: ${s.variance > 0 ? "+" : ""}${formatMoney(s.variance)}`}
                   </span>
                 )}
               </div>
@@ -71,7 +71,7 @@ export function ShiftBreakdown({ sessions }: { sessions: any[] }) {
               <th className="px-5 py-3 text-[12px] font-medium text-text-muted uppercase tracking-wider text-right">Opening Float</th>
               <th className="px-5 py-3 text-[12px] font-medium text-text-muted uppercase tracking-wider text-right">Expected</th>
               <th className="px-5 py-3 text-[12px] font-medium text-text-muted uppercase tracking-wider text-right">Counted</th>
-              <th className="px-5 py-3 text-[12px] font-medium text-text-muted uppercase tracking-wider text-right">Variance</th>
+              <th className="px-5 py-3 text-[12px] font-medium text-text-muted uppercase tracking-wider text-right">Difference</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border/30">

@@ -14,8 +14,8 @@ export const OWNER_TOUR_STEPS: TourStep[] = [
   },
   {
     target: '[data-tour="dashboard-summary"]',
-    title: "Real-Time Business Metrics",
-    description: "View Revenue, COGS, Gross Profit, Total Stock Value, and Spoilage at a glance without digging through spreadsheets.",
+    title: "Real-Time Shop Metrics",
+    description: "View Revenue, Profit, Total Stock Value, and Spoilage at a glance without digging through spreadsheets.",
     placement: "bottom",
   },
   {
@@ -27,13 +27,13 @@ export const OWNER_TOUR_STEPS: TourStep[] = [
   {
     target: '[data-tour="stock-ledger"]',
     title: "Daily Stock Ledger",
-    description: "Automates Opening + Added - Sold = Calculated Closing, surfacing exact physical stock variances.",
+    description: "Calculates Opening + Added - Sold = Calculated Closing, showing exact physical stock differences.",
     placement: "top",
   },
   {
     target: '[data-tour="cash-session"]',
-    title: "Cash Drawer Reconciliation",
-    description: "Compares expected drawer cash against actual counted cash at shift close to detect shortfalls immediately.",
+    title: "Cash Drawer Check",
+    description: "Compares expected drawer cash against actual counted cash at shift close to show missing money immediately.",
     placement: "top",
   },
   {

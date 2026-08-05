@@ -80,7 +80,7 @@ export function DailyStockTable({ entries }: { entries: any[] }) {
                   <span className="text-text-primary">{isUncounted ? "—" : entry.countedClosingQty}</span>
                 </div>
                 <div className={`p-2 rounded-lg ${hasVariance ? "bg-rose-500/10 text-rose-600" : "bg-surface/60 text-text-primary"}`}>
-                  <span className="text-[10px] block uppercase opacity-80">Variance</span>
+                  <span className="text-[10px] block uppercase opacity-80">Difference</span>
                   <span className="">{isUncounted ? "—" : `${entry.varianceQty > 0 ? "+" : ""}${entry.varianceQty}`}</span>
                 </div>
               </div>
@@ -101,7 +101,7 @@ export function DailyStockTable({ entries }: { entries: any[] }) {
               <th className="px-5 py-3 text-[12px] font-medium text-text-muted uppercase tracking-wider text-right">Waste</th>
               <th className="px-5 py-3 text-[12px] font-medium text-text-muted uppercase tracking-wider text-right">System Closing</th>
               <th className="px-5 py-3 text-[12px] font-medium text-text-muted uppercase tracking-wider text-right">Counted</th>
-              <th className="px-5 py-3 text-[12px] font-medium text-text-muted uppercase tracking-wider text-right">Variance</th>
+              <th className="px-5 py-3 text-[12px] font-medium text-text-muted uppercase tracking-wider text-right">Difference</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border/30">

@@ -169,12 +169,12 @@ export default async function DailySummaryPage({
               </div>
               <div className="flex-1">
                 <p className="text-sm text-text-primary">Day not fully closed</p>
-                <p className="text-[13px] text-text-muted">
+                <p className="text-[13px] text-text-muted font-normal">
                   {hasOpenShift && isStockIncomplete 
                     ? "Some shifts are still open and stock counts are unconfirmed. Showing partial data." 
                     : hasOpenShift 
-                      ? "Some shifts are still open. Cash variance is incomplete."
-                      : "Stock counts are unconfirmed. Stock variance is incomplete."}
+                      ? "Some shifts are still open. Cash difference is incomplete."
+                      : "Stock counts are unconfirmed. Stock difference is incomplete."}
                 </p>
               </div>
             </div>

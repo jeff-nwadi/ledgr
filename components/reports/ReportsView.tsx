@@ -293,7 +293,7 @@ export function ReportsView() {
               <div className={`p-4 rounded-2xl border shadow-sm ${
                 (reportData?.cashVarianceSum || 0) !== 0 ? "bg-danger/5 border-danger/30" : "bg-background border-border/50"
               }`}>
-                <span className="text-xs text-text-muted uppercase block mb-1">Cash Variance (Sum)</span>
+                <span className="text-xs text-text-muted uppercase block mb-1">Cash Difference (Sum)</span>
                 <div className="flex items-center gap-2">
                   {(reportData?.cashVarianceSum || 0) === 0 ? (
                     <span className="text-xl font-heading text-success">Balanced ({currencySymbol}0)</span>
@@ -308,7 +308,7 @@ export function ReportsView() {
               <div className={`p-4 rounded-2xl border ${
                 (reportData?.stockVarianceSum || 0) !== 0 ? "bg-danger/5 border-danger/30" : "bg-background border-border/50"
               }`}>
-                <span className="text-xs text-text-muted uppercase tracking-wider block mb-1">Stock Variance Value (Sum)</span>
+                <span className="text-xs text-text-muted uppercase tracking-wider block mb-1">Stock Difference Value (Sum)</span>
                 <div className="flex items-center gap-2">
                   {(reportData?.stockVarianceSum || 0) === 0 ? (
                     <span className="text-xl font-heading text-success">Balanced ({currencySymbol}0)</span>
@@ -326,7 +326,7 @@ export function ReportsView() {
           <div className="space-y-3 pt-4">
             <div className="flex items-center gap-2">
               <UserCheck className="w-5 h-5 text-brand" />
-              <h2 className="text-base sm:text-lg font-heading text-text-primary">Staff Accountability & Variance Breakdown</h2>
+              <h2 className="text-base sm:text-lg font-heading text-text-primary">Staff Accountability & Difference Breakdown</h2>
             </div>
 
             <div className="bg-background border border-border/50 rounded-2xl overflow-hidden">
@@ -340,8 +340,8 @@ export function ReportsView() {
                         <th className="p-3.5">Staff Member</th>
                         <th className="p-3.5 text-right">Sales Count</th>
                         <th className="p-3.5 text-right">Revenue</th>
-                        <th className="p-3.5 text-right">Cash Variance</th>
-                        <th className="p-3.5 text-right">Stock Variance</th>
+                        <th className="p-3.5 text-right">Cash Difference</th>
+                        <th className="p-3.5 text-right">Stock Difference</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border/40 text-text-primary font-normal">
