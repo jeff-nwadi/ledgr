@@ -6,6 +6,7 @@ import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { ProductsHeader } from "@/components/products/ProductsHeader";
 import { ProductList } from "@/components/products/ProductList";
+import { MobileProductsList } from "@/components/products/MobileProductsList";
 
 export default async function ProductsPage() {
   const session = await auth.api.getSession({
@@ -35,9 +36,15 @@ export default async function ProductsPage() {
   )).sort();
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 pb-12">
-      <ProductsHeader existingCategories={categories} />
-      <ProductList products={productsList} categories={categories} />
-    </div>
+    <>
+      {/* DESKTOP VIEW (Condition a: hidden md:block — 100% untouched) */}
+      <div className="hidden md:block max-w-5xl mx-auto space-y-8 pb-12">
+        <ProductsHeader existingCategories={categories} />
+        <ProductList products={productsList} categories={categories} />
+      </div>
+
+      {/* MOBILE VIEW (Condition a: block md:hidden — Interactive Mobile Products List) */}
+      <MobileProductsList products={productsList} categories={categories} />
+    </>
   );
 }

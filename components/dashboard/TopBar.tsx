@@ -28,30 +28,14 @@ export function TopBar({ user }: { user?: any }) {
   const currentTitle = pageTitles[pathname] || (userRole === "staff" ? "Staff Shift" : "Ledgr");
 
   return (
-    <header className="h-14 md:h-16 flex items-center justify-between px-4 md:px-8 flex-shrink-0 bg-background border-b border-border/40 z-30 sticky top-0 md:relative">
-      {/* Mobile Top Bar Left: Business Name & Page Title */}
-      <div className="flex md:hidden items-center gap-2 flex-1 min-w-0">
-        <Link href={userRole === "staff" ? "/staff" : "/owner"} className="font-heading font-bold text-base text-brand flex-shrink-0">
-          Ledgr
-        </Link>
-        <span className="text-text-muted/40 font-light text-sm">/</span>
-        <h1 className="text-sm font-semibold text-text-primary truncate">
-          {currentTitle}
-        </h1>
-      </div>
-
+    <header className="hidden md:flex h-16 items-center justify-between px-8 flex-shrink-0 bg-background border-b border-border/40 z-30 sticky top-0">
       {/* Desktop Search Command Palette */}
-      <div className="hidden md:flex items-center gap-4 flex-1">
+      <div className="flex items-center gap-4 flex-1">
         <GlobalSearch userRole={userRole} />
       </div>
 
-      {/* Mobile Right & Desktop Right Actions */}
-      <div className="flex items-center gap-2 sm:gap-3">
-        {/* Mobile Search Icon Trigger */}
-        <div className="md:hidden">
-          <GlobalSearch iconOnly userRole={userRole} />
-        </div>
-
+      {/* Desktop Right Actions */}
+      <div className="flex items-center gap-3">
         {/* Desktop Help Button */}
         <button
           data-tour="help-trigger"
@@ -59,7 +43,7 @@ export function TopBar({ user }: { user?: any }) {
             const tourId = userRole === "staff" ? "staff-tour" : "owner-tour";
             useTourStore.getState().resetTour(tourId);
           }}
-          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-surface text-text-primary rounded-full hover:bg-border/50 transition-colors min-h-[36px]"
+          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-surface text-text-primary rounded-full hover:bg-border/50 transition-colors min-h-[36px]"
         >
           <HelpCircle className="w-3.5 h-3.5" />
           Need help? <span className="text-text-muted ml-1">Take Tour</span>

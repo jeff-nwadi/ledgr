@@ -61,7 +61,7 @@ export function CashSessionCard({ activeSession, cashSalesTotal, currencySymbol 
         <p className="text-[13px] text-text-muted mt-1 mb-4">
           {finalVariance === 0 
             ? "Your cash drawer matched exactly!" 
-            : `You have a variance of ${formatMoney(finalVariance)}.`}
+            : `You have a cash difference of ${formatMoney(finalVariance)}.`}
         </p>
         <div className="grid grid-cols-3 gap-2 pt-4 border-t border-border/40 text-left">
           <div>

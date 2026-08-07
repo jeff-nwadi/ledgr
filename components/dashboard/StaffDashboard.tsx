@@ -470,7 +470,7 @@ export function StaffDashboard({
       } else {
         toast.success(
           "Shift Closed Successfully",
-          `Cash Variance: ${currencySymbol}${(res.cashVariance || 0).toLocaleString()}`
+          `Cash Difference: ${currencySymbol}${(res.cashVariance || 0).toLocaleString()}`
         );
         setIsCloseShiftOpen(false);
         setShift(null);

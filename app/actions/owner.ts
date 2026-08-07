@@ -29,7 +29,7 @@ export async function getOwnerAnalyticsAction() {
   try {
     const biz = await db.query.business.findFirst({
       where: eq(business.id, businessId),
-      columns: { currency: true }
+      columns: { name: true, currency: true }
     });
 
     const today = new Date();
@@ -181,6 +181,7 @@ export async function getOwnerAnalyticsAction() {
     });
 
     return {
+      businessName: biz?.name || "Sweet Crumbs Bakery",
       currency: biz?.currency || "NGN",
       hasProducts: products.length > 0,
       grossVolume,

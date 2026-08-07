@@ -71,20 +71,9 @@ export default async function OwnerStaffManagementPage() {
   });
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 pb-12">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold font-heading text-text-primary">Staff Management</h1>
-          <p className="text-[13px] text-text-muted mt-1">
-            Monitor real-time staff shift status, add team members, regenerate login PINs, and manage account access.
-          </p>
-        </div>
-      </div>
-
-      <StaffList 
-        staffList={staffWithShiftInfo} 
-        businessCode={b?.code || ""}
-      />
-    </div>
+    <StaffList 
+      staffList={staffWithShiftInfo} 
+      businessCode={b?.code || ""}
+    />
   );
 }

@@ -87,7 +87,7 @@ export function MobileBottomNav({ userRole = "owner" }: { userRole?: string }) {
       <nav 
         data-tour="nav-menu"
         aria-label="Mobile bottom navigation"
-        className="fixed bottom-0 left-0 right-0 z-40 bg-background/95 backdrop-blur-md border-t border-border/60 md:hidden h-16 px-2 flex items-center justify-around shadow-lg select-none"
+        className="fixed bottom-0 left-0 right-0 z-40 bg-background/95 backdrop-blur-md border-t border-border/60 md:hidden h-16 px-3 flex items-center justify-around select-none shadow-none"
       >
         {navItems.map((item) => {
           const isActive = isItemActive(item);
@@ -97,16 +97,13 @@ export function MobileBottomNav({ userRole = "owner" }: { userRole?: string }) {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex-1 min-h-[44px] flex flex-col items-center justify-center py-1 transition-colors duration-150 relative ${
+              className={`flex-1 min-h-[44px] flex flex-col items-center justify-center py-1 transition-colors duration-150 ${
                 isActive 
-                  ? "text-brand font-semibold" 
+                  ? "text-brand font-medium" 
                   : "text-text-muted hover:text-text-primary"
               }`}
             >
-              {isActive && (
-                <span className="absolute top-0 w-8 h-1 bg-brand rounded-b-full transition-[width,background-color] duration-150" />
-              )}
-              <Icon className="w-5 h-5 mb-0.5" strokeWidth={isActive ? 2.5 : 1.8} />
+              <Icon className="w-5 h-5 mb-0.5" strokeWidth={isActive ? 2.2 : 1.75} />
               <span className="text-[11px] leading-tight tracking-tight">{item.label}</span>
             </Link>
           );
@@ -116,18 +113,15 @@ export function MobileBottomNav({ userRole = "owner" }: { userRole?: string }) {
         <button
           type="button"
           onClick={() => setIsMoreOpen(true)}
-          className={`flex-1 min-h-[44px] flex flex-col items-center justify-center py-1 transition-colors duration-150 relative ${
+          className={`flex-1 min-h-[44px] flex flex-col items-center justify-center py-1 transition-colors duration-150 ${
             isMoreActive || isMoreOpen
-              ? "text-brand font-semibold" 
+              ? "text-brand font-medium" 
               : "text-text-muted hover:text-text-primary"
           }`}
           aria-expanded={isMoreOpen}
           aria-label="Open more navigation options"
         >
-          {(isMoreActive || isMoreOpen) && (
-            <span className="absolute top-0 w-8 h-1 bg-brand rounded-b-full transition-[width,background-color] duration-150" />
-          )}
-          <MoreHorizontal className="w-5 h-5 mb-0.5" strokeWidth={isMoreActive || isMoreOpen ? 2.5 : 1.8} />
+          <MoreHorizontal className="w-5 h-5 mb-0.5" strokeWidth={isMoreActive || isMoreOpen ? 2.2 : 1.75} />
           <span className="text-[11px] leading-tight tracking-tight">More</span>
         </button>
       </nav>

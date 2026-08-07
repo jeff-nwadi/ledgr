@@ -160,6 +160,16 @@ picking one.
 | `responsive-design` | Any screen that needs to work across phone/tablet/desktop — this app is phone-first (see Design System principles above), so this applies to nearly every screen |
 | `review-animation` | Reviewing any animation/transition before merging — loading states, the gradient buttons, variance flag reveals, cash/stock reconciliation confirmations |
 
+Mobile App Design Standards:
+- 14px readable body text (use 14px as base for body/labels; headings scale from there)
+- 24px safe area padding on all sides of main content (app-level spacing, not per-component)
+- 44px minimum tap target size for all interactive elements (buttons, links, list items, form inputs)
+- Inputs and touch targets have rounded corners (4–8px) for comfortable tapping
+- High contrast: ensure text/background combos meet WCAG AA contrast ratio in both light and dark mode
+- Keep interactive controls at the bottom when possible for thumb reach
+- Reduce horizontal scrolling—prioritize vertical scrolling and content reflow
+- Use larger fonts and bolder weights for key information (numbers, totals, warnings)
+
 **Suggested order for building a new screen:** `interface-design` (structure) →
 `baseline-ui` (build with primitives) → `responsive-design` (verify across breakpoints)
 → `make-interface-feel-better` (polish pass) → `review-animation` (if the screen has

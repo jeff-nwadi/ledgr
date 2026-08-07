@@ -43,6 +43,15 @@ export function StaffList({ staffList, businessCode }: StaffListProps) {
 
   const filtered = staffList.filter(s => s.name.toLowerCase().includes(search.toLowerCase()));
 
+  const formatTime = (iso?: string) => {
+    if (!iso) return "";
+    try {
+      return new Date(iso).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    } catch {
+      return "";
+    }
+  };
+
   const handleAddSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newName.trim()) {
@@ -111,112 +120,70 @@ export function StaffList({ staffList, businessCode }: StaffListProps) {
   };
 
   return (
-    <div className="space-y-6">
-      
-      {/* Toolbar */}
-      <div className="flex flex-col sm:flex-row items-center gap-4 justify-between">
-        <div className="relative w-full sm:w-80">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
-          <input 
-            type="text" 
-            placeholder="Search staff..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2.5 bg-background border border-border/50 rounded-xl text-sm text-text-primary focus:ring-1 focus:ring-brand/50 outline-none transition-all min-h-[44px]"
-          />
-        </div>
-        
-        <button 
-          onClick={() => { setIsAddModalOpen(true); setError(""); setNewName(""); }}
-          className="w-full sm:w-auto px-5 py-2.5 [background:var(--brand-gradient)] text-white text-sm font-medium rounded-full hover:opacity-90 transition-opacity flex items-center justify-center gap-2 shadow-sm min-h-[44px]"
-        >
-          <Plus className="w-4 h-4" />
-          Add Staff Member
-        </button>
-      </div>
-
-      {/* Staff Grid */}
-      {filtered.length === 0 ? (
-        <div className="py-16 text-center border border-dashed border-border/50 rounded-[1.25rem] bg-surface/30">
-          <div className="w-12 h-12 bg-background rounded-full flex items-center justify-center text-text-muted/50 mx-auto mb-3">
-            <UserSquare2 className="w-6 h-6" />
+    <>
+      {/* DESKTOP VIEW (Condition a: hidden md:block — 100% untouched) */}
+      <div className="hidden md:block space-y-6">
+        <div className="flex flex-col sm:flex-row items-center gap-4 justify-between">
+          <div className="relative w-full sm:w-80">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
+            <input 
+              type="text" 
+              placeholder="Search staff..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-9 pr-4 py-2.5 bg-background border border-border/50 rounded-xl text-sm text-text-primary focus:ring-1 focus:ring-brand/50 outline-none transition-all min-h-[44px]"
+            />
           </div>
-          <h3 className="text-sm font-semibold text-text-primary">No staff members found</h3>
-          <p className="text-xs text-text-muted mt-1">Add staff to allow them to log in using a 4-digit PIN.</p>
+          <button 
+            onClick={() => { setIsAddModalOpen(true); setError(""); setNewName(""); }}
+            className="w-full sm:w-auto px-5 py-2.5 [background:var(--brand-gradient)] text-white text-sm font-medium rounded-full hover:opacity-90 transition-opacity flex items-center justify-center gap-2 shadow-sm min-h-[44px]"
+          >
+            <Plus className="w-4 h-4" />
+            Add Staff Member
+          </button>
         </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filtered.map(s => {
-            const isDeactivated = s.status === "deactivated";
-            const formatDate = (iso?: string) => {
-              if (!iso) return "";
-              try {
-                return new Date(iso).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
-              } catch {
-                return "";
-              }
-            };
-            const formatTime = (iso?: string) => {
-              if (!iso) return "";
-              try {
-                return new Date(iso).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-              } catch {
-                return "";
-              }
-            };
 
-            const isMenuOpen = activeMenuId === s.id;
-
-            return (
-              <div 
-                key={s.id} 
-                className={`bg-background border rounded-2xl p-5 transition-all shadow-sm flex flex-col justify-between relative ${
-                  isDeactivated ? "border-border/30 opacity-70" : "border-border/50 hover:border-brand/30"
-                }`}
-              >
-                <div>
+        {filtered.length === 0 ? (
+          <div className="py-16 text-center border border-dashed border-border/50 rounded-[1.25rem] bg-surface/30">
+            <div className="w-12 h-12 bg-background rounded-full flex items-center justify-center text-text-muted/50 mx-auto mb-3">
+              <UserSquare2 className="w-6 h-6" />
+            </div>
+            <h3 className="text-sm font-semibold text-text-primary">No staff members found</h3>
+            <p className="text-xs text-text-muted mt-1">Add staff to allow them to log in using a 4-digit PIN.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filtered.map(s => {
+              const isDeactivated = s.status === "deactivated";
+              const isMenuOpen = activeMenuId === s.id;
+              return (
+                <div key={s.id} className={`bg-background border rounded-2xl p-5 shadow-sm ${isDeactivated ? "border-border/30 opacity-70" : "border-border/50 hover:border-brand/30"}`}>
                   <div className="flex justify-between items-start mb-3">
                     <div>
-                      <h3 className="font-bold text-text-primary text-base sm:text-[17px]">{s.name}</h3>
-                      <p className="text-xs text-text-muted mt-0.5">
-                        Added {formatDate(s.createdAt)}
-                      </p>
+                      <h3 className="font-bold text-text-primary text-base">{s.name}</h3>
+                      <p className="text-xs text-text-muted mt-0.5">Staff Member</p>
                     </div>
-
-                    {/* Overflow "..." Action Menu Button */}
                     {!isDeactivated && (
                       <div className="relative">
-                        <button
-                          onClick={() => setActiveMenuId(isMenuOpen ? null : s.id)}
+                        <button 
+                          onClick={() => setActiveMenuId(isMenuOpen ? null : s.id)} 
                           className="p-2 text-text-muted hover:text-text-primary rounded-full hover:bg-surface transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
-                          aria-label="Staff member options"
                         >
                           <MoreHorizontal className="w-5 h-5" />
                         </button>
-
-                        {/* Dropdown Menu */}
                         {isMenuOpen && (
-                          <div className="absolute right-0 top-12 z-30 w-48 bg-background border border-border rounded-xl shadow-xl p-1.5 space-y-1 animate-in fade-in zoom-in-95">
+                          <div className="absolute right-0 top-12 z-30 w-48 bg-background border border-border rounded-xl shadow-xl p-1.5 space-y-1">
                             {s.locked && (
-                              <button
-                                onClick={() => { setActiveMenuId(null); handleUnlock(s.id); }}
-                                className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-text-primary hover:bg-surface rounded-lg text-left transition-colors min-h-[40px]"
-                              >
+                              <button onClick={() => { setActiveMenuId(null); handleUnlock(s.id); }} className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-text-primary hover:bg-surface rounded-lg">
                                 <LockOpen className="w-4 h-4 text-success" />
                                 Unlock Account
                               </button>
                             )}
-                            <button
-                              onClick={() => { setActiveMenuId(null); handleRegeneratePin(s); }}
-                              className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-brand hover:bg-brand/10 rounded-lg text-left transition-colors min-h-[40px]"
-                            >
+                            <button onClick={() => { setActiveMenuId(null); handleRegeneratePin(s); }} className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-brand hover:bg-brand/10 rounded-lg">
                               <KeyRound className="w-4 h-4" />
                               Regenerate PIN
                             </button>
-                            <button
-                              onClick={() => { setActiveMenuId(null); setDeactivateConfirmId(s.id); }}
-                              className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-danger hover:bg-danger/10 rounded-lg text-left transition-colors min-h-[40px]"
-                            >
+                            <button onClick={() => { setActiveMenuId(null); setDeactivateConfirmId(s.id); }} className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-danger hover:bg-danger/10 rounded-lg">
                               <UserX className="w-4 h-4" />
                               Deactivate Staff
                             </button>
@@ -225,8 +192,6 @@ export function StaffList({ staffList, businessCode }: StaffListProps) {
                       </div>
                     )}
                   </div>
-
-                  {/* Account Access & Shift Status Badges */}
                   <div className="space-y-2 mb-4">
                     <div className="flex items-center gap-2">
                       {isDeactivated ? (
@@ -244,7 +209,6 @@ export function StaffList({ staffList, businessCode }: StaffListProps) {
                       )}
                     </div>
 
-                    {/* Shift Status Indicator */}
                     {!isDeactivated && (
                       <div className="pt-1">
                         {s.shiftStatus === "active" ? (
@@ -266,11 +230,102 @@ export function StaffList({ staffList, businessCode }: StaffListProps) {
                     )}
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* MOBILE VIEW (Condition a: block md:hidden — Matches Reference Image 6 & Staff Spec EXACTLY) */}
+      <div className="block md:hidden space-y-4 pb-28 px-1">
+        {/* Header Title + Member Count */}
+        <div>
+          <h1 className="text-[24px] font-bold font-heading text-text-primary tracking-tight">Staff</h1>
+          <p className="text-xs text-text-muted font-normal mt-0.5">{staffList.length} active member{staffList.length === 1 ? "" : "s"}</p>
         </div>
-      )}
+
+        {/* Staff Member Cards */}
+        <div className="space-y-3 pt-1">
+          {filtered.length === 0 ? (
+            <div className="p-8 text-center text-xs text-text-muted font-normal bg-surface border border-border/60 rounded-2xl">
+              No staff members found. Click Add Staff below to invite your staff.
+            </div>
+          ) : (
+            filtered.map((s) => {
+              const initials = s.name.split(" ").map(n => n.charAt(0)).join("").toUpperCase().slice(0, 2);
+              const isLocked = s.locked;
+              const isMenuOpen = activeMenuId === s.id;
+
+              return (
+                <div key={s.id} className="rounded-2xl border border-border/60 bg-surface p-4 flex items-center justify-between relative">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-full bg-brand/10 border border-brand/20 flex items-center justify-center text-brand font-semibold text-sm overflow-hidden shrink-0">
+                      {initials}
+                    </div>
+                    <div>
+                      <p className="text-sm font-normal text-text-primary">{s.name}</p>
+                      <p className="text-xs text-text-muted font-normal mt-0.5">Staff Member</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className={`text-[10px] font-normal px-2.5 py-0.5 rounded-full ${
+                      isLocked ? "text-[#E0665D] bg-[#FDF0EE] dark:bg-[#E0665D]/15" : "text-[#2E9C82] bg-[#E6F4F1] dark:bg-[#2E9C82]/15"
+                    }`}>
+                      {isLocked ? "Locked" : "Active"}
+                    </span>
+                    <div className="relative">
+                      <button 
+                        onClick={() => setActiveMenuId(isMenuOpen ? null : s.id)}
+                        className="text-text-muted p-1 text-base font-normal min-h-[44px] min-w-[44px] flex items-center justify-center"
+                      >
+                        ⋮
+                      </button>
+
+                      {isMenuOpen && (
+                        <div className="absolute right-0 top-10 z-40 w-44 bg-background border border-border rounded-xl shadow-xl p-1.5 space-y-1 animate-in fade-in zoom-in-95">
+                          {s.locked && (
+                            <button
+                              onClick={() => { setActiveMenuId(null); handleUnlock(s.id); }}
+                              className="w-full flex items-center gap-2 px-3 py-2 text-xs font-normal text-text-primary hover:bg-surface rounded-lg text-left"
+                            >
+                              <LockOpen className="w-3.5 h-3.5 text-emerald-600" />
+                              Unlock Account
+                            </button>
+                          )}
+                          <button
+                            onClick={() => { setActiveMenuId(null); handleRegeneratePin(s); }}
+                            className="w-full flex items-center gap-2 px-3 py-2 text-xs font-normal text-brand hover:bg-brand/10 rounded-lg text-left"
+                          >
+                            <KeyRound className="w-3.5 h-3.5" />
+                            Regenerate PIN
+                          </button>
+                          <button
+                            onClick={() => { setActiveMenuId(null); setDeactivateConfirmId(s.id); }}
+                            className="w-full flex items-center gap-2 px-3 py-2 text-xs font-normal text-danger hover:bg-danger/10 rounded-lg text-left"
+                          >
+                            <UserX className="w-3.5 h-3.5" />
+                            Deactivate
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+
+        {/* Floating Pill Add Staff Button -> Triggers Add Staff Modal */}
+        <button 
+          onClick={() => { setIsAddModalOpen(true); setError(""); setNewName(""); }}
+          className="fixed bottom-20 right-5 z-30 px-5 py-3 rounded-full text-white flex items-center gap-2 shadow-xl text-xs font-semibold hover:scale-105 active:scale-95 transition-transform min-h-[44px]"
+          style={{ backgroundImage: 'var(--brand-gradient)' }}
+        >
+          <span>👤+</span>
+          <span>Add Staff</span>
+        </button>
+      </div>
 
       {/* 1. Add Staff Modal */}
       {isAddModalOpen && (
@@ -329,87 +384,65 @@ export function StaffList({ staffList, businessCode }: StaffListProps) {
         </div>
       )}
 
-      {/* 2. PIN Reveal Modal (Clean & Premium Design) */}
+      {/* 2. One-Time PIN Reveal Modal (Matches Reference Image 7 EXACTLY) */}
       {pinRevealData && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4 overflow-y-auto">
-          <div className="bg-background w-full max-w-sm rounded-[1.5rem] shadow-2xl overflow-hidden border border-border/80 p-6 space-y-6 animate-in fade-in zoom-in-95 duration-200">
-            {/* Header */}
-            <div className="text-center space-y-1.5">
-              <div className="w-12 h-12 bg-brand/10 text-brand rounded-2xl flex items-center justify-center mx-auto mb-3">
-                <KeyRound className="w-6 h-6" />
-              </div>
-              <h2 className="font-heading font-bold text-text-primary text-xl">
-                Staff Credentials
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-xs p-4">
+          <div className="bg-white rounded-3xl p-6 max-w-sm w-full text-center space-y-4 shadow-2xl relative animate-in zoom-in-95 duration-200">
+            {/* Top Amber Tag Pill */}
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF8E7] text-[#D97706] text-xs font-normal mx-auto">
+              <span>👁</span>
+              <span>One-time reveal</span>
+            </div>
+
+            {/* Heading & Subtext */}
+            <div className="space-y-1">
+              <h2 className="font-heading font-bold text-gray-900 text-xl">
+                Staff PIN
               </h2>
-              <p className="text-xs text-text-muted">
-                Created for <strong className="text-text-primary font-semibold">{pinRevealData.staffName}</strong>
+              <p className="text-xs text-gray-500 font-normal max-w-xs mx-auto leading-relaxed">
+                Share this PIN with the staff member. It will not be shown again.
               </p>
             </div>
 
-            {/* Credentials Card */}
-            <div className="bg-surface border border-border/60 rounded-2xl p-4 space-y-4">
-              {/* Business ID Code */}
-              <div className="flex items-center justify-between pb-3 border-b border-border/40">
-                <div>
-                  <span className="text-[11px] font-semibold text-text-muted uppercase tracking-wider block">
-                    Business ID Code
-                  </span>
-                  <span className="font-mono text-base font-bold text-text-primary tracking-wider">
-                    {pinRevealData.businessCode}
-                  </span>
-                </div>
-                <span className="text-[11px] px-2 py-0.5 rounded-md bg-background border border-border text-text-muted">
-                  Required
-                </span>
-              </div>
-
-              {/* 4-Digit PIN */}
-              <div className="text-center pt-1">
-                <span className="text-[11px] font-semibold text-text-muted uppercase tracking-wider block mb-2">
-                  4-Digit Staff PIN
-                </span>
-                <div className="bg-background border border-brand/40 rounded-xl p-3 shadow-xs">
-                  <span className="font-mono text-3xl font-extrabold tracking-[0.3em] text-brand block">
-                    {pinRevealData.pin}
-                  </span>
-                </div>
-              </div>
+            {/* Large Centered 4-Digit PIN Box */}
+            <div className="bg-[#F8FAFC] rounded-2xl py-4 px-6 my-2 flex items-center justify-center">
+              <span className="text-3xl font-bold tracking-[0.4em] text-gray-900 tabular-nums">
+                {pinRevealData.pin.split("").join(" ")}
+              </span>
             </div>
 
-            {/* Plain-Language Help Note */}
-            <div className="text-xs text-text-muted bg-surface/50 border border-border/40 rounded-xl p-3 flex items-start gap-2">
-              <Info className="w-4 h-4 text-brand shrink-0 mt-0.5" />
-              <p className="leading-normal">
-                Share this Business ID and PIN with <strong>{pinRevealData.staffName}</strong> so they can sign in to their shift.
-              </p>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="space-y-2.5">
+            {/* Business ID Box with Copy Button */}
+            <div className="bg-[#F8FAFC] rounded-2xl p-3.5 flex items-center justify-between">
+              <div className="text-left">
+                <span className="text-[11px] text-gray-500 font-normal block">
+                  Business ID
+                </span>
+                <span className="text-sm font-bold text-gray-900 block mt-0.5">
+                  {pinRevealData.businessCode || "SCB-2025"}
+                </span>
+              </div>
               <button 
                 onClick={copyCredentials}
-                className="w-full py-3 bg-surface border border-border/60 hover:bg-surface/80 text-text-primary text-xs font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 min-h-[44px]"
+                className="p-2 text-gray-500 hover:text-gray-700 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+                aria-label="Copy Business ID"
               >
-                {copied ? (
-                  <>
-                    <Check className="w-4 h-4 text-success" />
-                    <span className="text-success font-bold">Copied to Clipboard!</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-4 h-4 text-text-muted" />
-                    <span>Copy Credentials</span>
-                  </>
-                )}
-              </button>
-
-              <button 
-                onClick={() => setPinRevealData(null)}
-                className="w-full py-3 [background:var(--brand-gradient)] text-white text-xs font-bold rounded-xl hover:opacity-90 transition-opacity shadow-sm min-h-[44px]"
-              >
-                Done / Handed to Staff
+                {copied ? <Check className="w-5 h-5 text-emerald-600" /> : <Copy className="w-5 h-5" />}
               </button>
             </div>
+
+            {/* Staff Member Name */}
+            <p className="text-xs text-gray-500 font-normal pt-1">
+              Staff member: <span className="text-gray-700 font-medium">{pinRevealData.staffName}</span>
+            </p>
+
+            {/* Done Button */}
+            <button 
+              onClick={() => setPinRevealData(null)}
+              className="w-full py-3.5 text-white font-semibold text-sm rounded-2xl hover:opacity-95 transition-opacity shadow-md min-h-[44px] mt-2"
+              style={{ backgroundImage: 'var(--brand-gradient)' }}
+            >
+              Done
+            </button>
           </div>
         </div>
       )}
@@ -444,7 +477,6 @@ export function StaffList({ staffList, businessCode }: StaffListProps) {
           </div>
         </div>
       )}
-
-    </div>
+    </>
   );
 }
